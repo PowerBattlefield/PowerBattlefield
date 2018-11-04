@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C1623459326074604453F16C /* Pods_PowerBattlefield.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */; };
 		FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */; };
 		FBD2AEE3218FAA0A00B49DC6 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEE2218FAA0A00B49DC6 /* GameScene.sks */; };
 		FBD2AEE5218FAA0A00B49DC6 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEE4218FAA0A00B49DC6 /* Actions.sks */; };
@@ -18,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PowerBattlefield.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.release.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.release.xcconfig"; sourceTree = "<group>"; };
+		F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.debug.xcconfig"; sourceTree = "<group>"; };
 		FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PowerBattlefield.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBD2AEE2218FAA0A00B49DC6 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -35,17 +39,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1623459326074604453F16C /* Pods_PowerBattlefield.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		97347F1D2AEACB0B8792A1F0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */,
+				91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9F8A4B28D4722448E16B7730 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FBD2AED4218FAA0A00B49DC6 = {
 			isa = PBXGroup;
 			children = (
 				FBD2AEDF218FAA0A00B49DC6 /* PowerBattlefield */,
 				FBD2AEDE218FAA0A00B49DC6 /* Products */,
+				97347F1D2AEACB0B8792A1F0 /* Pods */,
+				9F8A4B28D4722448E16B7730 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,9 +104,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FBD2AEF5218FAA0F00B49DC6 /* Build configuration list for PBXNativeTarget "PowerBattlefield" */;
 			buildPhases = (
+				2C5A19BA2EF172B9955B0944 /* [CP] Check Pods Manifest.lock */,
 				FBD2AED9218FAA0A00B49DC6 /* Sources */,
 				FBD2AEDA218FAA0A00B49DC6 /* Frameworks */,
 				FBD2AEDB218FAA0A00B49DC6 /* Resources */,
+				E193E07E42CEE6A5AB0A416E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -140,6 +166,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2C5A19BA2EF172B9955B0944 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PowerBattlefield-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E193E07E42CEE6A5AB0A416E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FBD2AED9218FAA0A00B49DC6 /* Sources */ = {
@@ -290,6 +367,7 @@
 		};
 		FBD2AEF6218FAA0F00B49DC6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -308,6 +386,7 @@
 		};
 		FBD2AEF7218FAA0F00B49DC6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
