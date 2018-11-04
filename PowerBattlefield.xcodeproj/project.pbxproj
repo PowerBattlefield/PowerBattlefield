@@ -18,6 +18,7 @@
 		FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */; };
 		FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */; };
 		FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */; };
+		FBD2AEF9218FBDC800B49DC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEF8218FBDC800B49DC6 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		FBD2AEEB218FAA0A00B49DC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FBD2AEF0218FAA0F00B49DC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FBD2AEF2218FAA0F00B49DC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FBD2AEF8218FBDC800B49DC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				689DF046218FBC0A0059CFFE /* GameScene.swift */,
 				689DF04C218FBCD20059CFFE /* Actions.sks */,
 				689DF04B218FBCD20059CFFE /* Assets.xcassets */,
+				FBD2AEF8218FBDC800B49DC6 /* GoogleService-Info.plist */,
 				689DF047218FBC0B0059CFFE /* GameViewController.swift */,
 				689DF039218FB7090059CFFE /* MyTileSet.sks */,
 				FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */,
@@ -169,6 +172,7 @@
 				FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */,
 				689DF048218FBC0B0059CFFE /* GameScene.sks in Resources */,
 				689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */,
+				FBD2AEF9218FBDC800B49DC6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,7 +381,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Da-Lin.PowerBattlefield";
+				PRODUCT_BUNDLE_IDENTIFIER = PowerBattlefield;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -396,7 +400,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Da-Lin.PowerBattlefield";
+				PRODUCT_BUNDLE_IDENTIFIER = PowerBattlefield;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

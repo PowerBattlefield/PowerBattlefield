@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>590069021450-5211fqlfschc5vdbdh6i47gl9k1hmd5b.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.590069021450-5211fqlfschc5vdbdh6i47gl9k1hmd5b</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDEvBvOd0CyMFe9YLVmEKWGO0oKtTjx3qk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>590069021450</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>PowerBattlefield</string>
+	<key>PROJECT_ID</key>
+	<string>powerbattlefield</string>
+	<key>STORAGE_BUCKET</key>
+	<string>powerbattlefield.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:590069021450:ios:46552c70f6486665</string>
+	<key>DATABASE_URL</key>
+	<string>https://powerbattlefield.firebaseio.com</string>
+</dict>
+</plist>
