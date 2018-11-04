@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		689DF03E218FB70A0059CFFE /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF037218FB7090059CFFE /* Actions.sks */; };
-		689DF03F218FB70A0059CFFE /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF038218FB7090059CFFE /* GameScene.sks */; };
 		689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF039218FB7090059CFFE /* MyTileSet.sks */; };
-		689DF041218FB70A0059CFFE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF03A218FB7090059CFFE /* GameScene.swift */; };
 		689DF042218FB70A0059CFFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 689DF03B218FB7090059CFFE /* Assets.xcassets */; };
 		689DF043218FB70A0059CFFE /* Castle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF03C218FB70A0059CFFE /* Castle.swift */; };
-		689DF044218FB70A0059CFFE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF03D218FB70A0059CFFE /* GameViewController.swift */; };
+		689DF048218FBC0B0059CFFE /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF045218FBC0A0059CFFE /* GameScene.sks */; };
+		689DF049218FBC0B0059CFFE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF046218FBC0A0059CFFE /* GameScene.swift */; };
+		689DF04A218FBC0B0059CFFE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF047218FBC0B0059CFFE /* GameViewController.swift */; };
 		C1623459326074604453F16C /* Pods_PowerBattlefield.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */; };
 		FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */; };
 		FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */; };
@@ -23,12 +23,12 @@
 /* Begin PBXFileReference section */
 		3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PowerBattlefield.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		689DF037218FB7090059CFFE /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = Actions.sks; path = ../../SimpleCharacterMovingAndCollision/PlayAround/Actions.sks; sourceTree = "<group>"; };
-		689DF038218FB7090059CFFE /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = GameScene.sks; path = ../../SimpleCharacterMovingAndCollision/PlayAround/GameScene.sks; sourceTree = "<group>"; };
 		689DF039218FB7090059CFFE /* MyTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyTileSet.sks; sourceTree = "<group>"; };
-		689DF03A218FB7090059CFFE /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameScene.swift; path = ../../SimpleCharacterMovingAndCollision/PlayAround/GameScene.swift; sourceTree = "<group>"; };
 		689DF03B218FB7090059CFFE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../SimpleCharacterMovingAndCollision/PlayAround/Assets.xcassets; sourceTree = "<group>"; };
 		689DF03C218FB70A0059CFFE /* Castle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Castle.swift; sourceTree = "<group>"; };
-		689DF03D218FB70A0059CFFE /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameViewController.swift; path = ../../SimpleCharacterMovingAndCollision/PlayAround/GameViewController.swift; sourceTree = "<group>"; };
+		689DF045218FBC0A0059CFFE /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		689DF046218FBC0A0059CFFE /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		689DF047218FBC0B0059CFFE /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.release.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.release.xcconfig"; sourceTree = "<group>"; };
 		F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.debug.xcconfig"; sourceTree = "<group>"; };
 		FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PowerBattlefield.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,9 +92,9 @@
 				689DF03B218FB7090059CFFE /* Assets.xcassets */,
 				689DF03C218FB70A0059CFFE /* Castle.swift */,
 				689DF037218FB7090059CFFE /* Actions.sks */,
-				689DF038218FB7090059CFFE /* GameScene.sks */,
-				689DF03A218FB7090059CFFE /* GameScene.swift */,
-				689DF03D218FB70A0059CFFE /* GameViewController.swift */,
+				689DF045218FBC0A0059CFFE /* GameScene.sks */,
+				689DF046218FBC0A0059CFFE /* GameScene.swift */,
+				689DF047218FBC0B0059CFFE /* GameViewController.swift */,
 				689DF039218FB7090059CFFE /* MyTileSet.sks */,
 				FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */,
 				FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */,
@@ -166,8 +166,8 @@
 				FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */,
 				689DF03E218FB70A0059CFFE /* Actions.sks in Resources */,
 				689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */,
-				689DF03F218FB70A0059CFFE /* GameScene.sks in Resources */,
 				FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */,
+				689DF048218FBC0B0059CFFE /* GameScene.sks in Resources */,
 				689DF042218FB70A0059CFFE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -222,9 +222,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				689DF04A218FBC0B0059CFFE /* GameViewController.swift in Sources */,
+				689DF049218FBC0B0059CFFE /* GameScene.swift in Sources */,
 				689DF043218FB70A0059CFFE /* Castle.swift in Sources */,
-				689DF041218FB70A0059CFFE /* GameScene.swift in Sources */,
-				689DF044218FB70A0059CFFE /* GameViewController.swift in Sources */,
 				FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
