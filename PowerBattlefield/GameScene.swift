@@ -24,6 +24,7 @@ enum BodyType:UInt32{
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var thePlayer:SKSpriteNode = SKSpriteNode()
+    var otherPlayer1:SKSpriteNode = SKSpriteNode()
     var theWeapon:SKSpriteNode = SKSpriteNode()
     var moveSpeed:TimeInterval = 1
     let swipeRightRec = UISwipeGestureRecognizer()
@@ -33,7 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let rotateRec = UIRotationGestureRecognizer()
     let tapRec = UITapGestureRecognizer()
     var tileMap = SKTileMapNode()
-    
+    let currentPlayer = 2
     
     
     override func didMove(to view: SKView) {
@@ -72,18 +73,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         swipeDownRec.direction = .down
         self.view!.addGestureRecognizer(swipeDownRec)
         
-        
-        if let somePlayer:SKSpriteNode = self.childNode(withName: "Player") as? SKSpriteNode {
-            
-            thePlayer = somePlayer
-            thePlayer.physicsBody?.isDynamic = true
-            thePlayer.physicsBody?.affectedByGravity = false
-            thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-            thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
-            thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue
-            theWeapon = (thePlayer.childNode(withName: "Weapon") as? SKSpriteNode)!
-            
+        if(currentPlayer == 1){
+            if let somePlayer:SKSpriteNode = self.childNode(withName: "Player1") as? SKSpriteNode {
+                thePlayer = somePlayer
+                thePlayer.physicsBody?.isDynamic = true
+                thePlayer.physicsBody?.affectedByGravity = false
+                thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
+                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
+                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue
+                theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
+                
+            }
+            if let somePlayer:SKSpriteNode = self.childNode(withName: "Player2") as? SKSpriteNode {
+                otherPlayer1 = somePlayer
+                otherPlayer1.physicsBody?.isDynamic = true
+                otherPlayer1.physicsBody?.affectedByGravity = false
+                otherPlayer1.physicsBody?.categoryBitMask = BodyType.player.rawValue
+                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
+                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue
+                //theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
+                
+            }
+        }else{
+            if let somePlayer:SKSpriteNode = self.childNode(withName: "Player2") as? SKSpriteNode {
+                thePlayer = somePlayer
+                thePlayer.physicsBody?.isDynamic = true
+                thePlayer.physicsBody?.affectedByGravity = false
+                thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
+                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
+                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue
+                //theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
+                
+            }
+            if let somePlayer:SKSpriteNode = self.childNode(withName: "Player1") as? SKSpriteNode {
+                otherPlayer1 = somePlayer
+                otherPlayer1.physicsBody?.isDynamic = true
+                otherPlayer1.physicsBody?.affectedByGravity = false
+                otherPlayer1.physicsBody?.categoryBitMask = BodyType.player.rawValue
+                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
+                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue
+                theWeapon = (otherPlayer1.childNode(withName: "Sword") as? SKSpriteNode)!
+                
+            }
         }
+        
         
         for node in self.children {
             
@@ -148,8 +181,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     @objc func tappedView() {
         
-        thePlayer.run(SKAction(named: "AttackFront")!)
-        theWeapon.run(SKAction(named: "WeaponAttack")!)
+        thePlayer.run(SKAction(named: "p\(currentPlayer)_attackdown")!)
+        if(currentPlayer == 1){
+            theWeapon.run(SKAction(named: "sword_attackdown")!)
+        }
     }
 
     
@@ -157,28 +192,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         print(" right")
         
-        move(theXAmount: 100, theYAmount: 0, theAnimation: "WalkRight")
+        move(theXAmount: 100, theYAmount: 0, theAnimation: "p\(currentPlayer)_walkright")
     }
     
     @objc func swipedLeft() {
         
         print(" left")
 
-       move(theXAmount: -100, theYAmount: 0, theAnimation: "WalkLeft")
+       move(theXAmount: -100, theYAmount: 0, theAnimation: "p\(currentPlayer)_walkleft")
     }
     
     @objc func swipedUp() {
         
         print(" up")
         
-        move(theXAmount: 0, theYAmount: 100, theAnimation: "WalkBack")
+        move(theXAmount: 0, theYAmount: 100, theAnimation: "p\(currentPlayer)_walkup")
     }
     
     @objc func swipedDown() {
         
         print(" down")
         
-        move(theXAmount: 0, theYAmount: -100, theAnimation: "WalkFront")
+        move(theXAmount: 0, theYAmount: -100, theAnimation: "p\(currentPlayer)_walkdown")
         
        
     }
