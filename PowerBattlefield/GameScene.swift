@@ -8,6 +8,7 @@
 
 import SpriteKit
 import GameplayKit
+import Firebase
 
 enum BodyType:UInt32{
     
@@ -36,6 +37,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var tileMap = SKTileMapNode()
     let currentPlayer = 2
     
+    let p1Refx = Database.database().reference().child("player1").child("position").child("x")
+    let p1RefMoveRight = Database.database().reference().child("player1").child("move").child("right")
+    let p1RefMoveLeft = Database.database().reference().child("player1").child("move").child("left")
+    let p1RefMoveUp = Database.database().reference().child("player1").child("move").child("up")
+    let p1RefMoveDown = Database.database().reference().child("player1").child("move").child("down")
+    let p2RefMoveRight = Database.database().reference().child("player2").child("move").child("right")
+    let p2RefMoveLeft = Database.database().reference().child("player2").child("move").child("left")
+    let p2RefMoveUp = Database.database().reference().child("player2").child("move").child("up")
+    let p2RefMoveDown = Database.database().reference().child("player2").child("move").child("down")
+    let p1Refy = Database.database().reference().child("player1").child("position").child("y")
+    let p2Refx = Database.database().reference().child("player2").child("position").child("x")
+    let p2Refy = Database.database().reference().child("player2").child("position").child("y")
+    
     
     override func didMove(to view: SKView) {
         
@@ -51,9 +65,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view!.addGestureRecognizer(tapRec)
         
         /*
-        rotateRec.addTarget(self, action: #selector (GameScene.rotatedView (_:) ))
-        self.view!.addGestureRecognizer(rotateRec)
- 
+         rotateRec.addTarget(self, action: #selector (GameScene.rotatedView (_:) ))
+         self.view!.addGestureRecognizer(rotateRec)
+         
          */
         
         swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight) )
@@ -76,42 +90,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if(currentPlayer == 1){
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player1") as? SKSpriteNode {
                 thePlayer = somePlayer
-                thePlayer.physicsBody?.isDynamic = true
-                thePlayer.physicsBody?.affectedByGravity = false
                 thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
-                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue
+                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.player.rawValue
+                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
                 theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
                 
             }
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player2") as? SKSpriteNode {
                 otherPlayer1 = somePlayer
-                otherPlayer1.physicsBody?.isDynamic = true
-                otherPlayer1.physicsBody?.affectedByGravity = false
                 otherPlayer1.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
-                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue
+                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.player.rawValue
+                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
                 //theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
                 
             }
         }else{
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player2") as? SKSpriteNode {
                 thePlayer = somePlayer
-                thePlayer.physicsBody?.isDynamic = true
-                thePlayer.physicsBody?.affectedByGravity = false
                 thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
-                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue
+                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.player.rawValue
+                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
                 //theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
                 
             }
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player1") as? SKSpriteNode {
                 otherPlayer1 = somePlayer
-                otherPlayer1.physicsBody?.isDynamic = true
-                otherPlayer1.physicsBody?.affectedByGravity = false
                 otherPlayer1.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
-                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue
+                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.player.rawValue
+                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
                 theWeapon = (otherPlayer1.childNode(withName: "Sword") as? SKSpriteNode)!
                 
             }
@@ -155,7 +161,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let tileDefinition = tileMap.tileDefinition(atColumn: col, row: row)
                 let isEdgeTile = tileDefinition?.userData?["edgeTile"] as? Bool
                 if (isEdgeTile ?? false) {
-                    print(isEdgeTile)
                     let x = CGFloat(col) * tileSize.width - halfWidth
                     let y = CGFloat(row) * tileSize.height - halfHeight
                     let rect = CGRect(x: 0, y: 0, width: tileSize.width, height: tileSize.height)
@@ -170,10 +175,54 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-       
+        observeOtherPlayerMovements()
         
         
+        
+    }
     
+    func observeOtherPlayerMovements(){
+        p1RefMoveUp.observe(DataEventType.value) { (snapshot) in
+            if self.currentPlayer != 1{
+                self.move(theXAmount: 0, theYAmount: 100, theAnimation: "p1_walkup", player: self.otherPlayer1)
+            }
+        }
+        p1RefMoveDown.observe(DataEventType.value) { (snapshot) in
+            if self.currentPlayer != 1{
+                self.move(theXAmount: 0, theYAmount: -100, theAnimation: "p1_walkdown", player: self.otherPlayer1)
+            }
+        }
+        p1RefMoveLeft.observe(DataEventType.value) { (snapshot) in
+            if self.currentPlayer != 1{
+                self.move(theXAmount: -100, theYAmount: 0, theAnimation: "p1_walkleft", player: self.otherPlayer1)
+            }
+        }
+        p1RefMoveRight.observe(DataEventType.value) { (snapshot) in
+            if self.currentPlayer != 1{
+                self.move(theXAmount: 100, theYAmount: 0, theAnimation: "p1_walkright", player: self.otherPlayer1)
+            }
+        }
+        
+        p2RefMoveUp.observe(DataEventType.value) { (snapshot) in
+            if self.currentPlayer != 2{
+                self.move(theXAmount: 0, theYAmount: 100, theAnimation: "p2_walkup", player: self.otherPlayer1)
+            }
+        }
+        p2RefMoveDown.observe(DataEventType.value) { (snapshot) in
+            if self.currentPlayer != 2{
+                self.move(theXAmount: 0, theYAmount: -100, theAnimation: "p2_walkdown", player: self.otherPlayer1)
+            }
+        }
+        p2RefMoveLeft.observe(DataEventType.value) { (snapshot) in
+            if self.currentPlayer != 2{
+                self.move(theXAmount: -100, theYAmount: 0, theAnimation: "p2_walkleft", player: self.otherPlayer1)
+            }
+        }
+        p2RefMoveRight.observe(DataEventType.value) { (snapshot) in
+            if self.currentPlayer != 2{
+                self.move(theXAmount: 100, theYAmount: 0, theAnimation: "p2_walkright", player: self.otherPlayer1)
+            }
+        }
     }
     
     
@@ -186,41 +235,65 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             theWeapon.run(SKAction(named: "sword_attackdown")!)
         }
     }
-
     
+    var moveAmount = 0
     @objc func swipedRight() {
+        moveAmount += 1
+        if currentPlayer == 1{
+            
+            p1RefMoveRight.setValue("\(moveAmount)")
+        }else if currentPlayer == 2{
+            
+            p2RefMoveRight.setValue("\(moveAmount)")
+        }
         
-        print(" right")
-        
-        move(theXAmount: 100, theYAmount: 0, theAnimation: "p\(currentPlayer)_walkright")
+        move(theXAmount: 100, theYAmount: 0, theAnimation: "p\(currentPlayer)_walkright", player: thePlayer)
     }
     
     @objc func swipedLeft() {
+        moveAmount += 1
+        if currentPlayer == 1{
+            
+            p1RefMoveLeft.setValue("\(moveAmount)")
+        }else if currentPlayer == 2{
+            
+            p2RefMoveLeft.setValue("\(moveAmount)")
+        }
         
-        print(" left")
-
-       move(theXAmount: -100, theYAmount: 0, theAnimation: "p\(currentPlayer)_walkleft")
+        move(theXAmount: -100, theYAmount: 0, theAnimation: "p\(currentPlayer)_walkleft", player: thePlayer)
     }
     
     @objc func swipedUp() {
+        moveAmount += 1
+        if currentPlayer == 1{
+            
+            p1RefMoveUp.setValue("\(moveAmount)")
+        }else if currentPlayer == 2{
+            
+            p2RefMoveUp.setValue("\(moveAmount)")
+        }
         
-        print(" up")
-        
-        move(theXAmount: 0, theYAmount: 100, theAnimation: "p\(currentPlayer)_walkup")
+        move(theXAmount: 0, theYAmount: 100, theAnimation: "p\(currentPlayer)_walkup", player: thePlayer)
     }
     
     @objc func swipedDown() {
+        moveAmount += 1
+        if currentPlayer == 1{
+            
+            p1RefMoveDown.setValue("\(moveAmount)")
+        }else if currentPlayer == 2{
+            
+            p2RefMoveDown.setValue("\(moveAmount)")
+        }
         
-        print(" down")
+        move(theXAmount: 0, theYAmount: -100, theAnimation: "p\(currentPlayer)_walkdown", player: thePlayer)
         
-        move(theXAmount: 0, theYAmount: -100, theAnimation: "p\(currentPlayer)_walkdown")
         
-       
     }
-
     
-  
-
+    
+    
+    
     
     func cleanUp(){
         
@@ -240,7 +313,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if (sender.state == .began) {
             
-             print("rotation began")
+            print("rotation began")
             
         }
         if (sender.state == .changed) {
@@ -283,17 +356,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     node.zPosition = 100
                     
                 }
-                    
-                    
+                
+                
             }
         }
-
+        
         
         
     }
     
     
-    func move(theXAmount:CGFloat , theYAmount:CGFloat, theAnimation:String )  {
+    func move(theXAmount:CGFloat , theYAmount:CGFloat, theAnimation:String, player: SKSpriteNode)  {
         
         
         let wait:SKAction = SKAction.wait(forDuration: 0.05)
@@ -308,15 +381,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //print ( "Finish")
             
-           
+            
         }
         
         
         let seq:SKAction = SKAction.sequence( [wait, group, finish] )
         
         
-        
-        thePlayer.run(seq)
+        player.run(seq)
         
     }
     
@@ -324,15 +396,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func touchDown(atPoint pos : CGPoint) {
         
         /*
-        if ( pos.y > 0) {
-            //top half touch
-            
-        } else {
-            //bottom half touch
-            
-            moveDown()
-            
-        }
+         if ( pos.y > 0) {
+         //top half touch
+         
+         } else {
+         //bottom half touch
+         
+         moveDown()
+         
+         }
          */
         
         
@@ -347,13 +419,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-                
+        
         for t in touches {
             
             self.touchDown(atPoint: t.location(in: self))
             
             break
-        
+            
         }
     }
     
@@ -369,7 +441,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
-   
+    
     //MARK: Physics contacts 
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -389,6 +461,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if (contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.castle.rawValue) {
             
             print ("touched a castle")
+        }else if (contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.player.rawValue) {
+            
+            print ("touched a player")
         }
         
         
