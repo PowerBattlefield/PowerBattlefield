@@ -91,7 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player1") as? SKSpriteNode {
                 thePlayer = somePlayer
                 thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.player.rawValue
+                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
                 thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
                 theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
                 
@@ -99,7 +99,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player2") as? SKSpriteNode {
                 otherPlayer1 = somePlayer
                 otherPlayer1.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.player.rawValue
+                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
                 otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
                 //theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
                 
@@ -108,7 +108,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player2") as? SKSpriteNode {
                 thePlayer = somePlayer
                 thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.player.rawValue
+                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
                 thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
                 //theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
                 
@@ -116,7 +116,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player1") as? SKSpriteNode {
                 otherPlayer1 = somePlayer
                 otherPlayer1.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.player.rawValue
+                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
                 otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
                 theWeapon = (otherPlayer1.childNode(withName: "Sword") as? SKSpriteNode)!
                 
