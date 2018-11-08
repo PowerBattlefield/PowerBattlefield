@@ -16,6 +16,9 @@ enum BodyType:UInt32{
     case building = 2
     case castle = 4
     case road = 8
+    case water = 16
+    case rock = 32
+    case grass = 64
     
     //powers of 2 (so keep multiplying by 2
     
@@ -23,7 +26,8 @@ enum BodyType:UInt32{
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    
+    let screenWidth = UIScreen.main.bounds.width
+    let screenHeight = UIScreen.main.bounds.height
     var thePlayer:SKSpriteNode = SKSpriteNode()
     var otherPlayer1:SKSpriteNode = SKSpriteNode()
     var theWeapon:SKSpriteNode = SKSpriteNode()
@@ -34,7 +38,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let swipeDownRec = UISwipeGestureRecognizer()
     let rotateRec = UIRotationGestureRecognizer()
     let tapRec = UITapGestureRecognizer()
-    var tileMap = SKTileMapNode()
     let currentPlayer = 2
     
     let p1Refx = Database.database().reference().child("player1").child("position").child("x")
@@ -50,15 +53,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let p2Refx = Database.database().reference().child("player2").child("position").child("x")
     let p2Refy = Database.database().reference().child("player2").child("position").child("y")
     
+    //tile map
+    var waterTileMap:SKTileMapNode = SKTileMapNode()
+    var rockTileMap:SKTileMapNode = SKTileMapNode()
+    var grassTileMap:SKTileMapNode = SKTileMapNode()
+    
+    
     
     override func didMove(to view: SKView) {
-        
         self.physicsWorld.contactDelegate = self
+
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
-        self.physicsWorld.gravity = CGVector(dx: 1, dy: 0)
         
-        
-        
+
         tapRec.addTarget(self, action:#selector(GameScene.tappedView))
         tapRec.numberOfTouchesRequired = 1
         tapRec.numberOfTapsRequired = 2
@@ -121,64 +129,104 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 theWeapon = (otherPlayer1.childNode(withName: "Sword") as? SKSpriteNode)!
                 
             }
+            
         }
-        
+        updateCamera()
         
         for node in self.children {
             
             if (node.name == "Building") {
-                
                 if (node is SKSpriteNode) {
-                    
                     node.physicsBody?.categoryBitMask = BodyType.building.rawValue
                     node.physicsBody?.collisionBitMask = 0
-                    
                     print ("found a building")
                 }
-                
-                
-                
             }
             
-            
             if let aCastle:Castle = node as? Castle {
-                
                 aCastle.setUpCastle()
                 aCastle.dudesInCastle = 5
+            }
+            
+            if (node.name == "GrassTiles") {
+               //let tileMap = node as! SKTileMapNode
                 
+            }
+            if (node.name == "WaterTiles") {
+                let tileMap = node as! SKTileMapNode
+                giveWaterTilePhysicsBody(tileMap: tileMap)
             }
             
         }
-        
-        self.tileMap = (self.childNode(withName: "Tile Map") as? SKTileMapNode)!
+        observeOtherPlayerMovements()
+    }
+    func updateCamera() {
+
+        let player_x = thePlayer.position.x - 3 //3
+        let player_y = thePlayer.position.y - 40//40
+        let x_offset = player_x/750
+        let y_offset = player_y/1336
+        scene?.anchorPoint = CGPoint(x: 0.5-x_offset, y: 0.5-y_offset)
+    }
+    
+    func giveWaterTilePhysicsBody(tileMap: SKTileMapNode) {
         
         let tileSize = tileMap.tileSize
         let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width
         let halfHeight = CGFloat(tileMap.numberOfRows) / 2.0 * tileSize.height
-        
         for col in 0..<tileMap.numberOfColumns {
             for row in 0..<tileMap.numberOfRows {
                 let tileDefinition = tileMap.tileDefinition(atColumn: col, row: row)
-                let isEdgeTile = tileDefinition?.userData?["edgeTile"] as? Bool
+                let isEdgeTile = tileDefinition?.userData?["isWater"] as? Bool
+
                 if (isEdgeTile ?? false) {
                     let x = CGFloat(col) * tileSize.width - halfWidth
                     let y = CGFloat(row) * tileSize.height - halfHeight
-                    let rect = CGRect(x: 0, y: 0, width: tileSize.width, height: tileSize.height)
-                    let tileNode = SKShapeNode(rect: rect)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.physicsBody = SKPhysicsBody.init(rectangleOf: tileSize, center: CGPoint(x: tileSize.width / 2.0, y: tileSize.height / 2.0))
-                    tileNode.physicsBody?.isDynamic = false
-                    tileNode.physicsBody?.collisionBitMask = BodyType.player.rawValue
-                    tileNode.physicsBody?.categoryBitMask = BodyType.road.rawValue
-                    tileMap.addChild(tileNode)
+                   
+                    // translate detail code here, 1111 means left up, right up, left down, right down has a physis body. 1010 means only left up, left down has body.
+                    if var detailCode = tileDefinition?.userData?["detail"] as? Int {
+                        let arr = [10,100,1000,10000]
+                        for i in 0 ..< 4 {
+                            if detailCode % arr[i] == arr[i]/10 {
+                                detailCode = detailCode - arr[i] / 10
+                                var offset_x:CGFloat
+                                var offset_y:CGFloat
+                                switch i {
+                                case 0:
+                                    offset_x = tileSize.width/2
+                                    offset_y = 0
+                                case 1:
+                                    offset_x = 0
+                                    offset_y = 0
+                                case 2:
+                                    offset_x = tileSize.width/2
+                                    offset_y = tileSize.height/2
+                                case 3:
+                                    offset_x = 0
+                                    offset_y = tileSize.height/2
+                                default:
+                                    offset_x = 0
+                                    offset_y = 0
+                                }
+                                let rect = CGRect(x: 0, y: 0, width: tileSize.width/2, height: tileSize.height/2)
+                                let tileNode = SKShapeNode(rect: rect)
+                                tileNode.position = CGPoint(x: x+offset_x, y: y+offset_y)
+                                tileNode.fillColor = .clear
+                                tileNode.lineWidth = 0
+                                let helfSize = CGSize(width: tileSize.width/2, height: tileSize.height/2)
+                                tileNode.physicsBody = SKPhysicsBody.init(rectangleOf: helfSize, center: CGPoint(x: tileSize.width / 4.0, y: tileSize.height / 4.0))
+                                tileNode.physicsBody?.isDynamic = false
+                                tileNode.physicsBody?.collisionBitMask = BodyType.player.rawValue
+                                tileNode.physicsBody?.categoryBitMask = BodyType.road.rawValue
+                                tileMap.addChild(tileNode)
+                            }
+                        }
+
+                    }
                 }
             }
         }
-        
-        observeOtherPlayerMovements()
-        
-        
-        
+        self.waterTileMap = tileMap
     }
     
     func observeOtherPlayerMovements(){
@@ -342,7 +390,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        
+        updateCamera()
         for node in self.children {
             
             if (node.name == "Building") {
