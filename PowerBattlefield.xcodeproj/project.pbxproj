@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B5C281B2193A0790046BFD6 /* DefultTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */; };
 		689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF039218FB7090059CFFE /* MyTileSet.sks */; };
 		689DF043218FB70A0059CFFE /* Castle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF03C218FB70A0059CFFE /* Castle.swift */; };
 		689DF048218FBC0B0059CFFE /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF045218FBC0A0059CFFE /* GameScene.sks */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DefultTileSet.sks; sourceTree = "<group>"; };
 		3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PowerBattlefield.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		689DF039218FB7090059CFFE /* MyTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyTileSet.sks; sourceTree = "<group>"; };
 		689DF03C218FB70A0059CFFE /* Castle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Castle.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				FBD2AEF8218FBDC800B49DC6 /* GoogleService-Info.plist */,
 				689DF047218FBC0B0059CFFE /* GameViewController.swift */,
 				689DF039218FB7090059CFFE /* MyTileSet.sks */,
+				2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */,
 				FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */,
 				FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */,
 				FBD2AEF2218FAA0F00B49DC6 /* Info.plist */,
@@ -172,6 +175,7 @@
 				FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */,
 				689DF048218FBC0B0059CFFE /* GameScene.sks in Resources */,
 				689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */,
+				2B5C281B2193A0790046BFD6 /* DefultTileSet.sks in Resources */,
 				FBD2AEF9218FBDC800B49DC6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
