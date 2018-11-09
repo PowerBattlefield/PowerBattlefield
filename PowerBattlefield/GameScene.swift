@@ -61,6 +61,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMove(to view: SKView) {
+        
         self.physicsWorld.contactDelegate = self
 
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
@@ -99,16 +100,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player1") as? SKSpriteNode {
                 thePlayer = somePlayer
                 thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
-                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
+                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
+                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue | BodyType.water.rawValue
                 theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
                 
             }
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player2") as? SKSpriteNode {
                 otherPlayer1 = somePlayer
                 otherPlayer1.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
-                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
+                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
+                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue | BodyType.water.rawValue
                 //theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
                 
             }
@@ -116,21 +117,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player2") as? SKSpriteNode {
                 thePlayer = somePlayer
                 thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
-                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
+                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
+                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue | BodyType.water.rawValue
                 //theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
                 
             }
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player1") as? SKSpriteNode {
                 otherPlayer1 = somePlayer
                 otherPlayer1.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue
-                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue
+                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
+                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue | BodyType.water.rawValue
                 theWeapon = (otherPlayer1.childNode(withName: "Sword") as? SKSpriteNode)!
                 
             }
             
         }
+        // setup camera size
+        
+        let cameraSize = CGSize(width: CGFloat(screenWidth * 2), height: CGFloat(screenHeight * 2))
+        scene?.size = cameraSize
+        
         updateCamera()
         
         for node in self.children {
@@ -161,12 +167,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         observeOtherPlayerMovements()
     }
     func updateCamera() {
-
+        //normal
         let player_x = thePlayer.position.x - 3 //3
         let player_y = thePlayer.position.y - 40//40
-        let x_offset = player_x/750
-        let y_offset = player_y/1336
-        scene?.anchorPoint = CGPoint(x: 0.5-x_offset, y: 0.5-y_offset)
+        let x_offset = player_x/screenWidth * 1/2 // 750
+        let y_offset = player_y/screenHeight * 1/2 //1334
+        
+        let tileMap = waterTileMap
+        let tileSize = waterTileMap.tileSize
+        let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width
+        let halfHeight = CGFloat(tileMap.numberOfRows) / 2.0 * tileSize.height
+        
+        let Vbound = (halfHeight - screenHeight) / screenHeight * 1/2 // vertical
+        let Hbound = (halfWidth - screenWidth) / screenWidth * 1/2 // horizontal
+
+        let oldX = scene?.anchorPoint.x
+        let oldY = scene?.anchorPoint.y
+        // if X or Y out of bound use old value
+        let newX = abs(x_offset) > Hbound ? oldX : 0.5-x_offset
+        let newY = abs(y_offset) > Vbound ? oldY : 0.5-y_offset
+        scene?.anchorPoint = CGPoint(x: newX!, y: newY!)
     }
     
     func giveWaterTilePhysicsBody(tileMap: SKTileMapNode) {
@@ -217,7 +237,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 tileNode.physicsBody = SKPhysicsBody.init(rectangleOf: helfSize, center: CGPoint(x: tileSize.width / 4.0, y: tileSize.height / 4.0))
                                 tileNode.physicsBody?.isDynamic = false
                                 tileNode.physicsBody?.collisionBitMask = BodyType.player.rawValue
-                                tileNode.physicsBody?.categoryBitMask = BodyType.road.rawValue
+                                tileNode.physicsBody?.categoryBitMask = BodyType.water.rawValue
                                 tileMap.addChild(tileNode)
                             }
                         }
