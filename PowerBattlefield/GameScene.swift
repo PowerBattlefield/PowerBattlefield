@@ -58,9 +58,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var rockTileMap:SKTileMapNode = SKTileMapNode()
     var grassTileMap:SKTileMapNode = SKTileMapNode()
     
+    let uid = Auth.auth().currentUser!.uid
+    
     
     
     override func didMove(to view: SKView) {
+
+        print(uid)
         
         self.physicsWorld.contactDelegate = self
 

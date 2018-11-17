@@ -16,6 +16,8 @@
 		689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 689DF04B218FBCD20059CFFE /* Assets.xcassets */; };
 		689DF04E218FBCD20059CFFE /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF04C218FBCD20059CFFE /* Actions.sks */; };
 		C1623459326074604453F16C /* Pods_PowerBattlefield.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */; };
+		FB2F9DED219FBEFA0068A8AC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */; };
+		FB2F9DEF219FCFAE0068A8AC /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */; };
 		FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */; };
 		FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */; };
 		FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */; };
@@ -34,6 +36,8 @@
 		689DF04C218FBCD20059CFFE /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.release.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.release.xcconfig"; sourceTree = "<group>"; };
 		F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.debug.xcconfig"; sourceTree = "<group>"; };
+		FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyViewController.swift; sourceTree = "<group>"; };
 		FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PowerBattlefield.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBD2AEEB218FAA0A00B49DC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -93,6 +97,8 @@
 			isa = PBXGroup;
 			children = (
 				FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */,
+				FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */,
+				FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */,
 				689DF03C218FB70A0059CFFE /* Castle.swift */,
 				689DF045218FBC0A0059CFFE /* GameScene.sks */,
 				689DF046218FBC0A0059CFFE /* GameScene.swift */,
@@ -121,6 +127,7 @@
 				FBD2AEDA218FAA0A00B49DC6 /* Frameworks */,
 				FBD2AEDB218FAA0A00B49DC6 /* Resources */,
 				E193E07E42CEE6A5AB0A416E /* [CP] Embed Pods Frameworks */,
+				F79CFF66C95CD360A1DDF9CB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -209,12 +216,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -222,6 +231,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F79CFF66C95CD360A1DDF9CB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -234,6 +265,8 @@
 				689DF04A218FBC0B0059CFFE /* GameViewController.swift in Sources */,
 				689DF049218FBC0B0059CFFE /* GameScene.swift in Sources */,
 				689DF043218FB70A0059CFFE /* Castle.swift in Sources */,
+				FB2F9DEF219FCFAE0068A8AC /* LobbyViewController.swift in Sources */,
+				FB2F9DED219FBEFA0068A8AC /* LoginViewController.swift in Sources */,
 				FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
