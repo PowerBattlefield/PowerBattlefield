@@ -31,6 +31,11 @@ class GameViewController: UIViewController {
             view.showsNodeCount = true
         }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("123")
+    }
 
     override var shouldAutorotate: Bool {
         return true

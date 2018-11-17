@@ -38,20 +38,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let swipeDownRec = UISwipeGestureRecognizer()
     let rotateRec = UIRotationGestureRecognizer()
     let tapRec = UITapGestureRecognizer()
-    let currentPlayer = 2
+    var currentPlayer = 1
     
-    let p1Refx = Database.database().reference().child("player1").child("position").child("x")
-    let p1RefMoveRight = Database.database().reference().child("player1").child("move").child("right")
-    let p1RefMoveLeft = Database.database().reference().child("player1").child("move").child("left")
-    let p1RefMoveUp = Database.database().reference().child("player1").child("move").child("up")
-    let p1RefMoveDown = Database.database().reference().child("player1").child("move").child("down")
-    let p2RefMoveRight = Database.database().reference().child("player2").child("move").child("right")
-    let p2RefMoveLeft = Database.database().reference().child("player2").child("move").child("left")
-    let p2RefMoveUp = Database.database().reference().child("player2").child("move").child("up")
-    let p2RefMoveDown = Database.database().reference().child("player2").child("move").child("down")
-    let p1Refy = Database.database().reference().child("player1").child("position").child("y")
-    let p2Refx = Database.database().reference().child("player2").child("position").child("x")
-    let p2Refy = Database.database().reference().child("player2").child("position").child("y")
+    //get room id from room view
+    let roomId = "1"
+    
     
     //tile map
     var waterTileMap:SKTileMapNode = SKTileMapNode()
@@ -60,46 +51,59 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let uid = Auth.auth().currentUser!.uid
     
+    var numberOfPlayers = 0
     
+    //get player connections and set current player
+    func getPlayerConnectionNumber(){
+        playerConnections.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            let playerConnectionNumber = snapshot.value as? Int ?? 0
+            
+            self.numberOfPlayers = playerConnectionNumber
+            
+            self.numberOfPlayers = self.numberOfPlayers + 1;
+            
+            self.currentPlayer = self.numberOfPlayers
+            
+            self.playerConnections.setValue(self.numberOfPlayers)
+            
+            self.setPlayers()
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
     
-    override func didMove(to view: SKView) {
-
-        print(uid)
-        
-        self.physicsWorld.contactDelegate = self
-
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-        
-        
-
-        tapRec.addTarget(self, action:#selector(GameScene.tappedView))
-        tapRec.numberOfTouchesRequired = 1
-        tapRec.numberOfTapsRequired = 2
-        self.view!.addGestureRecognizer(tapRec)
-        
-        /*
-         rotateRec.addTarget(self, action: #selector (GameScene.rotatedView (_:) ))
-         self.view!.addGestureRecognizer(rotateRec)
-         
-         */
-        
-        swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight) )
-        swipeRightRec.direction = .right
-        self.view!.addGestureRecognizer(swipeRightRec)
-        
-        swipeLeftRec.addTarget(self, action: #selector(GameScene.swipedLeft) )
-        swipeLeftRec.direction = .left
-        self.view!.addGestureRecognizer(swipeLeftRec)
-        
-        
-        swipeUpRec.addTarget(self, action: #selector(GameScene.swipedUp) )
-        swipeUpRec.direction = .up
-        self.view!.addGestureRecognizer(swipeUpRec)
-        
-        swipeDownRec.addTarget(self, action: #selector(GameScene.swipedDown) )
-        swipeDownRec.direction = .down
-        self.view!.addGestureRecognizer(swipeDownRec)
-        
+    var playerConnections: DatabaseReference = Database.database().reference()
+    var p1Refx: DatabaseReference = Database.database().reference()
+    var p1Refy: DatabaseReference = Database.database().reference()
+    var p1RefMoveRight: DatabaseReference = Database.database().reference()
+    var p1RefMoveLeft: DatabaseReference = Database.database().reference()
+    var p1RefMoveUp: DatabaseReference = Database.database().reference()
+    var p1RefMoveDown: DatabaseReference = Database.database().reference()
+    var p2Refx: DatabaseReference = Database.database().reference()
+    var p2Refy: DatabaseReference = Database.database().reference()
+    var p2RefMoveRight: DatabaseReference = Database.database().reference()
+    var p2RefMoveLeft: DatabaseReference = Database.database().reference()
+    var p2RefMoveUp: DatabaseReference = Database.database().reference()
+    var p2RefMoveDown: DatabaseReference = Database.database().reference()
+    
+    func setDatabaseReference(){
+        playerConnections = Database.database().reference().child(roomId).child("playerConnections")
+        p1Refx = Database.database().reference().child(roomId).child("player1").child("position").child("x")
+        p1RefMoveRight = Database.database().reference().child(roomId).child("player1").child("move").child("right")
+        p1RefMoveLeft = Database.database().reference().child(roomId).child("player1").child("move").child("left")
+        p1RefMoveUp = Database.database().reference().child(roomId).child("player1").child("move").child("up")
+        p1RefMoveDown = Database.database().reference().child(roomId).child("player1").child("move").child("down")
+        p2RefMoveRight = Database.database().reference().child(roomId).child("player2").child("move").child("right")
+        p2RefMoveLeft = Database.database().reference().child(roomId).child("player2").child("move").child("left")
+        p2RefMoveUp = Database.database().reference().child(roomId).child("player2").child("move").child("up")
+        p2RefMoveDown = Database.database().reference().child(roomId).child("player2").child("move").child("down")
+        p1Refy = Database.database().reference().child(roomId).child("player1").child("position").child("y")
+        p2Refx = Database.database().reference().child(roomId).child("player2").child("position").child("x")
+        p2Refy = Database.database().reference().child(roomId).child("player2").child("position").child("y")
+    }
+    
+    func setPlayers(){
         if(currentPlayer == 1){
             if let somePlayer:SKSpriteNode = self.childNode(withName: "Player1") as? SKSpriteNode {
                 thePlayer = somePlayer
@@ -136,6 +140,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
         }
+    }
+    
+    
+    override func didMove(to view: SKView) {
+        setDatabaseReference()
+        getPlayerConnectionNumber()
+        
+        self.physicsWorld.contactDelegate = self
+
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        
+        tapRec.addTarget(self, action:#selector(GameScene.tappedView))
+        tapRec.numberOfTouchesRequired = 1
+        tapRec.numberOfTapsRequired = 2
+        self.view!.addGestureRecognizer(tapRec)
+        
+        /*
+         rotateRec.addTarget(self, action: #selector (GameScene.rotatedView (_:) ))
+         self.view!.addGestureRecognizer(rotateRec)
+         
+         */
+        
+        swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight) )
+        swipeRightRec.direction = .right
+        self.view!.addGestureRecognizer(swipeRightRec)
+        
+        swipeLeftRec.addTarget(self, action: #selector(GameScene.swipedLeft) )
+        swipeLeftRec.direction = .left
+        self.view!.addGestureRecognizer(swipeLeftRec)
+        
+        
+        swipeUpRec.addTarget(self, action: #selector(GameScene.swipedUp) )
+        swipeUpRec.direction = .up
+        self.view!.addGestureRecognizer(swipeUpRec)
+        
+        swipeDownRec.addTarget(self, action: #selector(GameScene.swipedDown) )
+        swipeDownRec.direction = .down
+        self.view!.addGestureRecognizer(swipeDownRec)
+        
         // setup camera size
         
         let cameraSize = CGSize(width: CGFloat(screenWidth * 2), height: CGFloat(screenHeight * 2))
