@@ -41,7 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var currentPlayer = 1
     
     //get room id from room view
-    let roomId = "1"
+    var roomId: String!
     
     
     //tile map

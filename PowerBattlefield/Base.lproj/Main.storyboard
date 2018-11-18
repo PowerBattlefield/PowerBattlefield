@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ljd-dg-mgb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ljd-dg-mgb">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -32,6 +32,7 @@
                                         <state key="normal" title="Login/Register"/>
                                         <connections>
                                             <action selector="loginBtn:" destination="ljd-dg-mgb" eventType="touchUpInside" id="Ol4-wM-gaF"/>
+                                            <segue destination="IRI-8X-yDk" kind="show" identifier="show" id="QVU-zo-Bsk"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -45,54 +46,15 @@
                         <viewLayoutGuide key="safeArea" id="JBn-0M-X0P"/>
                     </view>
                     <navigationItem key="navigationItem" id="qG3-gC-U6N"/>
-                    <connections>
-                        <segue destination="UNe-Gc-ufT" kind="show" identifier="show" id="g8m-mb-hSF"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tzn-wl-Vd8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="936.79999999999995" y="100.29985007496252"/>
         </scene>
-        <!--Lobby View Controller-->
-        <scene sceneID="ZIE-qo-0OM">
-            <objects>
-                <viewController id="UNe-Gc-ufT" customClass="LobbyViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HtH-Aa-9UT">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaD-5B-r5f">
-                                <rect key="frame" x="150" y="305" width="75" height="56"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="go to room"/>
-                                <connections>
-                                    <segue destination="seb-p3-zhP" kind="show" identifier="show" id="L5y-Li-uLg"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hl3-uj-7Sn">
-                                <rect key="frame" x="127" y="441" width="121" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Sign out"/>
-                                <connections>
-                                    <action selector="signoutBtnTyped:" destination="sdO-dw-1cT" eventType="touchUpInside" id="eYY-xj-nM5"/>
-                                    <action selector="signoutBtnTypped:" destination="UNe-Gc-ufT" eventType="touchUpInside" id="sFa-ut-GKF"/>
-                                    <segue destination="ljd-dg-mgb" kind="show" identifier="signout" id="f4M-F4-se3"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="rmV-W4-RS1"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vsW-iu-M1c" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="sdO-dw-1cT" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="1677.5999999999999" y="115.59220389805098"/>
-        </scene>
         <!--Room View Controller-->
         <scene sceneID="z2D-6d-jfq">
             <objects>
-                <viewController id="seb-p3-zhP" customClass="RoomViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RoomVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="seb-p3-zhP" customClass="RoomViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8DO-y8-Lgo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -120,14 +82,182 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yPz-gg-cAb">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem title="Back" id="Lff-eZ-xCC">
+                                        <connections>
+                                            <segue destination="IRI-8X-yDk" kind="show" id="HcR-eF-ROL"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="yPz-gg-cAb" firstAttribute="leading" secondItem="CqP-b8-91u" secondAttribute="leading" id="W6R-KT-n5w"/>
+                            <constraint firstItem="yPz-gg-cAb" firstAttribute="top" secondItem="CqP-b8-91u" secondAttribute="top" id="f7w-zg-8IY"/>
+                            <constraint firstItem="CqP-b8-91u" firstAttribute="trailing" secondItem="yPz-gg-cAb" secondAttribute="trailing" id="fl0-rh-aWK"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="CqP-b8-91u"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9pj-aq-aKp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2440.8000000000002" y="116.49175412293854"/>
+        </scene>
+        <!--Lobby View Controller-->
+        <scene sceneID="Mjx-pt-3Tg">
+            <objects>
+                <viewController id="IRI-8X-yDk" customClass="LobbyViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0sc-gh-SW1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gHd-3T-iMC">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem title="Sign out" id="oWH-4F-Dzu">
+                                        <connections>
+                                            <action selector="signoutBtnTypped:" destination="IRI-8X-yDk" id="eti-H4-rH1"/>
+                                            <segue destination="ljd-dg-mgb" kind="show" identifier="show" id="IIS-K0-rVH"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ms6-NN-DZP"/>
+                                    <barButtonItem title="Create Room" id="uK6-LN-AAF">
+                                        <connections>
+                                            <action selector="createRoom:" destination="IRI-8X-yDk" id="8iw-xl-d2s"/>
+                                            <segue destination="DMx-Jv-wkk" kind="show" id="VKm-6v-OSQ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="t3e-2Z-nEX">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseCell" id="NUS-eS-hfp">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NUS-eS-hfp" id="QLc-9N-PZg">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KgN-mV-UYX">
+                                                    <rect key="frame" x="15" y="12" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1/10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Scq-pv-bRo">
+                                                    <rect key="frame" x="318" y="12" width="31" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ZTa-Ic-uzw" firstAttribute="trailing" secondItem="t3e-2Z-nEX" secondAttribute="trailing" id="2eB-t5-MHn"/>
+                            <constraint firstItem="t3e-2Z-nEX" firstAttribute="leading" secondItem="ZTa-Ic-uzw" secondAttribute="leading" id="9oI-2k-FJE"/>
+                            <constraint firstItem="t3e-2Z-nEX" firstAttribute="top" secondItem="gHd-3T-iMC" secondAttribute="bottom" id="EJg-id-hJg"/>
+                            <constraint firstItem="ZTa-Ic-uzw" firstAttribute="trailing" secondItem="gHd-3T-iMC" secondAttribute="trailing" id="Oih-Qf-MNz"/>
+                            <constraint firstItem="gHd-3T-iMC" firstAttribute="leading" secondItem="ZTa-Ic-uzw" secondAttribute="leading" id="Rd7-fB-2cP"/>
+                            <constraint firstItem="ZTa-Ic-uzw" firstAttribute="bottom" secondItem="t3e-2Z-nEX" secondAttribute="bottom" id="TGM-C1-qvU"/>
+                            <constraint firstItem="gHd-3T-iMC" firstAttribute="top" secondItem="ZTa-Ic-uzw" secondAttribute="top" id="eYf-Uq-IBb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ZTa-Ic-uzw"/>
+                    </view>
+                    <connections>
+                        <outlet property="roomList" destination="t3e-2Z-nEX" id="i1s-Nb-dMh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N5P-Bg-J9l" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1703" y="116"/>
+        </scene>
+        <!--Create Room View Controller-->
+        <scene sceneID="JDT-iH-PWp">
+            <objects>
+                <viewController id="DMx-Jv-wkk" customClass="CreateRoomViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ghc-pZ-fhd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Room Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pL4-27-rgv">
+                                <rect key="frame" x="64" y="76" width="94" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dyT-Db-s9l">
+                                <rect key="frame" x="64" y="115" width="74" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PSX-nJ-Ysu">
+                                <rect key="frame" x="245" y="71" width="97" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="roomName:" destination="nqe-83-67d" eventType="editingDidEnd" id="VbJ-8U-Bmi"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ahh-jK-JQy">
+                                <rect key="frame" x="245" y="110" width="97" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bmD-AD-UqZ">
+                                <rect key="frame" x="164" y="245" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="create:" destination="DMx-Jv-wkk" eventType="touchUpInside" id="FIa-Qj-nty"/>
+                                </connections>
+                            </button>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NEd-Ey-ddW">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem title="Cancel" id="IVI-u0-7wV">
+                                        <connections>
+                                            <segue destination="IRI-8X-yDk" kind="show" id="ODp-G6-Z5j"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hJO-h4-f4f" firstAttribute="trailing" secondItem="NEd-Ey-ddW" secondAttribute="trailing" id="AuR-Q6-MNv"/>
+                            <constraint firstItem="NEd-Ey-ddW" firstAttribute="top" secondItem="hJO-h4-f4f" secondAttribute="top" id="NCg-T7-Jz6"/>
+                            <constraint firstItem="NEd-Ey-ddW" firstAttribute="leading" secondItem="hJO-h4-f4f" secondAttribute="leading" id="RRF-kq-YoX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hJO-h4-f4f"/>
+                    </view>
+                    <connections>
+                        <outlet property="roomName" destination="PSX-nJ-Ysu" id="Xgv-Hc-q4P"/>
+                        <outlet property="roompwd" destination="ahh-jK-JQy" id="fts-He-oMC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Tr-Oz-y25" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="nqe-83-67d" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1702" y="1031"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
@@ -146,4 +276,7 @@
             <point key="canvasLocation" x="3329" y="54"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="HcR-eF-ROL"/>
+    </inferredMetricsTieBreakers>
 </document>
