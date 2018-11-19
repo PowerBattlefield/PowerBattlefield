@@ -23,6 +23,8 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     
 
+    @IBOutlet weak var chatDisplay: UITextView!
+    @IBOutlet weak var textInput: UITextField!
     @IBOutlet weak var playerList: UITableView!
     @IBOutlet weak var roomNameLabel: UILabel!
     var roomId :String!
@@ -59,6 +61,11 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
             self.playerList.reloadData()
         }
+        
+        room.child("chatLog").observe(DataEventType.value){ (snapshot) in
+            let text = snapshot.value as? String ?? ""
+            self.chatDisplay.text.append("\(text)\n")
+        }
         appDeleagte.allowRotation = true
     }
         // Do any additional setup after loading the view.
@@ -68,6 +75,11 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let gameVC = segue.destination as! GameViewController
             gameVC.roomId = roomId
         }else {
+        }
+    }
+    @IBAction func sendText(_ sender: Any) {
+        if let text = textInput.text{
+            Database.database().reference().child(roomId).child("chatLog").setValue("\(Auth.auth().currentUser?.displayName ?? "Unknown"): \(text)")
         }
     }
     
