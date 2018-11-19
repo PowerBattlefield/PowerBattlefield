@@ -35,6 +35,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        chatDisplay.isEditable = false
         playerList.delegate = self
         playerList.dataSource = self
         roomNameLabel.text = roomName
@@ -64,7 +65,15 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         room.child("chatLog").observe(DataEventType.value){ (snapshot) in
             let text = snapshot.value as? String ?? ""
+            if text != ""{
+                let name = text.prefix(upTo: text.index(of: ":")!)
+                let chat = text.suffix(from: text.index(of: ":")!)
+                print("\(name) \(chat)")
+            }
+            
             self.chatDisplay.text.append("\(text)\n")
+            let range:NSRange = NSMakeRange((self.chatDisplay.text.lengthOfBytes(using: String.Encoding.utf8))-1, 1)
+            self.chatDisplay.scrollRangeToVisible(range)
         }
         appDeleagte.allowRotation = true
     }
@@ -78,8 +87,10 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     @IBAction func sendText(_ sender: Any) {
-        if let text = textInput.text{
+        if textInput.text != ""{
+           let text = textInput.text!
             Database.database().reference().child(roomId).child("chatLog").setValue("\(Auth.auth().currentUser?.displayName ?? "Unknown"): \(text)")
+            textInput.text = ""
         }
     }
     
