@@ -51,6 +51,7 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     override func viewDidAppear(_ animated: Bool) {
         let database = Database.database().reference()
         database.observe(DataEventType.value){ (snapshot) in
+            self.rooms = []
             for rest in snapshot.children.allObjects as! [DataSnapshot]{
                 if rest.key == "number of rooms"{
                     self.roomNumber = rest.value! as! Int
@@ -60,10 +61,12 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                         let room = child as! DataSnapshot
                         dict[room.key] = room.value
                     }
-                    let data = Room(one: ["feifan"] , two: dict["playerNumber"] as! Int, thr: dict["roomName"] as! String)
-                    print(data)
-                    self.rooms!.append(data)
-                    print(self.rooms!)
+                    if dict["playerNumber"] != nil && dict["roomName"] != nil{
+                        let data = Room(one: ["feifan"] , two: dict["playerNumber"] as! Int, thr: dict["roomName"] as! String)
+                        print(data)
+                        self.rooms!.append(data)
+                        print(self.rooms!)
+                    }
                 }
             }
             //            print(self.rooms!)
