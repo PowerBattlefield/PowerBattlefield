@@ -9,13 +9,13 @@
 import Foundation
 
 struct Room{
-    var playerNames:[String]!
+    var roomId:String!
     var playerNumber:Int!
     var roomName:String!
-    init(one:[String],two:Int,thr:String){
-        playerNames = one
-        playerNumber = two
-        roomName = thr
+    init(playerNumber:Int,roomName:String,roomId:String){
+        self.playerNumber = playerNumber
+        self.roomName = roomName
+        self.roomId = roomId
     }
 }
 

@@ -16,22 +16,24 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     var rooms:[Room]? = []
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(rooms != nil){
-            print(rooms?.count)
-            return (rooms?.count)!
+            return rooms!.count
         }else{
-            print("shabi")
             return 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "reuseCell")
-        print("cell")
         let text = rooms![indexPath.row].roomName
         cell.textLabel!.text = text
         return cell
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomVC") as! RoomViewController
+        newVC.roomId = rooms![indexPath.row].roomId
+        newVC.roomName = rooms![indexPath.row].roomName
+        self.present(newVC, animated: true, completion: nil)
+    }
 
     @IBOutlet weak var roomList: UITableView!
     override func viewDidLoad() {
@@ -40,13 +42,11 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         roomList.delegate = self
     }
 
+
     @IBAction func signoutBtnTypped(_ sender: Any) {
-        
         try! Auth.auth().signOut()
-    }
-    
-    @IBAction func createRoom(_ sender: Any) {
-        
+        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginViewController
+        present(loginVC, animated: true, completion: nil)
     }
     override func viewDidAppear(_ animated: Bool) {
         let database = Database.database().reference()
@@ -56,25 +56,22 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                 if rest.key == "number of rooms"{
                     self.roomNumber = rest.value! as! Int
                 }else{
+                    let roomId = rest.key
                     var dict : [String:Any] = [:]
                     for child in rest.children{
                         let room = child as! DataSnapshot
                         dict[room.key] = room.value
                     }
                     if dict["playerNumber"] != nil && dict["roomName"] != nil{
-                        let data = Room(one: ["feifan"] , two: dict["playerNumber"] as! Int, thr: dict["roomName"] as! String)
-                        print(data)
+                        let data = Room(playerNumber: dict["playerNumber"] as! Int, roomName: dict["roomName"] as! String, roomId: roomId)
                         self.rooms!.append(data)
-                        print(self.rooms!)
                     }
                 }
             }
-            //            print(self.rooms!)
             self.roomList.reloadData()
-            //print(room)
         }
     }
-    override func viewDidDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         Database.database().reference().removeAllObservers()
     }
     /*

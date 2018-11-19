@@ -30,6 +30,8 @@ class CreateRoomViewController: UIViewController {
             self.roomId = snapshot.value as? Int ?? 0
             self.roomId = self.roomId + 1
             roomNumber.setValue(self.roomId)
+            let room = Database.database().reference().child(String(self.roomId))
+            room.child("roomName").setValue(self.roomName.text)
             let newVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomVC") as! RoomViewController
             newVC.roomId = String(self.roomId)
             newVC.roomName = self.roomName.text
