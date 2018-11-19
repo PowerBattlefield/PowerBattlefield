@@ -62,9 +62,9 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yPz-gg-cAb">
                                 <rect key="frame" x="0.0" y="0.0" width="667" height="32"/>
                                 <items>
-                                    <barButtonItem title="Back" id="Lff-eZ-xCC">
+                                    <barButtonItem title="Quit" id="Lff-eZ-xCC">
                                         <connections>
-                                            <segue destination="IRI-8X-yDk" kind="show" id="HcR-eF-ROL"/>
+                                            <action selector="quitRoom:" destination="seb-p3-zhP" id="fah-WU-sfr"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -156,7 +156,7 @@
         <!--Lobby View Controller-->
         <scene sceneID="Mjx-pt-3Tg">
             <objects>
-                <viewController id="IRI-8X-yDk" customClass="LobbyViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LobbyVC" id="IRI-8X-yDk" customClass="LobbyViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0sc-gh-SW1">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -323,6 +323,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="HcR-eF-ROL"/>
+        <segue reference="QVU-zo-Bsk"/>
     </inferredMetricsTieBreakers>
 </document>

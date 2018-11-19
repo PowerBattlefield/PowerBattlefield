@@ -81,6 +81,13 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let value = UIInterfaceOrientation.portrait.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
     }
+    @IBAction func quitRoom(_ sender: Any) {
+       Database.database().reference().child(roomId).child("playerNumber").setValue(players.count-1)
+        Database.database().reference().child(roomId).child("playerNames").child((Auth.auth().currentUser?.uid)!).removeValue()
+        
+        let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
+        self.present(newVC, animated: true, completion: nil)
+    }
     
     func shouldAutorotate() -> Bool {
         return false
