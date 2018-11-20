@@ -69,6 +69,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 let player = rest as! DataSnapshot
                 self.players[player.key] = player.value as? String
             }
+            self.appDeleagte.count = self.players.count
             self.playerList.reloadData()
         }
         
@@ -90,10 +91,13 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             if gameIsOn{
                 let newVC = self.storyboard?.instantiateViewController(withIdentifier: "GameVC") as! GameViewController
                 newVC.roomId = self.roomId
+                newVC.playerNumber = self.number
                 self.present(newVC, animated: true, completion: nil)
             }
         }
         appDeleagte.allowRotation = true
+        appDeleagte.roomId = roomId
+        appDeleagte.isInRoom = true
     }
         // Do any additional setup after loading the view.
 
@@ -127,7 +131,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
        Database.database().reference().child(roomId).child("playerNumber").setValue(players.count-1)
         Database.database().reference().child(roomId).child("playerNames").child((Auth.auth().currentUser?.uid)!).removeValue()
         Database.database().reference().child(roomId).removeAllObservers()
-        
+        appDeleagte.isInRoom = false
         let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
         self.present(newVC, animated: true, completion: nil)
     }

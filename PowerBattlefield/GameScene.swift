@@ -51,29 +51,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let uid = Auth.auth().currentUser!.uid
     
-    var numberOfPlayers = 0
+
     
     //get player connections and set current player
-    func getPlayerConnectionNumber(){
-        playerConnections.observeSingleEvent(of: .value, with: { (snapshot) in
-            
-            let playerConnectionNumber = snapshot.value as? Int ?? 0
-            
-            self.numberOfPlayers = playerConnectionNumber
-            
-            self.numberOfPlayers = self.numberOfPlayers + 1;
-            
-            self.currentPlayer = self.numberOfPlayers
-            
-            self.playerConnections.setValue(self.numberOfPlayers)
-            
-            self.setPlayers()
-        }) { (error) in
-            print(error.localizedDescription)
-        }
-    }
+//    func getPlayerConnectionNumber(){
+//        playerConnections.observeSingleEvent(of: .value, with: { (snapshot) in
+//
+//            let playerConnectionNumber = snapshot.value as? Int ?? 0
+//
+//            self.numberOfPlayers = playerConnectionNumber
+//
+//            self.numberOfPlayers = self.numberOfPlayers + 1;
+//
+//            self.currentPlayer = self.numberOfPlayers
+//
+//            self.playerConnections.setValue(self.numberOfPlayers)
+//
+//            self.setPlayers()
+//        }) { (error) in
+//            print(error.localizedDescription)
+//        }
+//    }
     
-    var playerConnections: DatabaseReference = Database.database().reference()
     var p1Refx: DatabaseReference = Database.database().reference()
     var p1Refy: DatabaseReference = Database.database().reference()
     var p1RefMoveRight: DatabaseReference = Database.database().reference()
@@ -88,7 +87,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var p2RefMoveDown: DatabaseReference = Database.database().reference()
     
     func setDatabaseReference(){
-        playerConnections = Database.database().reference().child(roomId).child("playerConnections")
         p1Refx = Database.database().reference().child(roomId).child("player1").child("position").child("x")
         p1RefMoveRight = Database.database().reference().child(roomId).child("player1").child("move").child("right")
         p1RefMoveLeft = Database.database().reference().child(roomId).child("player1").child("move").child("left")
@@ -148,8 +146,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             roomId = id as! String
             print("roomId is :\(roomId)")
         }
+        if let number = self.userData?.value(forKey: "playerNumber"){
+            currentPlayer = number as! Int
+        }
         setDatabaseReference()
-        getPlayerConnectionNumber()
+        setPlayers()
         
         self.physicsWorld.contactDelegate = self
 

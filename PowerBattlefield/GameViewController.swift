@@ -12,6 +12,7 @@ import GameplayKit
 
 class GameViewController: UIViewController {
     var roomId :String!
+    var playerNumber :Int!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,6 +23,7 @@ class GameViewController: UIViewController {
                 scene.scaleMode = .aspectFill
                 scene.userData = NSMutableDictionary()
                 scene.userData?.setValue(roomId, forKey: "roomId")
+                scene.userData?.setValue(playerNumber, forKey: "playerNumber")
                 // Present the scene
                 view.presentScene(scene)
             }
