@@ -12,10 +12,12 @@ struct Room{
     var roomId:String!
     var playerNumber:Int!
     var roomName:String!
-    init(playerNumber:Int,roomName:String,roomId:String){
+    var roomOwner:String!
+    init(playerNumber:Int,roomName:String,roomId:String,roomOwner:String){
         self.playerNumber = playerNumber
         self.roomName = roomName
         self.roomId = roomId
+        self.roomOwner = roomOwner
     }
 }
 

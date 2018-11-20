@@ -23,6 +23,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     
 
+    @IBOutlet weak var startOrReadyBtn: UIButton!
     @IBOutlet weak var chatDisplay: UITextView!
     @IBOutlet weak var textInput: UITextField!
     @IBOutlet weak var playerList: UITableView!
@@ -30,6 +31,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var roomId :String!
     var roomName:String!
     var number: Int!
+    var roomOwner:String!
     var players:[String:String] = [:]
     let appDeleagte = UIApplication.shared.delegate as! AppDelegate
     
@@ -41,6 +43,14 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         roomNameLabel.text = roomName
         self.view.bringSubview(toFront: roomNameLabel)
         let room = Database.database().reference().child(roomId)
+        room.child("gameIsOn").setValue(false)
+        if Auth.auth().currentUser?.uid == roomOwner{
+            startOrReadyBtn.setTitle("Start", for: .normal)
+            room.child("playerIsReady").child(Auth.auth().currentUser!.uid).setValue(true)
+        }else{
+            startOrReadyBtn.setTitle("Ready", for: .normal)
+            room.child("playerIsReady").child(Auth.auth().currentUser!.uid).setValue(false)
+        }
         let playerNumber = room.child("playerNumber")
         playerNumber.observeSingleEvent(of: .value, with: { (snapshot) in
             self.number = snapshot.value as? Int ?? 0
@@ -56,7 +66,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         room.child("playerNames").observe(DataEventType.value){ (snapshot) in
             self.players = [:]
             for rest in snapshot.children{
-                print(rest)
                 let player = rest as! DataSnapshot
                 self.players[player.key] = player.value as? String
             }
@@ -74,6 +83,15 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             self.chatDisplay.text.append("\(text)\n")
             let range:NSRange = NSMakeRange((self.chatDisplay.text.lengthOfBytes(using: String.Encoding.utf8))-1, 1)
             self.chatDisplay.scrollRangeToVisible(range)
+        }
+        
+        room.child("gameIsOn").observe(DataEventType.value){ (snapshot) in
+            let gameIsOn = snapshot.value as? Bool ?? false
+            if gameIsOn{
+                let newVC = self.storyboard?.instantiateViewController(withIdentifier: "GameVC") as! GameViewController
+                newVC.roomId = self.roomId
+                self.present(newVC, animated: true, completion: nil)
+            }
         }
         appDeleagte.allowRotation = true
     }
@@ -104,12 +122,42 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let value = UIInterfaceOrientation.portrait.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
     }
+    
     @IBAction func quitRoom(_ sender: Any) {
        Database.database().reference().child(roomId).child("playerNumber").setValue(players.count-1)
         Database.database().reference().child(roomId).child("playerNames").child((Auth.auth().currentUser?.uid)!).removeValue()
+        Database.database().reference().child(roomId).removeAllObservers()
         
         let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
         self.present(newVC, animated: true, completion: nil)
+    }
+    
+    
+    @IBAction func startOrReady(_ sender: Any) {
+        let room = Database.database().reference().child(roomId)
+        if startOrReadyBtn.titleLabel?.text == "Start"{
+            room.child("playerIsReady").observeSingleEvent(of: .value, with: { (snapshot) in
+                var allIsReady = true
+                for rest in snapshot.children{
+                    let data = rest as! DataSnapshot
+                    let isReady = data.value as! Bool
+                    print(isReady)
+                    if !isReady{
+                        allIsReady = false
+                        break
+                    }
+                }
+                if allIsReady{
+                    room.child("gameIsOn").setValue(true)
+                }
+            })
+        }else if startOrReadyBtn.titleLabel?.text == "Ready"{
+            room.child("playerIsReady").child(Auth.auth().currentUser!.uid).setValue(true)
+            startOrReadyBtn.setTitle("Unready", for: .normal)
+        }else{
+            startOrReadyBtn.setTitle("Ready", for: .normal)
+            room.child("playerIsReady").child(Auth.auth().currentUser!.uid).setValue(false)
+        }
     }
     
     func shouldAutorotate() -> Bool {

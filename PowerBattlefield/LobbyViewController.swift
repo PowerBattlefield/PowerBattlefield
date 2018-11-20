@@ -32,6 +32,7 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         let newVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomVC") as! RoomViewController
         newVC.roomId = rooms![indexPath.row].roomId
         newVC.roomName = rooms![indexPath.row].roomName
+        newVC.roomOwner = rooms![indexPath.row].roomOwner
         self.present(newVC, animated: true, completion: nil)
     }
 
@@ -62,8 +63,8 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                         let room = child as! DataSnapshot
                         dict[room.key] = room.value
                     }
-                    if dict["playerNumber"] != nil && dict["roomName"] != nil{
-                        let data = Room(playerNumber: dict["playerNumber"] as! Int, roomName: dict["roomName"] as! String, roomId: roomId)
+                    if dict["playerNumber"] != nil && dict["roomName"] != nil && dict["roomOwner"] != nil{
+                        let data = Room(playerNumber: dict["playerNumber"] as! Int, roomName: dict["roomName"] as! String, roomId: roomId, roomOwner: dict["roomOwner"] as! String)
                         self.rooms!.append(data)
                     }
                 }

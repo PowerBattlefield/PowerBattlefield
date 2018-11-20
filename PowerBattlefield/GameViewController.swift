@@ -20,6 +20,8 @@ class GameViewController: UIViewController {
             if let scene = SKScene(fileNamed: "GameScene") {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
+                scene.userData = NSMutableDictionary()
+                scene.userData?.setValue(roomId, forKey: "roomId")
                 // Present the scene
                 view.presentScene(scene)
             }

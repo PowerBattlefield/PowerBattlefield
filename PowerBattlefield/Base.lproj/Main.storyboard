@@ -79,9 +79,8 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdL-bX-X5V">
                                 <rect key="frame" x="241" y="345" width="426" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Start"/>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="show" identifier="show" id="E9p-T5-aZM"/>
+                                    <action selector="startOrReady:" destination="seb-p3-zhP" eventType="touchUpInside" id="dzH-zs-ZYw"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="eZk-Pi-zIK">
@@ -150,6 +149,7 @@
                         <outlet property="chatDisplay" destination="j70-9v-7DR" id="XFd-Gx-uqD"/>
                         <outlet property="playerList" destination="eZk-Pi-zIK" id="XOj-Et-RiZ"/>
                         <outlet property="roomNameLabel" destination="6Lh-aO-Lbc" id="3Ft-z4-d8H"/>
+                        <outlet property="startOrReadyBtn" destination="wdL-bX-X5V" id="gee-Fl-8n5"/>
                         <outlet property="textInput" destination="Ciq-C3-cNC" id="Clc-MI-9Dw"/>
                     </connections>
                 </viewController>
@@ -186,7 +186,7 @@
                                 <rect key="frame" x="0.0" y="32" width="667" height="343"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseCell" id="NUS-eS-hfp">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseCell" id="NUS-eS-hfp">
                                         <rect key="frame" x="0.0" y="28" width="667" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NUS-eS-hfp" id="QLc-9N-PZg">
@@ -312,7 +312,7 @@
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameVC" id="BV1-FR-VrT" customClass="GameViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

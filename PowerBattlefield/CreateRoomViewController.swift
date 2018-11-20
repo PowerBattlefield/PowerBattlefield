@@ -32,9 +32,11 @@ class CreateRoomViewController: UIViewController {
             roomNumber.setValue(self.roomId)
             let room = Database.database().reference().child(String(self.roomId))
             room.child("roomName").setValue(self.roomName.text)
+            room.child("roomOwner").setValue(Auth.auth().currentUser?.uid)
             let newVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomVC") as! RoomViewController
             newVC.roomId = String(self.roomId)
             newVC.roomName = self.roomName.text
+            newVC.roomOwner = Auth.auth().currentUser?.uid
             self.present(newVC, animated: true, completion: nil)
         }) { (error) in
             print(error.localizedDescription)

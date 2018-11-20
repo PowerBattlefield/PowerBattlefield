@@ -144,6 +144,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMove(to view: SKView) {
+        if let id = self.userData?.value(forKey: "roomId") {
+            roomId = id as! String
+            print("roomId is :\(roomId)")
+        }
         setDatabaseReference()
         getPlayerConnectionNumber()
         
