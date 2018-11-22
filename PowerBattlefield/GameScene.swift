@@ -51,6 +51,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let uid = Auth.auth().currentUser!.uid
     
+    // game control button
+    var Up_btn:SKSpriteNode = SKSpriteNode()
+    var Down_btn:SKSpriteNode = SKSpriteNode()
+    var Left_btn:SKSpriteNode = SKSpriteNode()
+    var Right_btn:SKSpriteNode = SKSpriteNode()
+    var Attack_btn:SKSpriteNode = SKSpriteNode()
+    
 
     
     //get player connections and set current player
@@ -215,6 +222,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 giveWaterTilePhysicsBody(tileMap: tileMap)
             }
             
+            // game control button
+            // 改位置 加点击
+            if (node.name == "Up_btn") {
+                Up_btn = node as! SKSpriteNode
+            }
+            if (node.name == "Down_btn") {
+                Down_btn = node as! SKSpriteNode
+            }
+            if (node.name == "Left_btn") {
+                Left_btn = node as! SKSpriteNode
+            }
+            if (node.name == "Right_btn") {
+               Right_btn = node as! SKSpriteNode
+            }
+            if (node.name == "Attack_btn") {
+                Attack_btn = node as! SKSpriteNode
+            }
+            
         }
         observeOtherPlayerMovements()
     }
@@ -227,8 +252,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let tileMap = waterTileMap
         let tileSize = waterTileMap.tileSize
-        let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width
-        let halfHeight = CGFloat(tileMap.numberOfRows) / 2.0 * tileSize.height
+        let halfWidth = CGFloat(tileMap.numberOfColumns) / 2.0 * tileSize.width //960
+        let halfHeight = CGFloat(tileMap.numberOfRows) / 2.0 * tileSize.height  //960
         
         let Vbound = (halfHeight - screenHeight) / screenHeight * 1/2 // vertical
         let Hbound = (halfWidth - screenWidth) / screenWidth * 1/2 // horizontal
@@ -239,7 +264,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let newX = abs(x_offset) > Hbound ? oldX : 0.5-x_offset
         let newY = abs(y_offset) > Vbound ? oldY : 0.5-y_offset
         scene?.anchorPoint = CGPoint(x: newX!, y: newY!)
+        // update control stuff
+        updateControll(player_x: player_x, player_y: player_y, halfWidth: halfWidth, halfHeight: halfHeight)
     }
+    func updateControll(player_x:CGFloat,player_y:CGFloat,halfWidth:CGFloat,halfHeight:CGFloat) {
+        // attack and direction size are 200*200
+        // each arror = 100*50 (x,y)
+        //screenHeight 375.0 screenWidth 667.0
+        var attack_x = player_x + screenWidth - 100
+        var attack_y = player_y - screenHeight + 100
+        var direction_x = player_x - screenWidth + 100 + 5
+        var direction_y = player_y - screenHeight + 100 + 5
+        
+        let x_offset = attack_x - direction_x
+        let y_offset = attack_y - direction_y
+
+        // if out of bound
+        if(player_x+screenWidth >= halfWidth) {
+            attack_x = halfWidth - 100
+            direction_x = attack_x - x_offset
+        }
+        if(player_x-screenWidth <= -halfWidth) {
+            direction_x = -halfWidth + 100 + 5
+            attack_x = direction_x + x_offset
+        }
+        if(player_y+screenHeight >= halfHeight) {
+            attack_y = halfHeight - 2*screenHeight + 100
+            direction_y = attack_y - y_offset
+        }
+        if(player_y-screenHeight <= -halfHeight) {
+            direction_y = -halfHeight + 100 + 5
+            attack_y = direction_y + y_offset
+        }
+        Attack_btn.position = CGPoint(x: attack_x, y: attack_y)
+        Up_btn.position = CGPoint(x: direction_x, y: direction_y+50)
+        Down_btn.position = CGPoint(x: direction_x, y: direction_y-50)
+        Left_btn.position = CGPoint(x: direction_x-50, y: direction_y)
+        Right_btn.position = CGPoint(x: direction_x+50, y: direction_y)
+    }
+    
     
     func giveWaterTilePhysicsBody(tileMap: SKTileMapNode) {
         
@@ -539,14 +602,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         for t in touches {
             
             self.touchDown(atPoint: t.location(in: self))
             
+            let location = t.location(in: self)
+            let node = self.atPoint(location)
+            if (node.name == "Attack_btn") {
+                tappedView()
+            }
+            if (node.name == "Up_btn") {
+                swipedUp()
+            }
+            if (node.name == "Down_btn") {
+                swipedDown()
+            }
+            if (node.name == "Left_btn") {
+                swipedLeft()
+            }
+            if (node.name == "Right_btn") {
+                swipedRight()
+            }
+            
             break
             
         }
+        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

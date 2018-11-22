@@ -122,7 +122,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        appDeleagte.allowRotation = false
+        //appDeleagte.allowRotation = false
         let value = UIInterfaceOrientation.portrait.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
     }

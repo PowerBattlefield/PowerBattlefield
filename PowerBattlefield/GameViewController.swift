@@ -13,14 +13,20 @@ import GameplayKit
 class GameViewController: UIViewController {
     var roomId :String!
     var playerNumber :Int!
+    let screenWidth = UIScreen.main.bounds.width
+    let screenHeight = UIScreen.main.bounds.height
+    let appDeleagte = UIApplication.shared.delegate as! AppDelegate
     override func viewDidLoad() {
+        appDeleagte.allowRotation = true
         super.viewDidLoad()
-        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
                 // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
+                //scene.size
+                scene.size = CGSize(width: CGFloat(screenHeight), height: CGFloat(screenWidth))
+                scene.scaleMode = .aspectFit
+                
                 scene.userData = NSMutableDictionary()
                 scene.userData?.setValue(roomId, forKey: "roomId")
                 scene.userData?.setValue(playerNumber, forKey: "playerNumber")
