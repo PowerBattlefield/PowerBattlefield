@@ -11,11 +11,18 @@ import FirebaseUI
 
 class LoginViewController: UIViewController {
     var uid = ""
+    let appDeleagte = UIApplication.shared.delegate as! AppDelegate
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        appDeleagte.allowRotation = true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        let value = UIInterfaceOrientation.landscapeLeft.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

@@ -115,7 +115,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             self.playerList.reloadData()
         }
         
-        appDeleagte.allowRotation = true
+        //appDeleagte.allowRotation = true
         appDeleagte.roomId = roomId
         appDeleagte.isInRoom = true
     }
@@ -134,17 +134,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             Database.database().reference().child(roomId).child("chatLog").setValue("\(Auth.auth().currentUser?.displayName ?? "Unknown"): \(text)")
             textInput.text = ""
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        let value = UIInterfaceOrientation.landscapeLeft.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        //appDeleagte.allowRotation = false
-        let value = UIInterfaceOrientation.portrait.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
     }
     
     @IBAction func quitRoom(_ sender: Any) {
