@@ -16,8 +16,18 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "playerCell")
-        let text = players[players.keys[players.index(players.startIndex, offsetBy: indexPath.row)]]
+        let uid = players.keys[players.index(players.startIndex, offsetBy: indexPath.row)]
+        let text = players[uid]
         cell.textLabel?.text = text
+        if uid == roomOwner{
+            cell.imageView?.image = #imageLiteral(resourceName: "room_owner")
+        }else {
+            if playerIsReady[uid]!{
+                cell.imageView?.image = #imageLiteral(resourceName: "ready")
+            }else{
+                cell.imageView?.image = #imageLiteral(resourceName: "unready")
+            }
+        }
         return cell
     }
     
@@ -34,6 +44,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var roomOwner:String!
     var players:[String:String] = [:]
     let appDeleagte = UIApplication.shared.delegate as! AppDelegate
+    var playerIsReady:[String:Bool] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,10 +102,19 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             if gameIsOn{
                 let newVC = self.storyboard?.instantiateViewController(withIdentifier: "GameVC") as! GameViewController
                 newVC.roomId = self.roomId
-                newVC.playerNumber = self.number
                 self.present(newVC, animated: true, completion: nil)
             }
         }
+        
+        room.child("playerIsReady").observe(DataEventType.value){ (snapshot) in
+            self.playerIsReady = [:]
+            for rest in snapshot.children{
+                let data = rest as! DataSnapshot
+                self.playerIsReady[data.key] = data.value as? Bool
+            }
+            self.playerList.reloadData()
+        }
+        
         appDeleagte.allowRotation = true
         appDeleagte.roomId = roomId
         appDeleagte.isInRoom = true
@@ -128,9 +148,11 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     @IBAction func quitRoom(_ sender: Any) {
-       Database.database().reference().child(roomId).child("playerNumber").setValue(players.count-1)
-        Database.database().reference().child(roomId).child("playerNames").child((Auth.auth().currentUser?.uid)!).removeValue()
-        Database.database().reference().child(roomId).removeAllObservers()
+        let room = Database.database().reference().child(roomId)
+        room.child("playerNumber").setValue(players.count-1)
+        room.child("playerNames").child(Auth.auth().currentUser!.uid).removeValue()
+        room.child("playerIsReady").child(Auth.auth().currentUser!.uid).removeValue()
+        room.removeAllObservers()
         appDeleagte.isInRoom = false
         let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
         self.present(newVC, animated: true, completion: nil)

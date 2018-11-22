@@ -54,9 +54,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         if isInRoom{
-            Database.database().reference().child(roomId!).child("playerNumber").setValue(count!-1)
-            Database.database().reference().child(roomId!).child("playerNames").child(Auth.auth().currentUser!.uid).removeValue()
-            Database.database().reference().child(roomId!).removeAllObservers()
+            let room = Database.database().reference().child(roomId!)
+            room.child("playerNumber").setValue(count!-1)
+            room.child("playerNames").child(Auth.auth().currentUser!.uid).removeValue()
+            room.child("playerIsReady").child(Auth.auth().currentUser!.uid).removeValue()
+            room.removeAllObservers()
         }
     }
 

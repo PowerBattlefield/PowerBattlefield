@@ -9,7 +9,7 @@
 import UIKit
 import SpriteKit
 import GameplayKit
-
+import Firebase
 class GameViewController: UIViewController {
     var roomId :String!
     var playerNumber :Int!
@@ -19,6 +19,17 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         appDeleagte.allowRotation = true
         super.viewDidLoad()
+        var number = 1
+        Database.database().reference().child(roomId).child("playerNames").observe(DataEventType.value){ (snapshot) in
+            for rest in snapshot.children{
+                let player = rest as! DataSnapshot
+                if Auth.auth().currentUser?.uid == player.key{
+                    self.playerNumber = number
+                    break
+                }
+                number += 1
+            }
+        }
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
