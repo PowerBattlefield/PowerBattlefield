@@ -25,11 +25,17 @@ class GameViewController: UIViewController {
                 let player = rest as! DataSnapshot
                 if Auth.auth().currentUser?.uid == player.key{
                     self.playerNumber = number
+                    print(number)
                     break
                 }
                 number += 1
             }
+            self.goToGameScene()
         }
+        
+    }
+    
+    func goToGameScene(){
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -40,6 +46,7 @@ class GameViewController: UIViewController {
                 
                 scene.userData = NSMutableDictionary()
                 scene.userData?.setValue(roomId, forKey: "roomId")
+                print("playernumber: \(playerNumber)")
                 scene.userData?.setValue(playerNumber, forKey: "playerNumber")
                 // Present the scene
                 view.presentScene(scene)
