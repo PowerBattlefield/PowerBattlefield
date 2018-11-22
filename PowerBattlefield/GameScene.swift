@@ -26,6 +26,7 @@ enum BodyType:UInt32{
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    var viewController: UIViewController?
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
     var thePlayer:SKSpriteNode = SKSpriteNode()
@@ -57,7 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var Left_btn:SKSpriteNode = SKSpriteNode()
     var Right_btn:SKSpriteNode = SKSpriteNode()
     var Attack_btn:SKSpriteNode = SKSpriteNode()
-    
+    var Quit_btn:SKSpriteNode = SKSpriteNode()
 
     
     //get player connections and set current player
@@ -158,7 +159,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         setDatabaseReference()
         setPlayers()
-        
+        Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
+            let gameIsOn = snapshot.value as! Bool
+            if !gameIsOn{
+                self.viewController?.performSegue(withIdentifier: "quit", sender: self.viewController)
+            }
+        }
         self.physicsWorld.contactDelegate = self
 
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
@@ -239,6 +245,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if (node.name == "Attack_btn") {
                 Attack_btn = node as! SKSpriteNode
             }
+            if (node.name == "Quit_btn") {
+                Quit_btn = node as! SKSpriteNode
+            }
             
         }
         observeOtherPlayerMovements()
@@ -275,32 +284,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var attack_y = player_y - screenHeight + 100
         var direction_x = player_x - screenWidth + 100 + 5
         var direction_y = player_y - screenHeight + 100 + 5
+        var quit_x = player_x + screenWidth - 50
+        var quit_y = player_y + screenHeight - 50
         
         let x_offset = attack_x - direction_x
         let y_offset = attack_y - direction_y
-
+        let quit_y_offset = quit_y - attack_y
         // if out of bound
         if(player_x+screenWidth >= halfWidth) {
             attack_x = halfWidth - 100
+            quit_x = halfWidth - 50
             direction_x = attack_x - x_offset
         }
         if(player_x-screenWidth <= -halfWidth) {
             direction_x = -halfWidth + 100 + 5
             attack_x = direction_x + x_offset
+            quit_x = direction_x + x_offset + 50
         }
         if(player_y+screenHeight >= halfHeight) {
             attack_y = halfHeight - 2*screenHeight + 100
+            quit_y = attack_y + quit_y_offset
             direction_y = attack_y - y_offset
         }
         if(player_y-screenHeight <= -halfHeight) {
             direction_y = -halfHeight + 100 + 5
             attack_y = direction_y + y_offset
+            quit_y = attack_y + quit_y_offset
         }
         Attack_btn.position = CGPoint(x: attack_x, y: attack_y)
         Up_btn.position = CGPoint(x: direction_x, y: direction_y+50)
         Down_btn.position = CGPoint(x: direction_x, y: direction_y-50)
         Left_btn.position = CGPoint(x: direction_x-50, y: direction_y)
         Right_btn.position = CGPoint(x: direction_x+50, y: direction_y)
+        Quit_btn.position = CGPoint(x: quit_x, y: quit_y)
     }
     
     
@@ -623,7 +639,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if (node.name == "Right_btn") {
                 swipedRight()
             }
-            
+            if (node.name == "Quit_btn"){
+                Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
+            }
             break
             
         }

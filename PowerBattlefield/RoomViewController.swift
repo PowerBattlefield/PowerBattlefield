@@ -102,6 +102,8 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             if gameIsOn{
                 let newVC = self.storyboard?.instantiateViewController(withIdentifier: "GameVC") as! GameViewController
                 newVC.roomId = self.roomId
+                newVC.roomName = self.roomName
+                newVC.roomOwner = self.roomOwner
                 self.present(newVC, animated: true, completion: nil)
             }
         }

@@ -12,6 +12,8 @@ import GameplayKit
 import Firebase
 class GameViewController: UIViewController {
     var roomId :String!
+    var roomName :String!
+    var roomOwner :String!
     var playerNumber :Int!
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
@@ -38,12 +40,12 @@ class GameViewController: UIViewController {
     func goToGameScene(){
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
+            if let scene = GameScene(fileNamed: "GameScene") {
                 // Set the scale mode to scale to fit the window
                 //scene.size
                 scene.size = CGSize(width: CGFloat(screenHeight), height: CGFloat(screenWidth))
                 scene.scaleMode = .aspectFit
-                
+                scene.viewController = self
                 scene.userData = NSMutableDictionary()
                 scene.userData?.setValue(roomId, forKey: "roomId")
                 print("playernumber: \(playerNumber)")
@@ -76,6 +78,15 @@ class GameViewController: UIViewController {
         }
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is RoomViewController{
+            let newVC = segue.destination as! RoomViewController
+            newVC.roomId = self.roomId
+            newVC.roomName = self.roomName
+            newVC.roomOwner = self.roomOwner
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.

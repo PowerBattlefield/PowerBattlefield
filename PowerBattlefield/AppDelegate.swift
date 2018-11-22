@@ -58,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             room.child("playerNumber").setValue(count!-1)
             room.child("playerNames").child(Auth.auth().currentUser!.uid).removeValue()
             room.child("playerIsReady").child(Auth.auth().currentUser!.uid).removeValue()
+            room.child("gameIsOn").setValue(false)
             room.removeAllObservers()
         }
     }

@@ -23,16 +23,16 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "reuseCell")
+        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
         let text = rooms![indexPath.row].roomName
         cell.textLabel!.text = text
-        let playerNumberLabel = UILabel(frame: CGRect(x: cell.frame.maxX - 30, y: 0, width: 30, height: cell.frame.height))
+        let playerNumberLabel = UILabel(frame: CGRect(x: self.view.frame.maxX - 50, y: 0, width: 50, height: cell.frame.height))
         playerNumberLabel.text = "\(rooms![indexPath.row].playerNumber!)/2"
         cell.addSubview(playerNumberLabel)
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if rooms![indexPath.row].playerNumber < 2{
+        if rooms![indexPath.row].playerNumber < 2 && !rooms![indexPath.row].gameIsOn{
             let newVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomVC") as! RoomViewController
             newVC.roomId = rooms![indexPath.row].roomId
             newVC.roomName = rooms![indexPath.row].roomName
@@ -68,8 +68,8 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                         let room = child as! DataSnapshot
                         dict[room.key] = room.value
                     }
-                    if dict["playerNumber"] != nil && dict["roomName"] != nil && dict["roomOwner"] != nil{
-                        let data = Room(playerNumber: dict["playerNumber"] as! Int, roomName: dict["roomName"] as! String, roomId: roomId, roomOwner: dict["roomOwner"] as! String)
+                    if dict["playerNumber"] != nil && dict["roomName"] != nil && dict["roomOwner"] != nil && dict["gameIsOn"] != nil{
+                        let data = Room(playerNumber: dict["playerNumber"] as! Int, roomName: dict["roomName"] as! String, roomId: roomId, roomOwner: dict["roomOwner"] as! String, gameIsOn: dict["gameIsOn"] as! Bool)
                         self.rooms!.append(data)
                     }
                 }
