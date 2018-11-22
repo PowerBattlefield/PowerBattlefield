@@ -26,14 +26,19 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         let cell = UITableViewCell(style: .default, reuseIdentifier: "reuseCell")
         let text = rooms![indexPath.row].roomName
         cell.textLabel!.text = text
+        let playerNumberLabel = UILabel(frame: CGRect(x: cell.frame.maxX - 30, y: 0, width: 30, height: cell.frame.height))
+        playerNumberLabel.text = "\(rooms![indexPath.row].playerNumber!)/2"
+        cell.addSubview(playerNumberLabel)
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let newVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomVC") as! RoomViewController
-        newVC.roomId = rooms![indexPath.row].roomId
-        newVC.roomName = rooms![indexPath.row].roomName
-        newVC.roomOwner = rooms![indexPath.row].roomOwner
-        self.present(newVC, animated: true, completion: nil)
+        if rooms![indexPath.row].playerNumber < 2{
+            let newVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomVC") as! RoomViewController
+            newVC.roomId = rooms![indexPath.row].roomId
+            newVC.roomName = rooms![indexPath.row].roomName
+            newVC.roomOwner = rooms![indexPath.row].roomOwner
+            self.present(newVC, animated: true, completion: nil)
+        }
     }
 
     @IBOutlet weak var roomList: UITableView!
