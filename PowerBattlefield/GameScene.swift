@@ -179,6 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     s.removeFromParent()
                 }
                 self.cleanUp()
+                Database.database().reference().child(self.roomId).child("gameIsOn").removeAllObservers()
                 self.viewController?.dismiss(animated: true, completion: nil)
                 //self.viewController?.performSegue(withIdentifier: "quit", sender: self.viewController)
             }
