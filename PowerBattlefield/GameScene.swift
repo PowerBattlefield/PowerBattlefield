@@ -291,43 +291,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let newY = abs(y_offset) > Vbound ? oldY : 0.5-y_offset
         scene?.anchorPoint = CGPoint(x: newX!, y: newY!)
         // update control stuff
-        updateControll(player_x: player_x, player_y: player_y, halfWidth: halfWidth, halfHeight: halfHeight)
+        updateControll(anchor_x: newX!, anchor_y: newY!, halfWidth: halfWidth, halfHeight: halfHeight)
     }
-    func updateControll(player_x:CGFloat,player_y:CGFloat,halfWidth:CGFloat,halfHeight:CGFloat) {
+    func updateControll(anchor_x:CGFloat,anchor_y:CGFloat,halfWidth:CGFloat,halfHeight:CGFloat) {
         // attack and direction size are 200*200
         // each arror = 100*50 (x,y)
         //screenHeight 375.0 screenWidth 667.0
-        var attack_x = player_x + screenWidth - 100
-        var attack_y = player_y - screenHeight + 100
-        var direction_x = player_x - screenWidth + 100 + 5
-        var direction_y = player_y - screenHeight + 100 + 5
-        var quit_x = player_x + screenWidth - 50
-        var quit_y = player_y + screenHeight - 50
         
-        let x_offset = attack_x - direction_x
-        let y_offset = attack_y - direction_y
-        let quit_y_offset = quit_y - attack_y
-        // if out of bound
-        if(player_x+screenWidth >= halfWidth) {
-            attack_x = halfWidth - 100
-            quit_x = halfWidth - 50
-            direction_x = attack_x - x_offset
-        }
-        if(player_x-screenWidth <= -halfWidth) {
-            direction_x = -halfWidth + 100 + 5
-            attack_x = direction_x + x_offset
-            quit_x = direction_x + x_offset + 50
-        }
-        if(player_y+screenHeight >= halfHeight) {
-            attack_y = halfHeight - 2*screenHeight + 100
-            quit_y = attack_y + quit_y_offset
-            direction_y = attack_y - y_offset
-        }
-        if(player_y-screenHeight <= -halfHeight) {
-            direction_y = -halfHeight + 100 + 5
-            attack_y = direction_y + y_offset
-            quit_y = attack_y + quit_y_offset
-        }
+        let center_x = (anchor_x-0.5) * (-2 * screenWidth)
+        let center_y = (anchor_y-0.5) * (-2 * screenHeight)
+        
+        
+        let attack_x = center_x + screenWidth - 100
+        let attack_y = center_y - screenHeight + 100
+        let direction_x = center_x - screenWidth + 100 + 5
+        let direction_y = center_y - screenHeight + 100 + 5
+        let quit_x = center_x + screenWidth - 50
+        let quit_y = center_y + screenHeight - 50
+        
         Attack_btn.position = CGPoint(x: attack_x, y: attack_y)
         Up_btn.position = CGPoint(x: direction_x, y: direction_y+50)
         Down_btn.position = CGPoint(x: direction_x, y: direction_y-50)
