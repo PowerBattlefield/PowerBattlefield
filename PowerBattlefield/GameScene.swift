@@ -178,7 +178,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     s.removeAllChildren()
                     s.removeFromParent()
                 }
-                self.cleanUp()
                 self.viewController?.dismiss(animated: true, completion: nil)
                 //self.viewController?.performSegue(withIdentifier: "quit", sender: self.viewController)
             }
