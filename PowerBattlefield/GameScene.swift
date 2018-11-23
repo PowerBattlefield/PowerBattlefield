@@ -148,6 +148,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    override func willMove(from view: SKView) {
+        self.removeAllActions()
+        self.removeAllChildren()
+    }
     
     override func didMove(to view: SKView) {
         if let id = self.userData?.value(forKey: "roomId") {
@@ -162,7 +166,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
             let gameIsOn = snapshot.value as! Bool
             if !gameIsOn{
-                self.viewController?.performSegue(withIdentifier: "quit", sender: self.viewController)
+                if let s = self.view?.scene{
+                    NotificationCenter.default.removeObserver(self)
+                    self.children
+                        .forEach {
+                            $0.removeAllActions()
+                            $0.removeAllChildren()
+                            $0.removeFromParent()
+                    }
+                    s.removeAllActions()
+                    s.removeAllChildren()
+                    s.removeFromParent()
+                }
+                self.cleanUp()
+                self.viewController?.dismiss(animated: true, completion: nil)
+                //self.viewController?.performSegue(withIdentifier: "quit", sender: self.viewController)
             }
         }
         self.physicsWorld.contactDelegate = self
@@ -173,39 +191,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tapRec.numberOfTouchesRequired = 1
         tapRec.numberOfTapsRequired = 2
         self.view!.addGestureRecognizer(tapRec)
-        
+
         /*
          rotateRec.addTarget(self, action: #selector (GameScene.rotatedView (_:) ))
          self.view!.addGestureRecognizer(rotateRec)
-         
+
          */
-        
+
         swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight) )
         swipeRightRec.direction = .right
         self.view!.addGestureRecognizer(swipeRightRec)
-        
+
         swipeLeftRec.addTarget(self, action: #selector(GameScene.swipedLeft) )
         swipeLeftRec.direction = .left
         self.view!.addGestureRecognizer(swipeLeftRec)
-        
-        
+
+
         swipeUpRec.addTarget(self, action: #selector(GameScene.swipedUp) )
         swipeUpRec.direction = .up
         self.view!.addGestureRecognizer(swipeUpRec)
-        
+
         swipeDownRec.addTarget(self, action: #selector(GameScene.swipedDown) )
         swipeDownRec.direction = .down
         self.view!.addGestureRecognizer(swipeDownRec)
-        
+
         // setup camera size
-        
+
         let cameraSize = CGSize(width: CGFloat(screenWidth * 2), height: CGFloat(screenHeight * 2))
         scene?.size = cameraSize
-        
+
         updateCamera()
-        
+
         for node in self.children {
-            
+
             if (node.name == "Building") {
                 if (node is SKSpriteNode) {
                     node.physicsBody?.categoryBitMask = BodyType.building.rawValue
@@ -213,21 +231,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     print ("found a building")
                 }
             }
-            
+
             if let aCastle:Castle = node as? Castle {
                 aCastle.setUpCastle()
                 aCastle.dudesInCastle = 5
             }
-            
+
             if (node.name == "GrassTiles") {
                //let tileMap = node as! SKTileMapNode
-                
+
             }
             if (node.name == "WaterTiles") {
                 let tileMap = node as! SKTileMapNode
                 giveWaterTilePhysicsBody(tileMap: tileMap)
             }
-            
+
             // game control button
             // 改位置 加点击
             if (node.name == "Up_btn") {
@@ -248,7 +266,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if (node.name == "Quit_btn") {
                 Quit_btn = node as! SKSpriteNode
             }
-            
+
         }
         observeOtherPlayerMovements()
     }

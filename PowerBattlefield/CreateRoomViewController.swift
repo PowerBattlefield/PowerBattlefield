@@ -42,7 +42,5 @@ class CreateRoomViewController: UIViewController {
             print(error.localizedDescription)
         }
     }
-    
- 
 
 }

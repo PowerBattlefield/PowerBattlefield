@@ -28,6 +28,17 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 cell.imageView?.image = #imageLiteral(resourceName: "unready")
             }
         }
+        if Auth.auth().currentUser?.uid == roomOwner && Auth.auth().currentUser?.uid != uid{
+            let kick_btn = UIButton(frame: CGRect(x: cell.frame.midX + 30, y: 0, width: 50, height: cell.frame.height))
+            kick_btn.setTitleColor(UIColor.blue, for: .normal)
+            kick_btn.tag = indexPath.row
+            kick_btn.setTitle("kick", for: .normal)
+            kick_btn.addTarget(self, action: #selector(kick), for: .touchUpInside)
+            cell.addSubview(kick_btn)
+        }
+        if Auth.auth().currentUser?.uid == uid{
+            cell.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        }
         return cell
     }
     
@@ -63,13 +74,13 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             room.child("playerIsReady").child(Auth.auth().currentUser!.uid).setValue(false)
         }
         let playerNumber = room.child("playerNumber")
-        playerNumber.observeSingleEvent(of: .value, with: { (snapshot) in
-            self.number = snapshot.value as? Int ?? 0
-            self.number = self.number + 1
-            playerNumber.setValue(self.number)
-        }) { (error) in
-            print(error.localizedDescription)
-        }
+//        playerNumber.observeSingleEvent(of: .value, with: { (snapshot) in
+//            self.number = snapshot.value as? Int ?? 0
+//            self.number = self.number + 1
+//            playerNumber.setValue(self.number)
+//        }) { (error) in
+//            print(error.localizedDescription)
+//        }
         let playerName = Auth.auth().currentUser?.displayName
         let playerID = Auth.auth().currentUser?.uid
         
@@ -80,7 +91,8 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 let player = rest as! DataSnapshot
                 self.players[player.key] = player.value as? String
             }
-            self.appDeleagte.count = self.players.count
+            playerNumber.setValue(self.players.count)
+            self.appDeleagte.players = self.players
             self.playerList.reloadData()
         }
         
@@ -117,8 +129,31 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             self.playerList.reloadData()
         }
         
+        room.child("roomOwner").observe(DataEventType.value){ (snapshot) in
+            self.roomOwner = snapshot.value as? String ?? ""
+            if self.roomOwner == Auth.auth().currentUser?.uid{
+                self.startOrReadyBtn.setTitle("Start", for: .normal)
+            }
+            self.playerList.reloadData()
+        }
+        
+        room.child("kickPlayer").observe(DataEventType.value){ (snapshot) in
+            let uid = snapshot.value as? String ?? ""
+            if uid == Auth.auth().currentUser?.uid{
+                let room = Database.database().reference().child(self.roomId)
+                room.child("playerNumber").setValue(self.players.count-1)
+                room.child("playerNames").child(Auth.auth().currentUser!.uid).removeValue()
+                room.child("playerIsReady").child(Auth.auth().currentUser!.uid).removeValue()
+                room.child("kickPlayer").removeValue()
+                self.appDeleagte.isInRoom = false
+                let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
+                self.present(newVC, animated: true, completion: nil)
+            }
+        }
+        
         //appDeleagte.allowRotation = true
         appDeleagte.roomId = roomId
+        appDeleagte.roomOwner = roomOwner
         appDeleagte.isInRoom = true
     }
         // Do any additional setup after loading the view.
@@ -140,10 +175,18 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     @IBAction func quitRoom(_ sender: Any) {
         let room = Database.database().reference().child(roomId)
+        room.child("playerNames").removeAllObservers()
         room.child("playerNumber").setValue(players.count-1)
         room.child("playerNames").child(Auth.auth().currentUser!.uid).removeValue()
         room.child("playerIsReady").child(Auth.auth().currentUser!.uid).removeValue()
-        room.removeAllObservers()
+        players.remove(at: players.index(forKey: Auth.auth().currentUser!.uid)!)
+        if Auth.auth().currentUser!.uid == roomOwner && players.count >= 1{
+            let random = Int(arc4random_uniform(UInt32(players.count)))
+            let uid = players.keys[players.index(players.startIndex, offsetBy: random)]
+            room.child("roomOwner").setValue(uid)
+        }else if Auth.auth().currentUser!.uid == roomOwner && players.count < 1{
+            room.removeValue()
+        }
         appDeleagte.isInRoom = false
         let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
         self.present(newVC, animated: true, completion: nil)
@@ -180,6 +223,13 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     func shouldAutorotate() -> Bool {
         return false
     }
+    
+    @objc func kick(sender: UIButton){
+        let uid = players.keys[players.index(players.startIndex, offsetBy: sender.tag)]
+        let room = Database.database().reference().child(roomId)
+        room.child("kickPlayer").setValue(uid)
+    }
+    
     /*
     // MARK: - Navigation
 

@@ -48,7 +48,6 @@ class GameViewController: UIViewController {
                 scene.viewController = self
                 scene.userData = NSMutableDictionary()
                 scene.userData?.setValue(roomId, forKey: "roomId")
-                print("playernumber: \(playerNumber)")
                 scene.userData?.setValue(playerNumber, forKey: "playerNumber")
                 // Present the scene
                 view.presentScene(scene)

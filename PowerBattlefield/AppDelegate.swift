@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var roomId:String?
     var count:Int?
     var isInRoom:Bool = false
+    var players:[String:String] = [:]
+    var roomOwner:String?
+    
     override init(){
         FirebaseApp.configure()
     }
@@ -55,11 +58,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         if isInRoom{
             let room = Database.database().reference().child(roomId!)
-            room.child("playerNumber").setValue(count!-1)
+            room.child("playerNames").removeAllObservers()
+            room.child("playerNumber").setValue(players.count-1)
             room.child("playerNames").child(Auth.auth().currentUser!.uid).removeValue()
             room.child("playerIsReady").child(Auth.auth().currentUser!.uid).removeValue()
-            room.child("gameIsOn").setValue(false)
-            room.removeAllObservers()
+            players.remove(at: players.index(forKey: Auth.auth().currentUser!.uid)!)
+            print(Auth.auth().currentUser!.uid)
+            print(roomOwner!)
+            print(players.count)
+            if Auth.auth().currentUser!.uid == roomOwner! && players.count >= 1{
+                let random = Int(arc4random_uniform(UInt32(players.count)))
+                let uid = players.keys[players.index(players.startIndex, offsetBy: random)]
+                room.child("roomOwner").setValue(uid)
+            }else if Auth.auth().currentUser!.uid == roomOwner! && players.count < 1{
+                room.removeValue()
+            }
         }
     }
 
