@@ -164,7 +164,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setDatabaseReference()
         setPlayers()
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
-            let gameIsOn = snapshot.value as! Bool
+            let gameIsOn = snapshot.value as? Bool ?? false
             if !gameIsOn{
                 if let s = self.view?.scene{
                     NotificationCenter.default.removeObserver(self)
@@ -179,7 +179,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     s.removeFromParent()
                 }
                 self.cleanUp()
-                Database.database().reference().child(self.roomId).child("gameIsOn").removeAllObservers()
                 self.viewController?.dismiss(animated: true, completion: nil)
                 //self.viewController?.performSegue(withIdentifier: "quit", sender: self.viewController)
             }
