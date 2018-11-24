@@ -10,6 +10,7 @@ enum BodyType:UInt32{
     case water = 16
     case rock = 32
     case grass = 64
+    case fireball = 128
 }
 
 enum PlayerState:Int{
@@ -57,8 +58,6 @@ class Player: SKSpriteNode{
         setDatabaseReference()
         setPhysicsBody()
         idleDownAnimation()
-        
-        self.zPosition = 1000
         
         if playerLabel == 1{
             damage = 10
@@ -115,7 +114,7 @@ class Player: SKSpriteNode{
     func setPhysicsBody(){
         self.physicsBody?.categoryBitMask = BodyType.player.rawValue
         self.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
-        self.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue | BodyType.water.rawValue
+        self.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue | BodyType.water.rawValue | BodyType.fireball.rawValue
     }
     
     func setDatabaseReference(){

@@ -1,11 +1,3 @@
-//
-//  GameScene.swift
-//  PlayAround
-//
-//  Created by Justin Dike on 1/10/17.
-//  Copyright © 2017 Justin Dike. All rights reserved.
-//
-
 import SpriteKit
 import GameplayKit
 import Firebase
@@ -75,6 +67,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let number = self.userData?.value(forKey: "playerNumber"){
             currentPlayer = number as! Int
         }
+        
+        let bullet = SKSpriteNode(texture: SKTexture(imageNamed: "fireball"), color: SKColor.clear, size: CGSize(width: 100, height: 100))
+        bullet.physicsBody?.affectedByGravity = false
+        bullet.position = CGPoint(x: thePlayer.position.x - 100, y: thePlayer.position.y)
+        addChild(bullet)
+        
         setPlayers()
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
             let gameIsOn = snapshot.value as? Bool ?? false
@@ -124,21 +122,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // game control button
             if (node.name == "Up_btn") {
                 Up_btn = node as! SKSpriteNode
+                Up_btn.zPosition = 1000
             }
             if (node.name == "Down_btn") {
                 Down_btn = node as! SKSpriteNode
+                Down_btn.zPosition = 1000
             }
             if (node.name == "Left_btn") {
                 Left_btn = node as! SKSpriteNode
+                Left_btn.zPosition = 1000
             }
             if (node.name == "Right_btn") {
                 Right_btn = node as! SKSpriteNode
+                Right_btn.zPosition = 1000
             }
             if (node.name == "Attack_btn") {
                 Attack_btn = node as! SKSpriteNode
+                Attack_btn.zPosition = 1000
             }
             if (node.name == "Quit_btn") {
                 Quit_btn = node as! SKSpriteNode
+                Quit_btn.zPosition = 1000
             }
             
         }
@@ -467,12 +471,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
         
-        if (contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.building.rawValue) {
+        if (contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.fireball.rawValue) {
             
-            //print ("touched a building")
-        } else if (contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.building.rawValue) {
+            print ("touched a fireball")
+        } else if (contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.fireball.rawValue) {
             
-            //print ("touched a building")
+            print ("touched a fireball")
             
         } else if (contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.castle.rawValue) {
             
