@@ -60,7 +60,7 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             self.rooms = []
             for rest in snapshot.children.allObjects as! [DataSnapshot]{
                 if rest.key == "number of rooms"{
-                    self.roomNumber = rest.value! as! Int
+                    self.roomNumber = rest.value as? Int
                 }else{
                     let roomId = rest.key
                     var dict : [String:Any] = [:]

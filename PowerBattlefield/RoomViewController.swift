@@ -121,8 +121,8 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         room.child("chatLog").observe(DataEventType.value){ (snapshot) in
             let text = snapshot.value as? String ?? ""
             if text != ""{
-                let name = text.prefix(upTo: text.index(of: ":")!)
-                let chat = text.suffix(from: text.index(of: ":")!)
+                let _ = text.prefix(upTo: text.index(of: ":")!)
+                let _ = text.suffix(from: text.index(of: ":")!)
             }
             
             self.chatDisplay.text.append("\(text)\n")
