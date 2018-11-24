@@ -276,7 +276,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         otherPlayer1.refAttack.observe(DataEventType.value) { (snapshot) in
-            print(snapshot)
+           
             if self.firstObserve{
                 self.firstObserve = false
             }else{
@@ -387,10 +387,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func detectAttacked(attacker: Player, attacked: Player){
-        print(thePlayer.hp)
-        print(attacker.position)
-        print(attacked.position)
-        print(attacker.face)
         if attacker.face == PlayerFace.right {
             if attacker.position.x > attacked.position.x - 105 && attacker.position.x < attacked.position.x && abs(attacker.position.y - attacked.position.y) < 60{
                 print("attacted")
