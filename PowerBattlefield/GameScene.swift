@@ -10,36 +10,16 @@ import SpriteKit
 import GameplayKit
 import Firebase
 
-enum BodyType:UInt32{
-    
-    case player = 1
-    case building = 2
-    case castle = 4
-    case road = 8
-    case water = 16
-    case rock = 32
-    case grass = 64
-    
-    //powers of 2 (so keep multiplying by 2
-    
-}
-
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewController: UIViewController?
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
-    var thePlayer:SKSpriteNode = SKSpriteNode()
-    var otherPlayer1:SKSpriteNode = SKSpriteNode()
+    var thePlayer:Player = Player()
+    var otherPlayer1:Player = Player()
     var theWeapon:SKSpriteNode = SKSpriteNode()
     var moveSpeed:TimeInterval = 1
-    let swipeRightRec = UISwipeGestureRecognizer()
-    let swipeLeftRec = UISwipeGestureRecognizer()
-    let swipeUpRec = UISwipeGestureRecognizer()
-    let swipeDownRec = UISwipeGestureRecognizer()
-    let rotateRec = UIRotationGestureRecognizer()
-    let tapRec = UITapGestureRecognizer()
     var currentPlayer = 1
+    var currentPlayerState = 1
     
     //get room id from room view
     var roomId: String!
@@ -50,8 +30,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var rockTileMap:SKTileMapNode = SKTileMapNode()
     var grassTileMap:SKTileMapNode = SKTileMapNode()
     
-    let uid = Auth.auth().currentUser!.uid
-    
     // game control button
     var Up_btn:SKSpriteNode = SKSpriteNode()
     var Down_btn:SKSpriteNode = SKSpriteNode()
@@ -59,92 +37,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var Right_btn:SKSpriteNode = SKSpriteNode()
     var Attack_btn:SKSpriteNode = SKSpriteNode()
     var Quit_btn:SKSpriteNode = SKSpriteNode()
-
-    
-    //get player connections and set current player
-//    func getPlayerConnectionNumber(){
-//        playerConnections.observeSingleEvent(of: .value, with: { (snapshot) in
-//
-//            let playerConnectionNumber = snapshot.value as? Int ?? 0
-//
-//            self.numberOfPlayers = playerConnectionNumber
-//
-//            self.numberOfPlayers = self.numberOfPlayers + 1;
-//
-//            self.currentPlayer = self.numberOfPlayers
-//
-//            self.playerConnections.setValue(self.numberOfPlayers)
-//
-//            self.setPlayers()
-//        }) { (error) in
-//            print(error.localizedDescription)
-//        }
-//    }
-    
-    var p1Refx: DatabaseReference = Database.database().reference()
-    var p1Refy: DatabaseReference = Database.database().reference()
-    var p1RefMoveRight: DatabaseReference = Database.database().reference()
-    var p1RefMoveLeft: DatabaseReference = Database.database().reference()
-    var p1RefMoveUp: DatabaseReference = Database.database().reference()
-    var p1RefMoveDown: DatabaseReference = Database.database().reference()
-    var p2Refx: DatabaseReference = Database.database().reference()
-    var p2Refy: DatabaseReference = Database.database().reference()
-    var p2RefMoveRight: DatabaseReference = Database.database().reference()
-    var p2RefMoveLeft: DatabaseReference = Database.database().reference()
-    var p2RefMoveUp: DatabaseReference = Database.database().reference()
-    var p2RefMoveDown: DatabaseReference = Database.database().reference()
-    
-    func setDatabaseReference(){
-        p1Refx = Database.database().reference().child(roomId).child("player1").child("position").child("x")
-        p1RefMoveRight = Database.database().reference().child(roomId).child("player1").child("move").child("right")
-        p1RefMoveLeft = Database.database().reference().child(roomId).child("player1").child("move").child("left")
-        p1RefMoveUp = Database.database().reference().child(roomId).child("player1").child("move").child("up")
-        p1RefMoveDown = Database.database().reference().child(roomId).child("player1").child("move").child("down")
-        p2RefMoveRight = Database.database().reference().child(roomId).child("player2").child("move").child("right")
-        p2RefMoveLeft = Database.database().reference().child(roomId).child("player2").child("move").child("left")
-        p2RefMoveUp = Database.database().reference().child(roomId).child("player2").child("move").child("up")
-        p2RefMoveDown = Database.database().reference().child(roomId).child("player2").child("move").child("down")
-        p1Refy = Database.database().reference().child(roomId).child("player1").child("position").child("y")
-        p2Refx = Database.database().reference().child(roomId).child("player2").child("position").child("x")
-        p2Refy = Database.database().reference().child(roomId).child("player2").child("position").child("y")
-    }
     
     func setPlayers(){
         if(currentPlayer == 1){
-            if let somePlayer:SKSpriteNode = self.childNode(withName: "Player1") as? SKSpriteNode {
+            if let somePlayer = self.childNode(withName: "Player1") as? Player {
                 thePlayer = somePlayer
-                thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
-                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue | BodyType.water.rawValue
-                theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
-                
+                thePlayer.initialize(playerLabel: 1, roomId: roomId)
             }
-            if let somePlayer:SKSpriteNode = self.childNode(withName: "Player2") as? SKSpriteNode {
+            if let somePlayer = self.childNode(withName: "Player2") as? Player {
                 otherPlayer1 = somePlayer
-                otherPlayer1.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
-                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue | BodyType.water.rawValue
-                //theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
-                
+                otherPlayer1.initialize(playerLabel: 2, roomId: roomId)
             }
         }else{
-            if let somePlayer:SKSpriteNode = self.childNode(withName: "Player2") as? SKSpriteNode {
+            if let somePlayer = self.childNode(withName: "Player2") as? Player {
                 thePlayer = somePlayer
-                thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                thePlayer.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
-                thePlayer.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue | BodyType.water.rawValue
-                //theWeapon = (thePlayer.childNode(withName: "Sword") as? SKSpriteNode)!
-                
+                thePlayer.initialize(playerLabel: 2, roomId: roomId)
             }
-            if let somePlayer:SKSpriteNode = self.childNode(withName: "Player1") as? SKSpriteNode {
+            if let somePlayer = self.childNode(withName: "Player1") as? Player {
                 otherPlayer1 = somePlayer
-                otherPlayer1.physicsBody?.categoryBitMask = BodyType.player.rawValue
-                otherPlayer1.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
-                otherPlayer1.physicsBody?.contactTestBitMask = BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.player.rawValue | BodyType.water.rawValue
-                theWeapon = (otherPlayer1.childNode(withName: "Sword") as? SKSpriteNode)!
-                
+                otherPlayer1.initialize(playerLabel: 1, roomId: roomId)
             }
-            
         }
     }
     
@@ -155,13 +67,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         if let id = self.userData?.value(forKey: "roomId") {
-            roomId = id as! String
-            print("roomId is :\(roomId)")
+            roomId = (id as! String)
         }
         if let number = self.userData?.value(forKey: "playerNumber"){
             currentPlayer = number as! Int
         }
-        setDatabaseReference()
         setPlayers()
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
             let gameIsOn = snapshot.value as? Bool ?? false
@@ -183,46 +93,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         self.physicsWorld.contactDelegate = self
-
+        
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
-        tapRec.addTarget(self, action:#selector(GameScene.tappedView))
-        tapRec.numberOfTouchesRequired = 1
-        tapRec.numberOfTapsRequired = 2
-        self.view!.addGestureRecognizer(tapRec)
-
-        /*
-         rotateRec.addTarget(self, action: #selector (GameScene.rotatedView (_:) ))
-         self.view!.addGestureRecognizer(rotateRec)
-
-         */
-
-        swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight) )
-        swipeRightRec.direction = .right
-        self.view!.addGestureRecognizer(swipeRightRec)
-
-        swipeLeftRec.addTarget(self, action: #selector(GameScene.swipedLeft) )
-        swipeLeftRec.direction = .left
-        self.view!.addGestureRecognizer(swipeLeftRec)
-
-
-        swipeUpRec.addTarget(self, action: #selector(GameScene.swipedUp) )
-        swipeUpRec.direction = .up
-        self.view!.addGestureRecognizer(swipeUpRec)
-
-        swipeDownRec.addTarget(self, action: #selector(GameScene.swipedDown) )
-        swipeDownRec.direction = .down
-        self.view!.addGestureRecognizer(swipeDownRec)
-
         // setup camera size
-
+        
         let cameraSize = CGSize(width: CGFloat(screenWidth * 2), height: CGFloat(screenHeight * 2))
         scene?.size = cameraSize
-
+        
         updateCamera()
-
+        
         for node in self.children {
-
+            
             if (node.name == "Building") {
                 if (node is SKSpriteNode) {
                     node.physicsBody?.categoryBitMask = BodyType.building.rawValue
@@ -230,23 +112,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     print ("found a building")
                 }
             }
-
+            
             if let aCastle:Castle = node as? Castle {
                 aCastle.setUpCastle()
                 aCastle.dudesInCastle = 5
             }
-
+            
             if (node.name == "GrassTiles") {
-               //let tileMap = node as! SKTileMapNode
-
+                //let tileMap = node as! SKTileMapNode
+                
             }
             if (node.name == "WaterTiles") {
                 let tileMap = node as! SKTileMapNode
                 giveWaterTilePhysicsBody(tileMap: tileMap)
             }
-
+            
             // game control button
-            // 改位置 加点击
             if (node.name == "Up_btn") {
                 Up_btn = node as! SKSpriteNode
             }
@@ -257,7 +138,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 Left_btn = node as! SKSpriteNode
             }
             if (node.name == "Right_btn") {
-               Right_btn = node as! SKSpriteNode
+                Right_btn = node as! SKSpriteNode
             }
             if (node.name == "Attack_btn") {
                 Attack_btn = node as! SKSpriteNode
@@ -265,7 +146,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if (node.name == "Quit_btn") {
                 Quit_btn = node as! SKSpriteNode
             }
-
+            
         }
         observeOtherPlayerMovements()
     }
@@ -283,7 +164,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let Vbound = (halfHeight - screenHeight) / screenHeight * 1/2 // vertical
         let Hbound = (halfWidth - screenWidth) / screenWidth * 1/2 // horizontal
-
+        
         let oldX = scene?.anchorPoint.x
         let oldY = scene?.anchorPoint.y
         // if X or Y out of bound use old value
@@ -327,11 +208,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for row in 0..<tileMap.numberOfRows {
                 let tileDefinition = tileMap.tileDefinition(atColumn: col, row: row)
                 let isEdgeTile = tileDefinition?.userData?["isWater"] as? Bool
-
+                
                 if (isEdgeTile ?? false) {
                     let x = CGFloat(col) * tileSize.width - halfWidth
                     let y = CGFloat(row) * tileSize.height - halfHeight
-                   
+                    
                     // translate detail code here, 1111 means left up, right up, left down, right down has a physis body. 1010 means only left up, left down has body.
                     if var detailCode = tileDefinition?.userData?["detail"] as? Int {
                         let arr = [10,100,1000,10000]
@@ -370,7 +251,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 tileMap.addChild(tileNode)
                             }
                         }
-
+                        
                     }
                 }
             }
@@ -379,163 +260,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func observeOtherPlayerMovements(){
-        p1RefMoveUp.observe(DataEventType.value) { (snapshot) in
-            if self.currentPlayer != 1{
-                self.move(theXAmount: 0, theYAmount: 100, theAnimation: "p1_walkup", player: self.otherPlayer1)
+        otherPlayer1.refMoveUp.observe(DataEventType.value) { (snapshot) in
+            if snapshot.value != nil{
+                self.otherPlayer1.moveUp(otherPlayer: true)
             }
         }
-        p1RefMoveDown.observe(DataEventType.value) { (snapshot) in
-            if self.currentPlayer != 1{
-                self.move(theXAmount: 0, theYAmount: -100, theAnimation: "p1_walkdown", player: self.otherPlayer1)
+        otherPlayer1.refMoveDown.observe(DataEventType.value) { (snapshot) in
+            if snapshot.value != nil{
+                self.otherPlayer1.moveDown(otherPlayer: true)
             }
         }
-        p1RefMoveLeft.observe(DataEventType.value) { (snapshot) in
-            if self.currentPlayer != 1{
-                self.move(theXAmount: -100, theYAmount: 0, theAnimation: "p1_walkleft", player: self.otherPlayer1)
+        otherPlayer1.refMoveLeft.observe(DataEventType.value) { (snapshot) in
+            if snapshot.value != nil{
+                self.otherPlayer1.moveLeft(otherPlayer: true)
             }
         }
-        p1RefMoveRight.observe(DataEventType.value) { (snapshot) in
-            if self.currentPlayer != 1{
-                self.move(theXAmount: 100, theYAmount: 0, theAnimation: "p1_walkright", player: self.otherPlayer1)
-            }
-        }
-        
-        p2RefMoveUp.observe(DataEventType.value) { (snapshot) in
-            if self.currentPlayer != 2{
-                self.move(theXAmount: 0, theYAmount: 100, theAnimation: "p2_walkup", player: self.otherPlayer1)
-            }
-        }
-        p2RefMoveDown.observe(DataEventType.value) { (snapshot) in
-            if self.currentPlayer != 2{
-                self.move(theXAmount: 0, theYAmount: -100, theAnimation: "p2_walkdown", player: self.otherPlayer1)
-            }
-        }
-        p2RefMoveLeft.observe(DataEventType.value) { (snapshot) in
-            if self.currentPlayer != 2{
-                self.move(theXAmount: -100, theYAmount: 0, theAnimation: "p2_walkleft", player: self.otherPlayer1)
-            }
-        }
-        p2RefMoveRight.observe(DataEventType.value) { (snapshot) in
-            if self.currentPlayer != 2{
-                self.move(theXAmount: 100, theYAmount: 0, theAnimation: "p2_walkright", player: self.otherPlayer1)
+        otherPlayer1.refMoveRight.observe(DataEventType.value) { (snapshot) in
+            if snapshot.value != nil{
+                self.otherPlayer1.moveRight(otherPlayer: true)
             }
         }
     }
-    
-    
-    //MARK: ============= Gesture Recognizers
-    
-    @objc func tappedView() {
-        
-        thePlayer.run(SKAction(named: "p\(currentPlayer)_attackdown")!)
-        if(currentPlayer == 1){
-            theWeapon.run(SKAction(named: "sword_attackdown")!)
-        }
-    }
-    
-    var moveAmount = 0
-    @objc func swipedRight() {
-        moveAmount += 1
-        if currentPlayer == 1{
-            
-            p1RefMoveRight.setValue("\(moveAmount)")
-        }else if currentPlayer == 2{
-            
-            p2RefMoveRight.setValue("\(moveAmount)")
-        }
-        
-        move(theXAmount: 100, theYAmount: 0, theAnimation: "p\(currentPlayer)_walkright", player: thePlayer)
-    }
-    
-    @objc func swipedLeft() {
-        moveAmount += 1
-        if currentPlayer == 1{
-            
-            p1RefMoveLeft.setValue("\(moveAmount)")
-        }else if currentPlayer == 2{
-            
-            p2RefMoveLeft.setValue("\(moveAmount)")
-        }
-        
-        move(theXAmount: -100, theYAmount: 0, theAnimation: "p\(currentPlayer)_walkleft", player: thePlayer)
-    }
-    
-    @objc func swipedUp() {
-        moveAmount += 1
-        if currentPlayer == 1{
-            
-            p1RefMoveUp.setValue("\(moveAmount)")
-        }else if currentPlayer == 2{
-            
-            p2RefMoveUp.setValue("\(moveAmount)")
-        }
-        
-        move(theXAmount: 0, theYAmount: 100, theAnimation: "p\(currentPlayer)_walkup", player: thePlayer)
-    }
-    
-    @objc func swipedDown() {
-        moveAmount += 1
-        if currentPlayer == 1{
-            
-            p1RefMoveDown.setValue("\(moveAmount)")
-        }else if currentPlayer == 2{
-            
-            p2RefMoveDown.setValue("\(moveAmount)")
-        }
-        
-        move(theXAmount: 0, theYAmount: -100, theAnimation: "p\(currentPlayer)_walkdown", player: thePlayer)
-        
-        
-    }
-    
-    
-    
-    
-    
-    func cleanUp(){
-        
-        //only need to call when presenting a different scene class
-        
-        for gesture in (self.view?.gestureRecognizers)! {
-            
-            self.view?.removeGestureRecognizer(gesture)
-        }
-        
-        
-    }
-    
-    
-    
-    func rotatedView(_ sender:UIRotationGestureRecognizer) {
-        
-        if (sender.state == .began) {
-            
-            print("rotation began")
-            
-        }
-        if (sender.state == .changed) {
-            
-            print("rotation changed")
-            
-            //print(sender.rotation)
-            
-            let rotateAmount = Measurement(value: Double(sender.rotation), unit: UnitAngle.radians).converted(to: .degrees).value
-            print(rotateAmount)
-            
-            thePlayer.zRotation = -sender.rotation
-            
-        }
-        if (sender.state == .ended) {
-            
-            print("rotation ended")
-            
-            
-        }
-        
-        
-    }
-    
-    
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
@@ -553,42 +298,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     node.zPosition = 100
                     
                 }
-                
-                
             }
         }
-        
-        
-        
     }
-    
-    
-    func move(theXAmount:CGFloat , theYAmount:CGFloat, theAnimation:String, player: SKSpriteNode)  {
-        
-        
-        let wait:SKAction = SKAction.wait(forDuration: 0.05)
-        
-        let walkAnimation:SKAction = SKAction(named: theAnimation, duration: moveSpeed )!
-        
-        let moveAction:SKAction = SKAction.moveBy(x: theXAmount, y: theYAmount, duration: moveSpeed )
-        
-        let group:SKAction = SKAction.group( [ walkAnimation, moveAction ] )
-        
-        let finish:SKAction = SKAction.run {
-            
-            //print ( "Finish")
-            
-            
-        }
-        
-        
-        let seq:SKAction = SKAction.sequence( [wait, group, finish] )
-        
-        
-        player.run(seq)
-        
-    }
-    
     
     func touchDown(atPoint pos : CGPoint) {
         
@@ -623,19 +335,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = t.location(in: self)
             let node = self.atPoint(location)
             if (node.name == "Attack_btn") {
-                tappedView()
+                thePlayer.attack()
             }
             if (node.name == "Up_btn") {
-                swipedUp()
+                thePlayer.moveUp(otherPlayer: false)
             }
             if (node.name == "Down_btn") {
-                swipedDown()
+                thePlayer.moveDown(otherPlayer: false)
             }
             if (node.name == "Left_btn") {
-                swipedLeft()
+                thePlayer.moveLeft(otherPlayer: false)
             }
             if (node.name == "Right_btn") {
-                swipedRight()
+                thePlayer.moveRight(otherPlayer: false)
             }
             if (node.name == "Quit_btn"){
                 Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
@@ -670,8 +382,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             print ("touched a building")
             
-            
-            
         } else if (contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.castle.rawValue) {
             
             print ("touched a castle")
@@ -682,14 +392,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             print ("touched a player")
         }
-        
-        
     }
-    
-    
-    
-    
 }
-
-
-
