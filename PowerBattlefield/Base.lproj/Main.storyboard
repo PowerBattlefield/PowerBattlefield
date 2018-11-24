@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ljd-dg-mgb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ljd-dg-mgb">
     <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -96,7 +96,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gGX-Il-xB8">
-                                                    <rect key="frame" x="15" y="12" width="42" height="21"/>
+                                                    <rect key="frame" x="15" y="11.5" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -302,8 +302,48 @@
             </objects>
             <point key="canvasLocation" x="3329" y="54"/>
         </scene>
+        <!--End View Controller-->
+        <scene sceneID="mL7-cU-oxm">
+            <objects>
+                <viewController storyboardIdentifier="EndVC" id="jcF-WB-ERa" customClass="EndViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3w8-Tc-iXV">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-1n-Gh2">
+                                <rect key="frame" x="0.0" y="46" width="667" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sVM-O0-NKF">
+                                <rect key="frame" x="284.5" y="172.5" width="98" height="30"/>
+                                <state key="normal" title="Back to Lobby"/>
+                                <connections>
+                                    <segue destination="IRI-8X-yDk" kind="show" identifier="show" id="1pP-GE-rBN"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="sVM-O0-NKF" firstAttribute="centerX" secondItem="XiZ-bs-ReS" secondAttribute="centerX" id="B6c-0g-VOi"/>
+                            <constraint firstItem="sVM-O0-NKF" firstAttribute="centerY" secondItem="XiZ-bs-ReS" secondAttribute="centerY" id="Y8Z-Z0-tmz"/>
+                            <constraint firstItem="3f9-1n-Gh2" firstAttribute="centerX" secondItem="XiZ-bs-ReS" secondAttribute="centerX" id="YlZ-uS-YhK"/>
+                            <constraint firstItem="3f9-1n-Gh2" firstAttribute="width" secondItem="3w8-Tc-iXV" secondAttribute="width" id="gLe-Ef-JvX"/>
+                            <constraint firstItem="3f9-1n-Gh2" firstAttribute="top" secondItem="XiZ-bs-ReS" secondAttribute="top" constant="46" id="qGa-9T-FBh"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="XiZ-bs-ReS"/>
+                    </view>
+                    <connections>
+                        <outlet property="displayLabel" destination="3f9-1n-Gh2" id="VJL-6z-d5x"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a7S-bw-WrN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2541" y="990"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ODp-G6-Z5j"/>
+        <segue reference="1pP-GE-rBN"/>
     </inferredMetricsTieBreakers>
 </document>

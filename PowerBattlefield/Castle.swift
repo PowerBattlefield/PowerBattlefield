@@ -18,8 +18,6 @@ class Castle: SKSpriteNode {
         self.physicsBody?.categoryBitMask = BodyType.castle.rawValue
         self.physicsBody?.collisionBitMask =  BodyType.player.rawValue
 
-        //Test
-        print ( "Setup Castle")
     }
     
     

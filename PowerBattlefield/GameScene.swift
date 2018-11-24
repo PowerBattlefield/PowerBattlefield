@@ -24,6 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //get room id from room view
     var roomId: String!
     
+    var gameEnd = false
     
     //tile map
     var waterTileMap:SKTileMapNode = SKTileMapNode()
@@ -43,6 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let somePlayer = self.childNode(withName: "Player1") as? Player {
                 thePlayer = somePlayer
                 thePlayer.initialize(playerLabel: 1, roomId: roomId)
+                Database.database().reference().child(roomId).child(Auth.auth().currentUser!.uid).setValue(1)
             }
             if let somePlayer = self.childNode(withName: "Player2") as? Player {
                 otherPlayer1 = somePlayer
@@ -52,6 +54,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let somePlayer = self.childNode(withName: "Player2") as? Player {
                 thePlayer = somePlayer
                 thePlayer.initialize(playerLabel: 2, roomId: roomId)
+                Database.database().reference().child(roomId).child(Auth.auth().currentUser!.uid).setValue(2)
             }
             if let somePlayer = self.childNode(withName: "Player1") as? Player {
                 otherPlayer1 = somePlayer
@@ -76,19 +79,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
             let gameIsOn = snapshot.value as? Bool ?? false
             if !gameIsOn{
-                if let s = self.view?.scene{
-                    NotificationCenter.default.removeObserver(self)
-                    self.children
-                        .forEach {
-                            $0.removeAllActions()
-                            $0.removeAllChildren()
-                            $0.removeFromParent()
-                    }
-                    s.removeAllActions()
-                    s.removeAllChildren()
-                    s.removeFromParent()
-                }
-                self.viewController?.dismiss(animated: true, completion: nil)
+                self.removeAllActions()
+                self.removeAllChildren()
+                self.removeFromParent()
+                self.view?.presentScene(nil)
+                self.viewController?.dismiss(animated: false, completion: nil)
                 //self.viewController?.performSegue(withIdentifier: "quit", sender: self.viewController)
             }
         }
@@ -109,7 +104,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (node is SKSpriteNode) {
                     node.physicsBody?.categoryBitMask = BodyType.building.rawValue
                     node.physicsBody?.collisionBitMask = 0
-                    print ("found a building")
                 }
             }
             
@@ -259,32 +253,97 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.waterTileMap = tileMap
     }
     
+    var firstObserve = true
     func observeOtherPlayerMovements(){
         otherPlayer1.refMoveUp.observe(DataEventType.value) { (snapshot) in
-            if snapshot.value != nil{
+            if !self.firstObserve{
                 self.otherPlayer1.moveUp(otherPlayer: true)
             }
         }
         otherPlayer1.refMoveDown.observe(DataEventType.value) { (snapshot) in
-            if snapshot.value != nil{
+            if !self.firstObserve{
                 self.otherPlayer1.moveDown(otherPlayer: true)
             }
         }
         otherPlayer1.refMoveLeft.observe(DataEventType.value) { (snapshot) in
-            if snapshot.value != nil{
+            if !self.firstObserve{
                 self.otherPlayer1.moveLeft(otherPlayer: true)
             }
         }
         otherPlayer1.refMoveRight.observe(DataEventType.value) { (snapshot) in
-            if snapshot.value != nil{
+            if !self.firstObserve{
                 self.otherPlayer1.moveRight(otherPlayer: true)
+            }
+        }
+        otherPlayer1.refAttack.observe(DataEventType.value) { (snapshot) in
+            print(snapshot)
+            if self.firstObserve{
+                self.firstObserve = false
+            }else{
+                self.otherPlayer1.attack(otherPlayer: true)
+                self.detectAttacked(attacker:self.otherPlayer1, attacked: self.thePlayer)
             }
         }
     }
     
+    let winner = SKLabelNode(fontNamed: "Chalkduster")
+    func endGame(currentTime: TimeInterval){
+        gameEnd = true
+        if endTime == TimeInterval(0){
+            endTime = currentTime
+        }
+        
+        let timeRemain = 11 - Int((currentTime - endTime).truncatingRemainder(dividingBy: 11))
+        
+        winner.name = "winner"
+        winner.fontSize = 65
+        winner.fontColor = SKColor.green
+        winner.position = CGPoint(x: frame.midX, y: frame.midY + 200)
+        if(thePlayer.hp <= 0){
+            winner.text = "You Lose! Game ends in \(timeRemain - 1) seconds."
+        }else{
+            winner.text = "You Win! Game ends in \(timeRemain - 1) seconds."
+        }
+        if winner.parent == nil{
+            addChild(winner)
+        }else{
+            winner.removeFromParent()
+            addChild(winner)
+        }
+        
+        if timeRemain == 1{
+            if(thePlayer.hp <= 0){
+                Database.database().reference().child(roomId).child("winner").setValue(otherPlayer1.playerLabel)
+                Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
+            }else{
+                Database.database().reference().child(roomId).child("winner").setValue(thePlayer.playerLabel)
+                Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
+            }
+        }
+        
+    }
+    
+    var deadAniFlag = false
+    var endTime = TimeInterval(0)
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         updateCamera()
+        thePlayer.update(otherPlayer1Pos: otherPlayer1.position)
+        if(thePlayer.hp <= 0){
+            if !deadAniFlag{
+                thePlayer.deadAnimation()
+                deadAniFlag = true
+            }
+            endGame(currentTime: currentTime)
+        }
+        if(otherPlayer1.hp <= 0){
+            if !deadAniFlag{
+                otherPlayer1.deadAnimation()
+                deadAniFlag = true
+            }
+            endGame(currentTime: currentTime)
+        }
+        
         for node in self.children {
             
             if (node.name == "Building") {
@@ -327,33 +386,70 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func detectAttacked(attacker: Player, attacked: Player){
+        print(thePlayer.hp)
+        print(attacker.position)
+        print(attacked.position)
+        print(attacker.face)
+        if attacker.face == PlayerFace.right {
+            if attacker.position.x > attacked.position.x - 105 && attacker.position.x < attacked.position.x && abs(attacker.position.y - attacked.position.y) < 60{
+                print("attacted")
+                attacked.hp -= attacker.damage
+            }
+            
+        }else if attacker.face == PlayerFace.left {
+            if attacker.position.x < attacked.position.x + 105 && attacker.position.x > attacked.position.x && abs(attacker.position.y - attacked.position.y) < 60{
+                print("attacted")
+                attacked.hp -= attacker.damage
+            }
+            
+        }else if attacker.face == PlayerFace.up {
+            
+            if attacker.position.y > attacked.position.y - 100 && attacker.position.y < attacked.position.y && abs(attacker.position.x - attacked.position.x) < 50{
+                print("attacted")
+                attacked.hp -= attacker.damage
+            }
+            
+        }else if attacker.face == PlayerFace.down {
+            
+            if attacker.position.y < attacked.position.y + 100 && attacker.position.y > attacked.position.y && abs(attacker.position.x - attacked.position.x) < 50{
+                print("attacted")
+                attacked.hp -= attacker.damage
+            }
+            
+        }
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches {
-            
-            self.touchDown(atPoint: t.location(in: self))
-            
-            let location = t.location(in: self)
-            let node = self.atPoint(location)
-            if (node.name == "Attack_btn") {
-                thePlayer.attack()
+        
+        if(!gameEnd){
+            for t in touches {
+                
+                self.touchDown(atPoint: t.location(in: self))
+                
+                let location = t.location(in: self)
+                let node = self.atPoint(location)
+                if (node.name == "Attack_btn") {
+                    thePlayer.attack(otherPlayer: false)
+                    detectAttacked(attacker: thePlayer, attacked: otherPlayer1)
+                }
+                if (node.name == "Up_btn") {
+                    thePlayer.moveUp(otherPlayer: false)
+                }
+                if (node.name == "Down_btn") {
+                    thePlayer.moveDown(otherPlayer: false)
+                }
+                if (node.name == "Left_btn") {
+                    thePlayer.moveLeft(otherPlayer: false)
+                }
+                if (node.name == "Right_btn") {
+                    thePlayer.moveRight(otherPlayer: false)
+                }
+                if (node.name == "Quit_btn"){
+                    Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
+                }
+                break
             }
-            if (node.name == "Up_btn") {
-                thePlayer.moveUp(otherPlayer: false)
-            }
-            if (node.name == "Down_btn") {
-                thePlayer.moveDown(otherPlayer: false)
-            }
-            if (node.name == "Left_btn") {
-                thePlayer.moveLeft(otherPlayer: false)
-            }
-            if (node.name == "Right_btn") {
-                thePlayer.moveRight(otherPlayer: false)
-            }
-            if (node.name == "Quit_btn"){
-                Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
-            }
-            break
-            
         }
         
     }
@@ -377,20 +473,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if (contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.building.rawValue) {
             
-            print ("touched a building")
+            //print ("touched a building")
         } else if (contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.building.rawValue) {
             
-            print ("touched a building")
+            //print ("touched a building")
             
         } else if (contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.castle.rawValue) {
             
-            print ("touched a castle")
+            //print ("touched a castle")
         } else if (contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.castle.rawValue) {
             
-            print ("touched a castle")
+            //print ("touched a castle")
         }else if (contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.player.rawValue) {
             
-            print ("touched a player")
+            //print ("touched a player")
         }
     }
 }

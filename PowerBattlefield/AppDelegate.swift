@@ -63,9 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             room.child("playerNames").child(Auth.auth().currentUser!.uid).removeValue()
             room.child("playerIsReady").child(Auth.auth().currentUser!.uid).removeValue()
             players.remove(at: players.index(forKey: Auth.auth().currentUser!.uid)!)
-            print(Auth.auth().currentUser!.uid)
-            print(roomOwner!)
-            print(players.count)
             if Auth.auth().currentUser!.uid == roomOwner! && players.count >= 1{
                 let random = Int(arc4random_uniform(UInt32(players.count)))
                 let uid = players.keys[players.index(players.startIndex, offsetBy: random)]

@@ -56,9 +56,31 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var players:[String:String] = [:]
     let appDeleagte = UIApplication.shared.delegate as! AppDelegate
     var playerIsReady:[String:Bool] = [:]
+
+    func gameEnds(){
+        Database.database().reference().child(roomId).child("winner").observe(DataEventType.value) { (snapshot) in
+            if let winnerLabel = snapshot.value as? Int{
+                Database.database().reference().child(self.roomId).child(Auth.auth().currentUser!.uid).observe(DataEventType.value){ (snapshot) in
+                    if let playerLabel = snapshot.value as? Int{
+                        self.appDeleagte.isInRoom = false
+                        if winnerLabel == playerLabel{
+                            let newVC = self.storyboard?.instantiateViewController(withIdentifier: "EndVC") as! EndViewController
+                            newVC.displayText = "Congratulations! You win the game!"
+                            self.present(newVC, animated: false, completion: nil)
+                        }else{
+                            let newVC = self.storyboard?.instantiateViewController(withIdentifier: "EndVC") as! EndViewController
+                            newVC.displayText = "You lose!"
+                            self.present(newVC, animated: false, completion: nil)
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        gameEnds()
         chatDisplay.isEditable = false
         playerList.delegate = self
         playerList.dataSource = self
@@ -101,7 +123,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             if text != ""{
                 let name = text.prefix(upTo: text.index(of: ":")!)
                 let chat = text.suffix(from: text.index(of: ":")!)
-                print("\(name) \(chat)")
             }
             
             self.chatDisplay.text.append("\(text)\n")
@@ -201,7 +222,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 for rest in snapshot.children{
                     let data = rest as! DataSnapshot
                     let isReady = data.value as! Bool
-                    print(isReady)
                     if !isReady{
                         allIsReady = false
                         break

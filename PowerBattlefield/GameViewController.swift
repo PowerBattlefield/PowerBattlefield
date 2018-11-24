@@ -27,7 +27,6 @@ class GameViewController: UIViewController {
                 let player = rest as! DataSnapshot
                 if Auth.auth().currentUser?.uid == player.key{
                     self.playerNumber = number
-                    print(number)
                     break
                 }
                 number += 1
@@ -62,7 +61,6 @@ class GameViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("123")
     }
 
     override var shouldAutorotate: Bool {

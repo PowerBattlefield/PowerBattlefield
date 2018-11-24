@@ -22,6 +22,7 @@
 		FB2F9DEF219FCFAE0068A8AC /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */; };
 		FB2F9DF1219FF2A30068A8AC /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */; };
 		FB6338E721A8CEBF005447FB /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6338E621A8CEBF005447FB /* Player.swift */; };
+		FBA65C7B21A941C600C5890D /* EndViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA65C7A21A941C600C5890D /* EndViewController.swift */; };
 		FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */; };
 		FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */; };
 		FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */; };
@@ -46,6 +47,7 @@
 		FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyViewController.swift; sourceTree = "<group>"; };
 		FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		FB6338E621A8CEBF005447FB /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		FBA65C7A21A941C600C5890D /* EndViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndViewController.swift; sourceTree = "<group>"; };
 		FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PowerBattlefield.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBD2AEEB218FAA0A00B49DC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -108,6 +110,8 @@
 				FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */,
 				FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */,
 				FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */,
+				689DF047218FBC0B0059CFFE /* GameViewController.swift */,
+				FBA65C7A21A941C600C5890D /* EndViewController.swift */,
 				689DF046218FBC0A0059CFFE /* GameScene.swift */,
 				FB6338E621A8CEBF005447FB /* Player.swift */,
 				689DF03C218FB70A0059CFFE /* Castle.swift */,
@@ -115,7 +119,6 @@
 				689DF04C218FBCD20059CFFE /* Actions.sks */,
 				689DF04B218FBCD20059CFFE /* Assets.xcassets */,
 				FBD2AEF8218FBDC800B49DC6 /* GoogleService-Info.plist */,
-				689DF047218FBC0B0059CFFE /* GameViewController.swift */,
 				689DF039218FB7090059CFFE /* MyTileSet.sks */,
 				2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */,
 				FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */,
@@ -280,6 +283,7 @@
 				FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */,
 				FB6338E721A8CEBF005447FB /* Player.swift in Sources */,
 				686AD30621A138AA0012C3D5 /* roomAPI.swift in Sources */,
+				FBA65C7B21A941C600C5890D /* EndViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

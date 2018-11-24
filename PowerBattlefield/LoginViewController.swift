@@ -31,7 +31,6 @@ class LoginViewController: UIViewController {
         }else{
             uid = ""
         }
-        print(uid)
         
         //if logged in user, go to lobby view
         if(uid.count > 0){
