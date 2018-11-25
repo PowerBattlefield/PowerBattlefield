@@ -79,7 +79,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         playerList.delegate = self
         playerList.dataSource = self
         roomNameLabel.text = roomName
-        self.view.bringSubviewToFront(roomNameLabel)
+        self.view.bringSubview(toFront: roomNameLabel)
         let room = Database.database().reference().child(roomId)
         room.child("gameIsOn").setValue(false)
         if Auth.auth().currentUser?.uid == roomOwner{

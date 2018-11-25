@@ -36,6 +36,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var Quit_btn:SKSpriteNode = SKSpriteNode()
     var Skill_btn:SKSpriteNode = SKSpriteNode()
     
+    //Health bar
+    let playerHealthBar = SKSpriteNode()
+    let MaxHealth:CGFloat = 1000
+    
     func setPlayers(){
         if(currentPlayer == 1){
             if let somePlayer = self.childNode(withName: "Player1") as? Player {
@@ -110,6 +114,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         updateCamera()
         
+        //setup health bar
+        addChild(playerHealthBar)
+        updateHealthBar(value: MaxHealth)
+        
         for node in self.children {
             
             if (node.name == "Building") {
@@ -165,6 +173,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         observeOtherPlayerMovements()
+    }
+    func updateHealthBar(value:CGFloat) {
+        var hp = value
+        if (hp>1000) {
+            hp = 1000
+        } else if (hp<0) {
+            hp = 0
+        }
+        let barSize = CGSize(width: 100, height: 8);
+        let fillColor = UIColor(red: 113.0/255, green: 202.0/255, blue: 53.0/255, alpha:1)
+        let borderColor = UIColor(red: 35.0/255, green: 28.0/255, blue: 40.0/255, alpha:1)
+        // create drawing context
+        UIGraphicsBeginImageContextWithOptions(barSize, false, 0)
+        let context = UIGraphicsGetCurrentContext()
+        // draw the outline for the health bar
+        borderColor.setStroke()
+        let borderRect = CGRect(origin: CGPoint(x: 0, y: 0), size: barSize)
+        context!.stroke(borderRect, width: 1)
+        // draw the health bar with a colored rectangle
+        fillColor.setFill()
+        let barWidth = (barSize.width - 1) * CGFloat(hp) / CGFloat(MaxHealth)
+        let barRect = CGRect(x: 0.5, y: 0.5, width: barWidth, height: barSize.height - 1)
+        context!.fill(barRect)
+        // extract image
+        let spriteImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        // set sprite texture and size
+        playerHealthBar.texture = SKTexture(image: spriteImage!)
+        playerHealthBar.size = barSize
+        playerHealthBar.position = CGPoint(x: thePlayer.position.x-5, y: thePlayer.position.y+30)
     }
     func updateCamera() {
         //normal
@@ -461,7 +499,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         updateCamera()
-        
+        updateHealthBar(value: CGFloat(thePlayer.hp))
         if currentPlayer == 1{
             if !enemyStateSet{
                 var i = 1
