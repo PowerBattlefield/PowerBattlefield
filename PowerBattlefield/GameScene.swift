@@ -301,8 +301,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if !self.firstObserve{
                 if let hp = snapshot.value as? Int{
                     if self.thePlayer.playerLabel == 1{
+                        print("set 1 self hp:\(hp)")
                         self.thePlayer.hp = hp
                     }else{
+                        print("set 1 other hp:\(hp)")
                         self.otherPlayer1.hp = hp
                     }
                 }
@@ -313,9 +315,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if !self.firstObserve{
                 if let hp = snapshot.value as? Int{
                     if self.thePlayer.playerLabel == 2{
+                        print("set 2 self hp:\(hp)")
                         self.thePlayer.hp = hp
                     }else{
-                        print("get hp:\(hp)")
+                        print("set 2 other hp:\(hp)")
                         self.otherPlayer1.hp = hp
                     }
                 }
