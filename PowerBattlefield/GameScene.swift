@@ -461,8 +461,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if !enemyStateSet{
                     enemyStateSet = true
                     enemySTateSetTime = currentTime
-                    let state = Int.random(in: 1..<4)
-                    let face = Int.random(in: 1..<5)
+                    //let state = Int.random(in: 1..<4)
+                    let state = Int(arc4random_uniform(3)) + 1
+                    //let face = Int.random(in: 1..<5)
+                    let face = Int(arc4random_uniform(4)) + 1
                     enemy.update(state: state, face: face)
                 }else{
                     if Int(time - enemySTateSetTime) >= updateEnemyStateTime{
