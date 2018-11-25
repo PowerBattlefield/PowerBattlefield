@@ -22,7 +22,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if uid == roomOwner{
             cell.imageView?.image = #imageLiteral(resourceName: "room_owner")
         }else {
-            if playerIsReady[uid]!{
+            if playerIsReady[uid] != nil && playerIsReady[uid]!{
                 cell.imageView?.image = #imageLiteral(resourceName: "ready")
             }else{
                 cell.imageView?.image = #imageLiteral(resourceName: "unready")

@@ -21,7 +21,7 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         appDeleagte.allowRotation = true
         super.viewDidLoad()
-        var number = 2
+        var number = 1
         Database.database().reference().child(roomId).child("playerNames").observe(DataEventType.value){ (snapshot) in
             for rest in snapshot.children{
                 let player = rest as! DataSnapshot
@@ -43,7 +43,7 @@ class GameViewController: UIViewController {
                 // Set the scale mode to scale to fit the window
                 //scene.size
                 scene.size = CGSize(width: CGFloat(screenHeight), height: CGFloat(screenWidth))
-                scene.scaleMode = .aspectFit
+                scene.scaleMode = SKSceneScaleMode.resizeFill
                 scene.viewController = self
                 scene.userData = NSMutableDictionary()
                 scene.userData?.setValue(roomId, forKey: "roomId")

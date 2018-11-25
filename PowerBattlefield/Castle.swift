@@ -16,7 +16,7 @@ class Castle: SKSpriteNode {
     func setUpCastle() {
         
         self.physicsBody?.categoryBitMask = BodyType.castle.rawValue
-        self.physicsBody?.collisionBitMask =  BodyType.player.rawValue
+        self.physicsBody?.collisionBitMask =  BodyType.player1.rawValue
 
     }
     

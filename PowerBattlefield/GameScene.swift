@@ -12,6 +12,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var moveSpeed:TimeInterval = 1
     var currentPlayer = 1
     var currentPlayerState = 1
+    var time = TimeInterval(0)
     
     //get room id from room view
     var roomId: String!
@@ -67,11 +68,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let number = self.userData?.value(forKey: "playerNumber"){
             currentPlayer = number as! Int
         }
-        
-        let bullet = SKSpriteNode(texture: SKTexture(imageNamed: "fireball"), color: SKColor.clear, size: CGSize(width: 100, height: 100))
-        bullet.physicsBody?.affectedByGravity = false
-        bullet.position = CGPoint(x: thePlayer.position.x - 100, y: thePlayer.position.y)
-        addChild(bullet)
         
         setPlayers()
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
@@ -244,7 +240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 let helfSize = CGSize(width: tileSize.width/2, height: tileSize.height/2)
                                 tileNode.physicsBody = SKPhysicsBody.init(rectangleOf: helfSize, center: CGPoint(x: tileSize.width / 4.0, y: tileSize.height / 4.0))
                                 tileNode.physicsBody?.isDynamic = false
-                                tileNode.physicsBody?.collisionBitMask = BodyType.player.rawValue
+                                tileNode.physicsBody?.collisionBitMask = BodyType.player1.rawValue | BodyType.player2.rawValue
                                 tileNode.physicsBody?.categoryBitMask = BodyType.water.rawValue
                                 tileMap.addChild(tileNode)
                             }
@@ -279,15 +275,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.otherPlayer1.moveRight(otherPlayer: true)
             }
         }
+       Database.database().reference().child(roomId).child("player1").child("hp").observe(DataEventType.value) { (snapshot) in
+            if !self.firstObserve{
+                if let hp = snapshot.value as? Int{
+                    if self.thePlayer.playerLabel == 1{
+                        self.thePlayer.hp = hp
+                    }else{
+                        self.otherPlayer1.hp = hp
+                    }
+                }
+            }
+        }
+        
+        Database.database().reference().child(roomId).child("player2").child("hp").observe(DataEventType.value) { (snapshot) in
+            if !self.firstObserve{
+                if let hp = snapshot.value as? Int{
+                    if self.thePlayer.playerLabel == 2{
+                        self.thePlayer.hp = hp
+                    }else{
+                        self.otherPlayer1.hp = hp
+                    }
+                }
+            }
+        }
+        
+        otherPlayer1.refPos.observe(DataEventType.value) { (snapshot) in
+            if !self.firstObserve{
+                var x = 0
+                var y = 0
+                for rest in snapshot.children.allObjects as! [DataSnapshot]{
+                    if rest.key == "x"{
+                        x = (rest.value as! NSNumber).intValue
+                    }else{
+                        y = (rest.value as! NSNumber).intValue
+                    }
+                }
+                
+                self.otherPlayer1.position = CGPoint(x: x, y: y)
+            }
+        }
+        
         otherPlayer1.refAttack.observe(DataEventType.value) { (snapshot) in
            
             if self.firstObserve{
                 self.firstObserve = false
             }else{
                 self.otherPlayer1.attack(otherPlayer: true)
-                self.detectAttacked(attacker:self.otherPlayer1, attacked: self.thePlayer)
+                if self.otherPlayer1.playerLabel == 1{
+                    self.detectAttacked(attacker:self.otherPlayer1, attacked: self.thePlayer)
+                }
             }
         }
+        
     }
     
     let winner = SKLabelNode(fontNamed: "Chalkduster")
@@ -332,7 +371,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         updateCamera()
-        thePlayer.update(otherPlayer1Pos: otherPlayer1.position)
+        time = currentTime
+        thePlayer.time = currentTime
+        
         if(thePlayer.hp <= 0){
             if !deadAniFlag{
                 thePlayer.deadAnimation()
@@ -394,32 +435,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if attacker.face == PlayerFace.right {
             if attacker.position.x > attacked.position.x - 105 && attacker.position.x < attacked.position.x && abs(attacker.position.y - attacked.position.y) < 60{
                 print("attacted")
-                attacked.hp -= attacker.damage
+                attacked.damaged(damage: attacker.damage)
             }
             
         }else if attacker.face == PlayerFace.left {
             if attacker.position.x < attacked.position.x + 105 && attacker.position.x > attacked.position.x && abs(attacker.position.y - attacked.position.y) < 60{
                 print("attacted")
-                attacked.hp -= attacker.damage
+                attacked.damaged(damage: attacker.damage)
             }
             
         }else if attacker.face == PlayerFace.up {
             
             if attacker.position.y > attacked.position.y - 100 && attacker.position.y < attacked.position.y && abs(attacker.position.x - attacked.position.x) < 50{
                 print("attacted")
-                attacked.hp -= attacker.damage
+                attacked.damaged(damage: attacker.damage)
             }
             
         }else if attacker.face == PlayerFace.down {
             
             if attacker.position.y < attacked.position.y + 100 && attacker.position.y > attacked.position.y && abs(attacker.position.x - attacked.position.x) < 50{
                 print("attacted")
-                attacked.hp -= attacker.damage
+                attacked.damaged(damage: attacker.damage)
             }
             
         }
     }
     
+    var attackTime = TimeInterval(0)
+    var attackTimeFlag = false
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if(!gameEnd){
@@ -430,8 +473,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let location = t.location(in: self)
                 let node = self.atPoint(location)
                 if (node.name == "Attack_btn") {
-                    thePlayer.attack(otherPlayer: false)
-                    detectAttacked(attacker: thePlayer, attacked: otherPlayer1)
+                    if !attackTimeFlag{
+                        attackTime = time
+                        attackTimeFlag = true
+                        thePlayer.attack(otherPlayer: false)
+                        if thePlayer.playerLabel == 1{
+                            detectAttacked(attacker: thePlayer, attacked: otherPlayer1)
+                        }
+                        Attack_btn.color = UIColor.black
+                        Attack_btn.colorBlendFactor = 1
+                        let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 1)
+                        Attack_btn.run(colorize)
+                    }
+                    if time - attackTime > 1{
+                        attackTimeFlag = false
+                    }
                 }
                 if (node.name == "Up_btn") {
                     thePlayer.moveUp(otherPlayer: false)
@@ -470,23 +526,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //MARK: Physics contacts 
     
     func didBegin(_ contact: SKPhysicsContact) {
-        
-        if (contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.fireball.rawValue) {
-            
-            print ("touched a fireball")
-        } else if (contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.fireball.rawValue) {
-            
-            print ("touched a fireball")
-            
-        } else if (contact.bodyA.categoryBitMask == BodyType.player.rawValue && contact.bodyB.categoryBitMask == BodyType.castle.rawValue) {
-            
-            //print ("touched a castle")
-        } else if (contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.castle.rawValue) {
-            
-            //print ("touched a castle")
-        }else if (contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.player.rawValue) {
-            
-            //print ("touched a player")
+        var attacked = false
+        if (contact.bodyA.categoryBitMask == BodyType.player1.rawValue && contact.bodyB.categoryBitMask == BodyType.fireball.rawValue) {
+            contact.bodyB.node?.removeFromParent()
+            attacked = true
+        } else if (contact.bodyB.categoryBitMask == BodyType.player1.rawValue && contact.bodyA.categoryBitMask == BodyType.fireball.rawValue) {
+            contact.bodyA.node?.removeFromParent()
+            attacked = true
+        }
+        if attacked{
+            if thePlayer.playerLabel == 1{
+                thePlayer.damaged(damage: otherPlayer1.damage)
+            }else{
+                otherPlayer1.damaged(damage: thePlayer.damage)
+            }
         }
     }
 }
