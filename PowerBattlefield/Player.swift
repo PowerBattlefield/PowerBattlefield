@@ -29,7 +29,8 @@ enum PlayerFace:Int{
 
 class Player: SKSpriteNode{
     
-    var moveSpeed:TimeInterval = 1
+    var moveSpeed:TimeInterval = 0.5
+    var moveDistance:CGFloat = 75
     var moveAmount = 0
     var attackAmount = 0
     var playerLabel: Int = 1
@@ -37,6 +38,7 @@ class Player: SKSpriteNode{
     var state: PlayerState = PlayerState.idle
     var face: PlayerFace = PlayerFace.down
     var hp:Int = 1000
+    var hold:Bool = false
     
     var damage = 0
     var otherPlayer1Pos:CGPoint = CGPoint.init()
@@ -231,7 +233,7 @@ class Player: SKSpriteNode{
             moveAmount += 1
             refMoveUp.setValue("\(moveAmount)")
         }
-        move(theXAmount: 0, theYAmount: 100, theAnimation: "p\(playerLabel)_walkup", face: PlayerFace.up, otherPlayer: otherPlayer)
+        move(theXAmount: 0, theYAmount: moveDistance, theAnimation: "p\(playerLabel)_walkup", face: PlayerFace.up, otherPlayer: otherPlayer)
         
         face = PlayerFace.up
     }
@@ -241,7 +243,7 @@ class Player: SKSpriteNode{
             moveAmount += 1
             refMoveDown.setValue("\(moveAmount)")
         }
-        move(theXAmount: 0, theYAmount: -100, theAnimation: "p\(playerLabel)_walkdown", face: PlayerFace.down, otherPlayer: otherPlayer)
+        move(theXAmount: 0, theYAmount: -moveDistance, theAnimation: "p\(playerLabel)_walkdown", face: PlayerFace.down, otherPlayer: otherPlayer)
         
         face = PlayerFace.down
     }
@@ -251,7 +253,7 @@ class Player: SKSpriteNode{
             moveAmount += 1
             refMoveLeft.setValue("\(moveAmount)")
         }
-        move(theXAmount: -100, theYAmount: 0, theAnimation: "p\(playerLabel)_walkleft", face: PlayerFace.left, otherPlayer: otherPlayer)
+        move(theXAmount: -moveDistance, theYAmount: 0, theAnimation: "p\(playerLabel)_walkleft", face: PlayerFace.left, otherPlayer: otherPlayer)
         
         face = PlayerFace.left
     }
@@ -261,7 +263,7 @@ class Player: SKSpriteNode{
             moveAmount += 1
             refMoveRight.setValue("\(moveAmount)")
         }
-        move(theXAmount: 100, theYAmount: 0, theAnimation: "p\(playerLabel)_walkright", face: PlayerFace.right, otherPlayer: otherPlayer)
+        move(theXAmount: moveDistance, theYAmount: 0, theAnimation: "p\(playerLabel)_walkright", face: PlayerFace.right, otherPlayer: otherPlayer)
         
         face = PlayerFace.right
     }

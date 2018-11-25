@@ -31,6 +31,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var Right_btn:SKSpriteNode = SKSpriteNode()
     var Attack_btn:SKSpriteNode = SKSpriteNode()
     var Quit_btn:SKSpriteNode = SKSpriteNode()
+    var Skill_btn:SKSpriteNode = SKSpriteNode()
     
     func setPlayers(){
         if(currentPlayer == 1){
@@ -38,6 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 thePlayer = somePlayer
                 thePlayer.initialize(playerLabel: 1, roomId: roomId)
                 Database.database().reference().child(roomId).child(Auth.auth().currentUser!.uid).setValue(1)
+                Skill_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p1_skill"))
             }
             if let somePlayer = self.childNode(withName: "Player2") as? Player {
                 otherPlayer1 = somePlayer
@@ -140,6 +142,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 Quit_btn = node as! SKSpriteNode
                 Quit_btn.zPosition = 1000
             }
+            if (node.name == "Skill_btn") {
+                Skill_btn = node as! SKSpriteNode
+                Skill_btn.zPosition = 1000
+            }
             
         }
         observeOtherPlayerMovements()
@@ -183,6 +189,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let direction_y = center_y - screenHeight + 100 + 5
         let quit_x = center_x + screenWidth - 50
         let quit_y = center_y + screenHeight - 50
+        
         
         Attack_btn.position = CGPoint(x: attack_x, y: attack_y)
         Up_btn.position = CGPoint(x: direction_x, y: direction_y+50)
@@ -368,6 +375,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var deadAniFlag = false
     var endTime = TimeInterval(0)
+    var holdBeginTime:TimeInterval = 0
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         updateCamera()
@@ -403,6 +411,51 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }
             }
+        }
+        
+        if hold{
+            thePlayer.hold = true
+            if holdBeginTime == 0{
+                switch moveDirection{
+                case "up":
+                    thePlayer.moveUp(otherPlayer: false)
+                    break
+                case "down":
+                    thePlayer.moveDown(otherPlayer: false)
+                    break
+                case "left":
+                    thePlayer.moveLeft(otherPlayer: false)
+                    break
+                case "right":
+                    thePlayer.moveRight(otherPlayer: false)
+                    break
+                default:
+                    break
+                }
+                holdBeginTime = currentTime
+            }
+            if currentTime - holdBeginTime > 0.5{
+                switch moveDirection{
+                case "up":
+                    thePlayer.moveUp(otherPlayer: false)
+                    break
+                case "down":
+                    thePlayer.moveDown(otherPlayer: false)
+                    break
+                case "left":
+                    thePlayer.moveLeft(otherPlayer: false)
+                    break
+                case "right":
+                    thePlayer.moveRight(otherPlayer: false)
+                    break
+                default:
+                    break
+                }
+                holdBeginTime = currentTime
+            }
+        }else{
+            thePlayer.hold = false
+            holdBeginTime = 0
         }
     }
     
@@ -535,11 +588,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var attackTime = TimeInterval(0)
     var attackTimeFlag = false
+    var hold = false
+    var moveDirection:String = "stop"
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-
         if(!gameEnd){
             for t in touches {
-                
                 self.touchDown(atPoint: t.location(in: self))
                 
                 let location = t.location(in: self)
@@ -562,16 +615,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 if (node.name == "Up_btn") {
-                    thePlayer.moveUp(otherPlayer: false)
+                    hold = true
+                    moveDirection = "up"
                 }
                 if (node.name == "Down_btn") {
-                    thePlayer.moveDown(otherPlayer: false)
+                    hold = true
+                    moveDirection = "down"
                 }
                 if (node.name == "Left_btn") {
-                    thePlayer.moveLeft(otherPlayer: false)
+                    hold = true
+                    moveDirection = "left"
                 }
                 if (node.name == "Right_btn") {
-                    thePlayer.moveRight(otherPlayer: false)
+                    hold = true
+                    moveDirection = "right"
                 }
                 if (node.name == "Quit_btn"){
                     Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
@@ -587,6 +644,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        hold = false
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
     
@@ -617,10 +675,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     break
                 case .left:
                     thePlayer.run(SKAction(named: "p1_getattackedleft")!)
+                    break
                 case .right:
                     thePlayer.run(SKAction(named: "p1_getattackedright")!)
+                    break
                 case .up:
                     thePlayer.run(SKAction(named: "p1_getattackedup")!)
+                    break
                 }
             }else{
                 otherPlayer1.damaged(damage: thePlayer.damage)
@@ -631,10 +692,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     break
                 case .left:
                     otherPlayer1.run(SKAction(named: "p1_getattackedleft")!)
+                    break
                 case .right:
                     otherPlayer1.run(SKAction(named: "p1_getattackedright")!)
+                    break
                 case .up:
                     otherPlayer1.run(SKAction(named: "p1_getattackedup")!)
+                    break
                 }
             }
             let wait:SKAction = SKAction.wait(forDuration: 0.5)
