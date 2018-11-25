@@ -68,11 +68,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.removeAllChildren()
     }
     
+    var enemyNumber = 0
     func spawnEnemy(spawnPos: CGPoint, updateStateTime: Int){
         let enemy = Enemy(texture: SKTexture(imageNamed: "e1_idledown_01"), color: SKColor.clear, size: CGSize(width: 400, height: 500), spawnPos: spawnPos)
-        enemy.updateStateTime = updateStateTime
         addChild(enemy)
         enemies.append(enemy)
+        enemyNumber += 1
+        enemy.enemyLabel = enemyNumber
+        enemy.observeStateChange(roomId: roomId)
     }
     
     override func didMove(to view: SKView) {
@@ -301,10 +304,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if !self.firstObserve{
                 if let hp = snapshot.value as? Int{
                     if self.thePlayer.playerLabel == 1{
-                        print("set 1 self hp:\(hp)")
+                        
                         self.thePlayer.hp = hp
                     }else{
-                        print("set 1 other hp:\(hp)")
+                        
                         self.otherPlayer1.hp = hp
                     }
                 }
@@ -315,10 +318,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if !self.firstObserve{
                 if let hp = snapshot.value as? Int{
                     if self.thePlayer.playerLabel == 2{
-                        print("set 2 self hp:\(hp)")
+                        
                         self.thePlayer.hp = hp
                     }else{
-                        print("set 2 other hp:\(hp)")
+                        
                         self.otherPlayer1.hp = hp
                     }
                 }
@@ -453,28 +456,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var enemyStateSet = false
     var enemySTateSetTime = TimeInterval(0)
     var updateEnemyStateTime = 3
+    
+    var enemyStateAmount = 0
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         updateCamera()
         
         if currentPlayer == 1{
-            enemyStateSet = false
-            for enemy in enemies{
-                enemy.time = currentTime
-                if !enemyStateSet{
-                    enemyStateSet = true
-                    enemySTateSetTime = currentTime
-                    //let state = Int.random(in: 1..<4)
+            if !enemyStateSet{
+                var i = 1
+                for _ in enemies{
                     let state = Int(arc4random_uniform(3)) + 1
-                    //let face = Int.random(in: 1..<5)
                     let face = Int(arc4random_uniform(4)) + 1
-                    enemy.update(state: state, face: face)
-                }else{
-                    if Int(time - enemySTateSetTime) >= updateEnemyStateTime{
-                        enemyStateSet = false
-                    }
+                    Database.database().reference().child(roomId).child("enemy\(i)").child("state").setValue(state)
+                    Database.database().reference().child(roomId).child("enemy\(i)").child("face").setValue(face)
+                    Database.database().reference().child(roomId).child("enemy\(i)").child("change").setValue(enemyStateAmount)
+                    i += 1
+                    enemyStateAmount += 1
                 }
+                enemyStateSet = true
+                enemySTateSetTime = currentTime
                 
+            }else{
+                if Int(time - enemySTateSetTime) >= updateEnemyStateTime{
+                    enemyStateSet = false
+                }
             }
         }
         
@@ -596,31 +602,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func touchDown(atPoint pos : CGPoint) {
-        
-        /*
-         if ( pos.y > 0) {
-         //top half touch
-         
-         } else {
-         //bottom half touch
-         
-         moveDown()
-         
-         }
-         */
-        
-        
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        
-    }
-    
     func detectAttacked(attacker: Player, attacked: Player){
         var attackedFlag = false
         if attacker.face == PlayerFace.right {
@@ -730,8 +711,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(!gameEnd){
             for t in touches {
-                self.touchDown(atPoint: t.location(in: self))
-                
+     
                 let location = t.location(in: self)
                 let node = self.atPoint(location)
                 if (node.name == "Attack_btn") {
@@ -785,16 +765,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+       
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         hold = false
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        
     }
     
     
@@ -829,7 +809,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     break
                 }
             }else{
-                otherPlayer1.damaged(damage: thePlayer.damage)
                 otherPlayer1.addChild(emitter)
                 switch otherPlayer1.face{
                 case .down:

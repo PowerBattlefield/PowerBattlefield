@@ -1,10 +1,11 @@
 import Foundation
 import SpriteKit
+import Firebase
 
 enum EnemyState:Int{
-    case attack = 1
-    case walk = 2
-    case idle = 3
+    case walk = 1
+    case idle = 2
+    case attack = 3
 }
 
 class Enemy:SKSpriteNode{
@@ -12,10 +13,7 @@ class Enemy:SKSpriteNode{
     var moveAmount = 0
     var moveDistance:CGFloat = 50
     var face = PlayerFace.down
-    var updateStateTime = 0
-    var updateStateSetTime = TimeInterval(0)
-    var updateStateSet = false
-    var time = TimeInterval(0)
+    var enemyLabel = 1
     
     init(texture: SKTexture, color: SKColor, size: CGSize, spawnPos: CGPoint) {
         super.init(texture: texture, color: color, size: size)
@@ -26,38 +24,43 @@ class Enemy:SKSpriteNode{
         physicsBody?.collisionBitMask = BodyType.water.rawValue | BodyType.road.rawValue
         
         idleDownAnimation()
+        
     }
     
-    func update(state:Int, face:Int){
-        if !updateStateSet{
-            updateStateSet = true
-            updateStateSetTime = time
+    func observeStateChange(roomId: String){
+        Database.database().reference().child(roomId).child("enemy\(enemyLabel)").observe(DataEventType.value) { (snapshot) in
+            var state = 0
+            var face = 0
+            for rest in snapshot.children.allObjects as! [DataSnapshot]{
+                if rest.key == "state"{
+                    state = (rest.value as! NSNumber).intValue
+                }else if rest.key == "face"{
+                    face = (rest.value as! NSNumber).intValue
+                }
+            }
             if state == EnemyState.attack.rawValue{
-                print("attack")
-            }else if state == EnemyState.walk.rawValue{
+                self.attack()
+            }
+            else if state == EnemyState.walk.rawValue{
                 if face == PlayerFace.left.rawValue{
-                    moveLeft()
+                    self.moveLeft()
                 }else if face == PlayerFace.right.rawValue{
-                    moveRight()
+                    self.moveRight()
                 }else if face == PlayerFace.up.rawValue{
-                    moveUp()
+                    self.moveUp()
                 }else if face == PlayerFace.down.rawValue{
-                    moveDown()
+                    self.moveDown()
                 }
             }else if state == EnemyState.idle.rawValue{
                 if face == PlayerFace.left.rawValue{
-                    idleLeftAnimation()
+                    self.idleLeftAnimation()
                 }else if face == PlayerFace.right.rawValue{
-                    idleRightAnimation()
+                    self.idleRightAnimation()
                 }else if face == PlayerFace.up.rawValue{
-                    idleUpAnimation()
+                    self.idleUpAnimation()
                 }else if face == PlayerFace.down.rawValue{
-                    idleDownAnimation()
+                    self.idleDownAnimation()
                 }
-            }
-        }else{
-            if Int(time - updateStateSetTime) >= updateStateTime{
-                updateStateSet = false
             }
         }
     }
@@ -147,5 +150,25 @@ class Enemy:SKSpriteNode{
         }
         let seq:SKAction = SKAction.sequence( [wait, group, finish] )
         run(seq)
+    }
+    
+    func attack(){
+        var attackAction: SKAction = SKAction()
+        switch face{
+        case PlayerFace.right:
+            attackAction = SKAction(named: "e1_attackright")!
+            
+        case PlayerFace.left:
+            attackAction = SKAction(named: "e1_attackleft")!
+           
+        case PlayerFace.up:
+            attackAction = SKAction(named: "e1_attackup")!
+            
+        case PlayerFace.down:
+            attackAction = SKAction(named: "e1_attackdown")!
+            
+        }
+        
+        run(attackAction)
     }
 }
