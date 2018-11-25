@@ -57,10 +57,12 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                         self.appDeleagte.isInRoom = false
                         if winnerLabel == playerLabel{
                             let newVC = self.storyboard?.instantiateViewController(withIdentifier: "EndVC") as! EndViewController
+                            newVC.roomId = self.roomId
                             newVC.displayText = "Congratulations! You win the game!"
                             self.present(newVC, animated: false, completion: nil)
                         }else{
                             let newVC = self.storyboard?.instantiateViewController(withIdentifier: "EndVC") as! EndViewController
+                            newVC.roomId = self.roomId
                             newVC.displayText = "You lose!"
                             self.present(newVC, animated: false, completion: nil)
                         }

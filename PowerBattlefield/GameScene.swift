@@ -13,6 +13,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var currentPlayer = 1
     var currentPlayerState = 1
     var time = TimeInterval(0)
+    var skillIsOn = false
+    var skillFlag = true
     var enemies: [Enemy] = []
     
     //get room id from room view
@@ -40,6 +42,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 thePlayer = somePlayer
                 thePlayer.initialize(playerLabel: 1, roomId: roomId)
                 Database.database().reference().child(roomId).child(Auth.auth().currentUser!.uid).setValue(1)
+                Database.database().reference().child(roomId).child("player1").child("skill").setValue(false)
                 Skill_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p1_skill"))
             }
             if let somePlayer = self.childNode(withName: "Player2") as? Player {
@@ -54,6 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             if let somePlayer = self.childNode(withName: "Player1") as? Player {
                 otherPlayer1 = somePlayer
+                Database.database().reference().child(roomId).child("player1").child("skill").setValue(false)
                 otherPlayer1.initialize(playerLabel: 1, roomId: roomId)
             }
         }
@@ -198,7 +202,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let direction_y = center_y - screenHeight + 150 + 5
         let quit_x = center_x + screenWidth - 50
         let quit_y = center_y + screenHeight - 50
-        
+        let skill_x = attack_x + 50
+        let skill_y = attack_y + 100
         
         Attack_btn.position = CGPoint(x: attack_x, y: attack_y)
         Up_btn.position = CGPoint(x: direction_x, y: direction_y+50)
@@ -206,6 +211,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Left_btn.position = CGPoint(x: direction_x-50, y: direction_y)
         Right_btn.position = CGPoint(x: direction_x+50, y: direction_y)
         Quit_btn.position = CGPoint(x: quit_x, y: quit_y)
+        Skill_btn.position = CGPoint(x: skill_x, y: skill_y)
     }
     
     
@@ -309,7 +315,60 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if self.thePlayer.playerLabel == 2{
                         self.thePlayer.hp = hp
                     }else{
+                        print("get hp:\(hp)")
                         self.otherPlayer1.hp = hp
+                    }
+                }
+            }
+        }
+        
+        thePlayer.refSkill.observe(DataEventType.value) { (snapshot) in
+            if !self.firstObserve{
+                let skillIsOn = snapshot.value as? Bool ?? false
+                if self.thePlayer.playerLabel == 1{
+                    let aura = self.thePlayer.childNode(withName: "Aura") as! SKSpriteNode
+                    let effect = self.thePlayer.childNode(withName: "Effect") as! SKSpriteNode
+                    if skillIsOn{
+                        self.thePlayer.moveSpeed = 0.3
+                        self.thePlayer.damage = 15
+                        self.thePlayer.range = 150
+                        aura.alpha = 1
+                        effect.alpha = 1
+                        aura.run(SKAction(named: "p1_aura")!)
+                    }else if !skillIsOn{
+                        aura.removeAllActions()
+                        //aura.texture = nil
+                        aura.alpha = 0
+                        effect.alpha = 0
+                        self.thePlayer.moveSpeed = 0.5
+                        self.thePlayer.damage = 10
+                        self.thePlayer.range = 100
+                    }
+                }
+            }
+        }
+        
+        otherPlayer1.refSkill.observe(DataEventType.value) { (snapshot) in
+            if !self.firstObserve{
+                let skillIsOn = snapshot.value as? Bool ?? false
+                if self.otherPlayer1.playerLabel == 1{
+                    let aura = self.otherPlayer1.childNode(withName: "Aura") as! SKSpriteNode
+                    let effect = self.otherPlayer1.childNode(withName: "Effect") as! SKSpriteNode
+                    if skillIsOn{
+                        self.otherPlayer1.moveSpeed = 0.3
+                        self.otherPlayer1.damage = 15
+                        self.otherPlayer1.range = 150
+                        aura.alpha = 1
+                        effect.alpha = 1
+                        aura.run(SKAction(named: "p1_aura")!)
+                    }else if !skillIsOn{
+                        aura.removeAllActions()
+                        //aura.texture = nil
+                        aura.alpha = 0
+                        effect.alpha = 0
+                        self.otherPlayer1.moveSpeed = 0.5
+                        self.otherPlayer1.damage = 10
+                        self.otherPlayer1.range = 100
                     }
                 }
             }
@@ -385,6 +444,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var deadAniFlag = false
     var endTime = TimeInterval(0)
     var holdBeginTime:TimeInterval = 0
+    var skillBeginTime:TimeInterval = 0
+    var CDFlag:Bool = false
+    
     var enemyStateSet = false
     var enemySTateSetTime = TimeInterval(0)
     var updateEnemyStateTime = 3
@@ -467,7 +529,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 holdBeginTime = currentTime
             }
-            if currentTime - holdBeginTime > 0.5{
+            if currentTime - holdBeginTime > Double(thePlayer.moveSpeed){
                 switch moveDirection{
                 case "up":
                     thePlayer.moveUp(otherPlayer: false)
@@ -489,6 +551,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else{
             thePlayer.hold = false
             holdBeginTime = 0
+        }
+        
+
+        if skillIsOn{
+            let label = Skill_btn.childNode(withName: "skillTime") as! SKLabelNode
+            if skillBeginTime == 0{
+                skillBeginTime = currentTime
+            }
+            if currentTime - skillBeginTime <= 20{
+                let duration = Int(21 - currentTime + skillBeginTime)
+                label.fontColor = UIColor.black
+                label.text = String(duration)
+            }else if currentTime - skillBeginTime > 20{
+                Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(false)
+                skillIsOn = false
+                CDFlag = true
+            }
+        }else{
+            if skillBeginTime != 0{
+                let label = Skill_btn.childNode(withName: "skillTime") as! SKLabelNode
+                if currentTime - skillBeginTime <= 40{
+                    let coolDown = Int(41 - currentTime + skillBeginTime)
+                    label.fontColor = UIColor.white
+                    label.text = String(coolDown)
+                    if CDFlag{
+                        Skill_btn.color = UIColor.black
+                        Skill_btn.colorBlendFactor = 1
+                        let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 20)
+                        Skill_btn.run(colorize)
+                        CDFlag = false
+                    }
+                }else if currentTime - skillBeginTime > 40{
+                    label.text = ""
+                    skillFlag = true
+                    skillBeginTime = 0
+                }
+            }
         }
     }
     
@@ -520,7 +619,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func detectAttacked(attacker: Player, attacked: Player){
         var attackedFlag = false
         if attacker.face == PlayerFace.right {
-            if attacker.position.x > attacked.position.x - 105 && attacker.position.x < attacked.position.x && abs(attacker.position.y - attacked.position.y) < 60{
+            if attacker.position.x > attacked.position.x - attacker.range - 5 && attacker.position.x < attacked.position.x && abs(attacker.position.y - attacked.position.y) < attacker.range/2 + 10{
                 print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
@@ -541,7 +640,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
         }else if attacker.face == PlayerFace.left {
-            if attacker.position.x < attacked.position.x + 105 && attacker.position.x > attacked.position.x && abs(attacker.position.y - attacked.position.y) < 60{
+            if attacker.position.x < attacked.position.x + attacker.range + 5 && attacker.position.x > attacked.position.x && abs(attacker.position.y - attacked.position.y) < attacker.range/2 + 10{
                 print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
@@ -563,7 +662,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }else if attacker.face == PlayerFace.up {
             
-            if attacker.position.y > attacked.position.y - 100 && attacker.position.y < attacked.position.y && abs(attacker.position.x - attacked.position.x) < 50{
+            if attacker.position.y > attacked.position.y - attacker.range && attacker.position.y < attacked.position.y && abs(attacker.position.x - attacked.position.x) < attacker.range/2{
                 print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
@@ -585,7 +684,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }else if attacker.face == PlayerFace.down {
             
-            if attacker.position.y < attacked.position.y + 100 && attacker.position.y > attacked.position.y && abs(attacker.position.x - attacked.position.x) < 50{
+            if attacker.position.y < attacked.position.y + attacker.range && attacker.position.y > attacked.position.y && abs(attacker.position.x - attacked.position.x) < attacker.range/2{
                 print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
@@ -666,6 +765,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (node.name == "Quit_btn"){
                     Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
                 }
+                if (node.name == "Skill_btn"){
+                    if skillFlag{
+                        Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(true)
+                        skillIsOn = true
+                        skillFlag = false
+                    }
+                }
+                break
                 
             }
         }
