@@ -1,9 +1,10 @@
 import UIKit
+import Firebase
 
 class EndViewController: UIViewController {
     
     var displayText = ""
-
+    var roomId:String!
     @IBOutlet weak var displayLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -12,7 +13,13 @@ class EndViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
+    @IBAction func backToRoom(_ sender: Any) {
+        Database.database().reference().child(roomId).child("winner").removeValue()
+        Database.database().reference().child(roomId).child("player1").removeValue()
+        Database.database().reference().child(roomId).child("player2").removeValue()
+        dismiss(animated: true, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 

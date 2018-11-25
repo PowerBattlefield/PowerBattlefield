@@ -39,6 +39,7 @@ class Player: SKSpriteNode{
     var face: PlayerFace = PlayerFace.down
     var hp:Int = 1000
     var hold:Bool = false
+    var range:CGFloat = 100
     
     var damage = 0
     var otherPlayer1Pos:CGPoint = CGPoint.init()
@@ -57,6 +58,7 @@ class Player: SKSpriteNode{
     var refAttack: DatabaseReference = Database.database().reference()
     var refPos: DatabaseReference = Database.database().reference()
     var refHP: DatabaseReference = Database.database().reference()
+    var refSkill: DatabaseReference = Database.database().reference()
     
     func initialize(playerLabel: Int, roomId: String){
         self.playerLabel = playerLabel
@@ -145,6 +147,7 @@ class Player: SKSpriteNode{
         refAttack = Database.database().reference().child(roomId).child("player\(playerLabel)").child("attack")
         refPos = Database.database().reference().child(roomId).child("player\(playerLabel)").child("position")
         refHP = Database.database().reference().child(roomId).child("player\(playerLabel)").child("hp")
+        refSkill = Database.database().reference().child(roomId).child("player\(playerLabel)").child("skill")
     }
     
     func attack(otherPlayer: Bool){
@@ -154,7 +157,11 @@ class Player: SKSpriteNode{
             attackAction = SKAction(named: "p\(playerLabel)_attackright")!
             if(playerLabel == 1){
                 let theWeapon = (self.childNode(withName: "Sword") as? SKSpriteNode)!
-                theWeapon.run(SKAction(named: "sword_attackleft")!)
+                theWeapon.run(SKAction(named: "sword_attackright")!)
+                if damage == 15{
+                    let effect = self.childNode(withName: "Effect") as! SKSpriteNode
+                    effect.run(SKAction(named: "sword_effectright")!)
+                }
             }else{
                 let fireball = FireBall(texture: SKTexture(imageNamed: "fireball"), color: SKColor.clear, size: CGSize(width: 100, height: 100), playerPos: position)
                 parent!.addChild(fireball)
@@ -171,6 +178,10 @@ class Player: SKSpriteNode{
             if(playerLabel == 1){
                 let theWeapon = (self.childNode(withName: "Sword") as? SKSpriteNode)!
                 theWeapon.run(SKAction(named: "sword_attackleft")!)
+                if damage == 15{
+                    let effect = self.childNode(withName: "Effect") as! SKSpriteNode
+                    effect.run(SKAction(named: "sword_effectleft")!)
+                }
             }else{
                 let fireball = FireBall(texture: SKTexture(imageNamed: "fireball"), color: SKColor.clear, size: CGSize(width: 100, height: 100), playerPos: position)
                 parent!.addChild(fireball)
@@ -187,6 +198,10 @@ class Player: SKSpriteNode{
             if(playerLabel == 1){
                 let theWeapon = (self.childNode(withName: "Sword") as? SKSpriteNode)!
                 theWeapon.run(SKAction(named: "sword_attackup")!)
+                if damage == 15{
+                    let effect = self.childNode(withName: "Effect") as! SKSpriteNode
+                    effect.run(SKAction(named: "sword_effectup")!)
+                }
             }else{
                 let fireball = FireBall(texture: SKTexture(imageNamed: "fireball"), color: SKColor.clear, size: CGSize(width: 100, height: 100), playerPos: position)
                 parent!.addChild(fireball)
@@ -203,6 +218,10 @@ class Player: SKSpriteNode{
             if(playerLabel == 1){
                 let theWeapon = (self.childNode(withName: "Sword") as? SKSpriteNode)!
                 theWeapon.run(SKAction(named: "sword_attackdown")!)
+                if damage == 15{
+                    let effect = self.childNode(withName: "Effect") as! SKSpriteNode
+                    effect.run(SKAction(named: "sword_effectdown")!)
+                }
             }else{
                 let fireball = FireBall(texture: SKTexture(imageNamed: "fireball"), color: SKColor.clear, size: CGSize(width: 100, height: 100), playerPos: position)
                 parent!.addChild(fireball)
@@ -291,10 +310,11 @@ class Player: SKSpriteNode{
     }
     
     func damaged(damage: Int){
+        print("hp before attack:\(hp)")
         hp -= damage
-        
+        print("hp after attack:\(hp)")
+        print(damage)
         refHP.setValue(hp)
-        
     }
     
 }

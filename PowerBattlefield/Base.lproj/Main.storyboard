@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ljd-dg-mgb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ljd-dg-mgb">
     <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -317,10 +317,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sVM-O0-NKF">
-                                <rect key="frame" x="284.5" y="172.5" width="98" height="30"/>
-                                <state key="normal" title="Back to Lobby"/>
+                                <rect key="frame" x="286" y="172.5" width="95" height="30"/>
+                                <state key="normal" title="Back to Room"/>
                                 <connections>
-                                    <segue destination="IRI-8X-yDk" kind="show" identifier="show" id="1pP-GE-rBN"/>
+                                    <action selector="backToRoom:" destination="jcF-WB-ERa" eventType="touchUpInside" id="qko-GM-hkx"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -344,6 +344,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="1pP-GE-rBN"/>
+        <segue reference="ODp-G6-Z5j"/>
     </inferredMetricsTieBreakers>
 </document>
