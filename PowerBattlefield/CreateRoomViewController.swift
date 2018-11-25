@@ -1,11 +1,3 @@
-//
-//  CreateRoomViewController.swift
-//  PowerBattlefield
-//
-//  Created by labuser on 11/17/18.
-//  Copyright © 2018 Da Lin. All rights reserved.
-//
-
 import UIKit
 import Firebase
 class CreateRoomViewController: UIViewController {

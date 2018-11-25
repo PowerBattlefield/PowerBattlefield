@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  PowerBattlefield
-//
-//  Created by Da Lin on 11/4/18.
-//  Copyright © 2018 Da Lin. All rights reserved.
-//
-
 import UIKit
 import Firebase
 

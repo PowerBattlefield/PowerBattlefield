@@ -1,11 +1,3 @@
-//
-//  LobbyViewController.swift
-//  PowerBattlefield
-//
-//  Created by Da Lin on 11/16/18.
-//  Copyright © 2018 Da Lin. All rights reserved.
-//
-
 import UIKit
 import FirebaseUI
 import Firebase

@@ -432,9 +432,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func detectAttacked(attacker: Player, attacked: Player){
+        var attackedFlag = false
         if attacker.face == PlayerFace.right {
             if attacker.position.x > attacked.position.x - 105 && attacker.position.x < attacked.position.x && abs(attacker.position.y - attacked.position.y) < 60{
                 print("attacted")
+                attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
                 switch attacked.face{
                 case .down:
@@ -455,6 +457,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else if attacker.face == PlayerFace.left {
             if attacker.position.x < attacked.position.x + 105 && attacker.position.x > attacked.position.x && abs(attacker.position.y - attacked.position.y) < 60{
                 print("attacted")
+                attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
                 switch attacked.face{
                 case .down:
@@ -476,6 +479,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if attacker.position.y > attacked.position.y - 100 && attacker.position.y < attacked.position.y && abs(attacker.position.x - attacked.position.x) < 50{
                 print("attacted")
+                attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
                 switch attacked.face{
                 case .down:
@@ -497,6 +501,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if attacker.position.y < attacked.position.y + 100 && attacker.position.y > attacked.position.y && abs(attacker.position.x - attacked.position.x) < 50{
                 print("attacted")
+                attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
                 switch attacked.face{
                 case .down:
@@ -513,14 +518,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     break
                 }
             }
-            
+        }
+        
+        if attackedFlag{
+            let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
+            emitter.position = CGPoint(x: 0, y: 0)
+            attacked.addChild(emitter)
+            let wait:SKAction = SKAction.wait(forDuration: 0.5)
+            let finish:SKAction = SKAction.run {
+                emitter.removeFromParent()
+            }
+            let seq:SKAction = SKAction.sequence( [wait, finish] )
+            run(seq)
         }
     }
     
     var attackTime = TimeInterval(0)
     var attackTimeFlag = false
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+
         if(!gameEnd){
             for t in touches {
                 
@@ -579,8 +595,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    //MARK: Physics contacts 
-    
+    //MARK: Physics contacts
     func didBegin(_ contact: SKPhysicsContact) {
         var attacked = false
         if (contact.bodyA.categoryBitMask == BodyType.player1.rawValue && contact.bodyB.categoryBitMask == BodyType.fireball.rawValue) {

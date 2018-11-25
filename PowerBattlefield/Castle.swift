@@ -1,11 +1,3 @@
-//
-//  Castle.swift
-//  PlayAround
-//
-//  Created by Justin Dike on 1/12/17.
-//  Copyright © 2017 Justin Dike. All rights reserved.
-//
-
 import Foundation
 import SpriteKit
 
