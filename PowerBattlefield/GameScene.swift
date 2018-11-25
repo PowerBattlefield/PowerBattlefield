@@ -591,8 +591,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             attacked = true
         }
         if attacked{
+            let emitter = SKEmitterNode(fileNamed: "FireballParticle")!
+            emitter.position = CGPoint(x: 0, y: 0)
             if thePlayer.playerLabel == 1{
                 thePlayer.damaged(damage: otherPlayer1.damage)
+                thePlayer.addChild(emitter)
                 switch thePlayer.face{
                 case .down:
                     thePlayer.run(SKAction(named: "p1_getattackeddown")!)
@@ -606,6 +609,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }else{
                 otherPlayer1.damaged(damage: thePlayer.damage)
+                otherPlayer1.addChild(emitter)
                 switch otherPlayer1.face{
                 case .down:
                     otherPlayer1.run(SKAction(named: "p1_getattackeddown")!)
@@ -618,6 +622,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     otherPlayer1.run(SKAction(named: "p1_getattackedup")!)
                 }
             }
+            let wait:SKAction = SKAction.wait(forDuration: 0.5)
+            let finish:SKAction = SKAction.run {
+                emitter.removeFromParent()
+            }
+            let seq:SKAction = SKAction.sequence( [wait, finish] )
+            run(seq)
         }
     }
 }
