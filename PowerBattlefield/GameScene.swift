@@ -436,12 +436,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if attacker.position.x > attacked.position.x - 105 && attacker.position.x < attacked.position.x && abs(attacker.position.y - attacked.position.y) < 60{
                 print("attacted")
                 attacked.damaged(damage: attacker.damage)
+                switch attacked.face{
+                case .down:
+                    attacked.run(SKAction(named: "p2_getattackeddown")!)
+                    break
+                case .left:
+                    attacked.run(SKAction(named: "p2_getattackedleft")!)
+                    break
+                case .right:
+                    attacked.run(SKAction(named: "p2_getattackedright")!)
+                    break
+                case .up:
+                    attacked.run(SKAction(named: "p2_getattackedup")!)
+                    break
+                }
             }
             
         }else if attacker.face == PlayerFace.left {
             if attacker.position.x < attacked.position.x + 105 && attacker.position.x > attacked.position.x && abs(attacker.position.y - attacked.position.y) < 60{
                 print("attacted")
                 attacked.damaged(damage: attacker.damage)
+                switch attacked.face{
+                case .down:
+                    attacked.run(SKAction(named: "p2_getattackeddown")!)
+                    break
+                case .left:
+                    attacked.run(SKAction(named: "p2_getattackedleft")!)
+                    break
+                case .right:
+                    attacked.run(SKAction(named: "p2_getattackedright")!)
+                    break
+                case .up:
+                    attacked.run(SKAction(named: "p2_getattackedup")!)
+                    break
+                }
             }
             
         }else if attacker.face == PlayerFace.up {
@@ -449,6 +477,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if attacker.position.y > attacked.position.y - 100 && attacker.position.y < attacked.position.y && abs(attacker.position.x - attacked.position.x) < 50{
                 print("attacted")
                 attacked.damaged(damage: attacker.damage)
+                switch attacked.face{
+                case .down:
+                    attacked.run(SKAction(named: "p2_getattackeddown")!)
+                    break
+                case .left:
+                    attacked.run(SKAction(named: "p2_getattackedleft")!)
+                    break
+                case .right:
+                    attacked.run(SKAction(named: "p2_getattackedright")!)
+                    break
+                case .up:
+                    attacked.run(SKAction(named: "p2_getattackedup")!)
+                    break
+                }
             }
             
         }else if attacker.face == PlayerFace.down {
@@ -456,6 +498,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if attacker.position.y < attacked.position.y + 100 && attacker.position.y > attacked.position.y && abs(attacker.position.x - attacked.position.x) < 50{
                 print("attacted")
                 attacked.damaged(damage: attacker.damage)
+                switch attacked.face{
+                case .down:
+                    attacked.run(SKAction(named: "p2_getattackeddown")!)
+                    break
+                case .left:
+                    attacked.run(SKAction(named: "p2_getattackedleft")!)
+                    break
+                case .right:
+                    attacked.run(SKAction(named: "p2_getattackedright")!)
+                    break
+                case .up:
+                    attacked.run(SKAction(named: "p2_getattackedup")!)
+                    break
+                }
             }
             
         }
@@ -537,8 +593,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if attacked{
             if thePlayer.playerLabel == 1{
                 thePlayer.damaged(damage: otherPlayer1.damage)
+                switch thePlayer.face{
+                case .down:
+                    thePlayer.run(SKAction(named: "p1_getattackeddown")!)
+                    break
+                case .left:
+                    thePlayer.run(SKAction(named: "p1_getattackedleft")!)
+                case .right:
+                    thePlayer.run(SKAction(named: "p1_getattackedright")!)
+                case .up:
+                    thePlayer.run(SKAction(named: "p1_getattackedup")!)
+                }
             }else{
                 otherPlayer1.damaged(damage: thePlayer.damage)
+                switch otherPlayer1.face{
+                case .down:
+                    otherPlayer1.run(SKAction(named: "p1_getattackeddown")!)
+                    break
+                case .left:
+                    otherPlayer1.run(SKAction(named: "p1_getattackedleft")!)
+                case .right:
+                    otherPlayer1.run(SKAction(named: "p1_getattackedright")!)
+                case .up:
+                    otherPlayer1.run(SKAction(named: "p1_getattackedup")!)
+                }
             }
         }
     }
