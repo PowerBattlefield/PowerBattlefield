@@ -1,11 +1,3 @@
-//
-//  GameViewController.swift
-//  PlayAround
-//
-//  Created by Justin Dike on 1/10/17.
-//  Copyright © 2017 Justin Dike. All rights reserved.
-//
-
 import UIKit
 import SpriteKit
 import GameplayKit

@@ -24,6 +24,8 @@
 		FB6338E721A8CEBF005447FB /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6338E621A8CEBF005447FB /* Player.swift */; };
 		FBA65C7B21A941C600C5890D /* EndViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA65C7A21A941C600C5890D /* EndViewController.swift */; };
 		FBA65C7D21AA21B000C5890D /* FireBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA65C7C21AA21B000C5890D /* FireBall.swift */; };
+		FBA65C7F21AA780200C5890D /* FireballParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBA65C7E21AA780200C5890D /* FireballParticle.sks */; };
+		FBA65C8121AA7E5000C5890D /* SwordParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBA65C8021AA7E5000C5890D /* SwordParticle.sks */; };
 		FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */; };
 		FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */; };
 		FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */; };
@@ -50,6 +52,8 @@
 		FB6338E621A8CEBF005447FB /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FBA65C7A21A941C600C5890D /* EndViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndViewController.swift; sourceTree = "<group>"; };
 		FBA65C7C21AA21B000C5890D /* FireBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBall.swift; sourceTree = "<group>"; };
+		FBA65C7E21AA780200C5890D /* FireballParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireballParticle.sks; sourceTree = "<group>"; };
+		FBA65C8021AA7E5000C5890D /* SwordParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SwordParticle.sks; sourceTree = "<group>"; };
 		FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PowerBattlefield.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBD2AEEB218FAA0A00B49DC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -118,6 +122,8 @@
 				FBA65C7C21AA21B000C5890D /* FireBall.swift */,
 				FB6338E621A8CEBF005447FB /* Player.swift */,
 				689DF03C218FB70A0059CFFE /* Castle.swift */,
+				FBA65C7E21AA780200C5890D /* FireballParticle.sks */,
+				FBA65C8021AA7E5000C5890D /* SwordParticle.sks */,
 				689DF045218FBC0A0059CFFE /* GameScene.sks */,
 				689DF04C218FBCD20059CFFE /* Actions.sks */,
 				689DF04B218FBCD20059CFFE /* Assets.xcassets */,
@@ -203,6 +209,8 @@
 				689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */,
 				2B5C281B2193A0790046BFD6 /* DefultTileSet.sks in Resources */,
 				FBD2AEF9218FBDC800B49DC6 /* GoogleService-Info.plist in Resources */,
+				FBA65C7F21AA780200C5890D /* FireballParticle.sks in Resources */,
+				FBA65C8121AA7E5000C5890D /* SwordParticle.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

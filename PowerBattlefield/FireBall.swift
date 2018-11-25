@@ -1,11 +1,3 @@
-//
-//  FireBall.swift
-//  PowerBattlefield
-//
-//  Created by Da Lin on 11/24/18.
-//  Copyright © 2018 Da Lin. All rights reserved.
-//
-
 import Foundation
 import SpriteKit
 
