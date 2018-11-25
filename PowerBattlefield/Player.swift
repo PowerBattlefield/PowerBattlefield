@@ -12,6 +12,7 @@ enum BodyType:UInt32{
     case grass = 64
     case fireball = 128
     case player2 = 256
+    case enemy = 512
 }
 
 enum PlayerState:Int{
@@ -128,7 +129,7 @@ class Player: SKSpriteNode{
             self.physicsBody?.contactTestBitMask = BodyType.player1.rawValue
             self.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
         }
-        self.physicsBody?.contactTestBitMask |= BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.water.rawValue | BodyType.fireball.rawValue
+        self.physicsBody?.contactTestBitMask |= BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.water.rawValue | BodyType.fireball.rawValue | BodyType.enemy.rawValue
     }
     
     func setDatabaseReference(){
