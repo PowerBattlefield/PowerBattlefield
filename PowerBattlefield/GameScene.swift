@@ -15,6 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var time = TimeInterval(0)
     var skillIsOn = false
     var skillFlag = true
+    var enemies: [Enemy] = []
     
     //get room id from room view
     var roomId: String!
@@ -67,6 +68,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.removeAllChildren()
     }
     
+    func spawnEnemy(spawnPos: CGPoint, updateStateTime: Int){
+        let enemy = Enemy(texture: SKTexture(imageNamed: "e1_idledown_01"), color: SKColor.clear, size: CGSize(width: 400, height: 500), spawnPos: spawnPos)
+        enemy.updateStateTime = updateStateTime
+        addChild(enemy)
+        enemies.append(enemy)
+    }
+    
     override func didMove(to view: SKView) {
         if let id = self.userData?.value(forKey: "roomId") {
             roomId = (id as! String)
@@ -76,6 +84,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         setPlayers()
+        spawnEnemy(spawnPos: CGPoint(x: -100, y: -100), updateStateTime: 2)
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
             let gameIsOn = snapshot.value as? Bool ?? false
             if !gameIsOn{
@@ -189,8 +198,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let attack_x = center_x + screenWidth - 100
         let attack_y = center_y - screenHeight + 100
-        let direction_x = center_x - screenWidth + 100 + 5
-        let direction_y = center_y - screenHeight + 100 + 5
+        let direction_x = center_x - screenWidth + 140 + 5
+        let direction_y = center_y - screenHeight + 150 + 5
         let quit_x = center_x + screenWidth - 50
         let quit_y = center_y + screenHeight - 50
         let skill_x = attack_x + 50
@@ -438,9 +447,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var skillBeginTime:TimeInterval = 0
     var CDFlag:Bool = false
     
+    var enemyStateSet = false
+    var enemySTateSetTime = TimeInterval(0)
+    var updateEnemyStateTime = 3
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         updateCamera()
+        
+        if currentPlayer == 1{
+            enemyStateSet = false
+            for enemy in enemies{
+                enemy.time = currentTime
+                if !enemyStateSet{
+                    enemyStateSet = true
+                    enemySTateSetTime = currentTime
+                    let state = Int.random(in: 1..<4)
+                    let face = Int.random(in: 1..<5)
+                    enemy.update(state: state, face: face)
+                }else{
+                    if Int(time - enemySTateSetTime) >= updateEnemyStateTime{
+                        enemyStateSet = false
+                    }
+                }
+                
+            }
+        }
+        
         time = currentTime
         thePlayer.time = currentTime
         
@@ -478,6 +510,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if hold{
             thePlayer.hold = true
             if holdBeginTime == 0{
+                
                 switch moveDirection{
                 case "up":
                     thePlayer.moveUp(otherPlayer: false)
@@ -740,6 +773,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 break
+                
             }
         }
         
