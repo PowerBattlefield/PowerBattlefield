@@ -87,7 +87,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         textInput.backgroundColor = UIColor.white
         startOrReadyBtn.backgroundColor = UIColor.white
         send.backgroundColor = UIColor.white
-        startOrReadyBtn.layer.cornerRadius = 20
         startOrReadyBtn.layer.masksToBounds = true
         //        textInput.layer.cornerRadius = 20
         //        textInput.layer.masksToBounds = true
@@ -97,7 +96,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         startOrReadyBtn.alpha = 0.8
         textInput.alpha = 0.8
         send.alpha = 0.8
-        send.layer.cornerRadius = 5
         send.layer.masksToBounds = true
         self.view.bringSubviewToFront(roomNameLabel)
         let room = Database.database().reference().child(roomId)

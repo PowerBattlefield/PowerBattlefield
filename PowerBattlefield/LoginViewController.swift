@@ -12,15 +12,6 @@ class LoginViewController: UIViewController {
         appDeleagte.allowRotation = true
         let background = UIImage(named: "bglogin")
         self.view.backgroundColor = UIColor(patternImage: background!)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        let value = UIInterfaceOrientation.landscapeLeft.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         if let id = Auth.auth().currentUser?.uid {
             uid = id
         }else{
@@ -31,6 +22,15 @@ class LoginViewController: UIViewController {
         if(uid.count > 0){
             performSegue(withIdentifier: "show", sender: self)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let value = UIInterfaceOrientation.landscapeLeft.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
 
     @IBAction func loginBtn(_ sender: Any) {

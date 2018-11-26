@@ -907,7 +907,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func addFireballEmitter(node:SKNode){
         let emitter = SKEmitterNode(fileNamed: "FireballParticle")!
-        emitter.position = CGPoint(x: 0, y: 0)
+        if node.name == "enemy"{
+            emitter.position = CGPoint(x: -20, y: 120)
+        }else{
+            emitter.position = CGPoint(x: 0, y: 0)
+        }
         node.addChild(emitter)
         let wait:SKAction = SKAction.wait(forDuration: 0.5)
         let finish:SKAction = SKAction.run {

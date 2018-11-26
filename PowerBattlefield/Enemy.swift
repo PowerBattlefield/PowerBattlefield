@@ -29,6 +29,7 @@ class Enemy:SKSpriteNode{
         physicsBody?.angularDamping = 0
         physicsBody?.collisionBitMask =  BodyType.building.rawValue | BodyType.water.rawValue | BodyType.road.rawValue
         
+        name = "enemy"
         idleDownAnimation()
         
     }
