@@ -187,23 +187,27 @@ class Enemy:SKSpriteNode{
     }
     
     func damaged(damage: Int){
-        hp -= damage
-        switch face{
-        case .down:
-            run(SKAction(named: "e1_getattackeddown")!)
-            break
-        case .left:
-            run(SKAction(named: "e1_getattackedleft")!)
-            break
-        case .right:
-            run(SKAction(named: "e1_getattackedright")!)
-            break
-        case .up:
-            run(SKAction(named: "e1_getattackedup")!)
-            break
-        }
-        if hp <= 0{
-            deadAnimation()
+        if hp > 0{
+            hp -= damage
+            
+            switch face{
+            case .down:
+                run(SKAction(named: "e1_getattackeddown")!)
+                break
+            case .left:
+                run(SKAction(named: "e1_getattackedleft")!)
+                break
+            case .right:
+                run(SKAction(named: "e1_getattackedright")!)
+                break
+            case .up:
+                run(SKAction(named: "e1_getattackedup")!)
+                break
+            }
+            
+            if hp <= 0{
+                deadAnimation()
+            }
         }
     }
 }
