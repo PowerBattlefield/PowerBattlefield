@@ -4,11 +4,20 @@ class CreateRoomViewController: UIViewController {
 
     @IBOutlet weak var roompwd: UITextField!
     @IBOutlet weak var roomName: UITextField!
+    @IBOutlet weak var create: UIButton!
     var roomId:Int!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboard()
         // Do any additional setup after loading the view.
+
+        // Do any additional setup after loading the view.'
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "bgcreateroom")!)
+        roomName.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
+        roompwd.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
+        create.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        create.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
+        create.layer.cornerRadius = 20
     }
 
     override func didReceiveMemoryWarning() {
