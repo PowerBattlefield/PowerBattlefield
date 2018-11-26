@@ -2,10 +2,14 @@ import Foundation
 import SpriteKit
 import Firebase
 
+enum GameEnum: Int{
+    case playerMaxHealth = 200
+}
+
 enum BodyType:UInt32{
     case player1 = 1
     case building = 2
-    case castle = 4
+    case movingTotem = 4
     case road = 8
     case water = 16
     case rock = 32
@@ -13,6 +17,7 @@ enum BodyType:UInt32{
     case fireball = 128
     case player2 = 256
     case enemy = 512
+    case boat = 1024
 }
 
 enum PlayerState:Int{
@@ -28,6 +33,11 @@ enum PlayerFace:Int{
     case down = 4
 }
 
+enum Damage:Int{
+    case fireball = 5
+    case sword = 10
+}
+
 class Player: SKSpriteNode{
     
     var moveSpeed:TimeInterval = 0.5
@@ -38,7 +48,7 @@ class Player: SKSpriteNode{
     var roomId: String = "1"
     var state: PlayerState = PlayerState.idle
     var face: PlayerFace = PlayerFace.down
-    var hp:Int = 1000
+    var hp:Int = GameEnum.playerMaxHealth.rawValue
     var hold:Bool = false
     var range:CGFloat = 100
     
@@ -68,10 +78,11 @@ class Player: SKSpriteNode{
         setPhysicsBody()
         idleDownAnimation()
         
+        zPosition = 800
         if playerLabel == 1{
-            damage = 10
+            damage = Damage.sword.rawValue
         }else if playerLabel == 2{
-            damage = 5
+            damage = Damage.fireball.rawValue
         }
     }
     
@@ -124,14 +135,13 @@ class Player: SKSpriteNode{
         if playerLabel == 1{
             self.physicsBody?.categoryBitMask = BodyType.player1.rawValue
             self.physicsBody?.contactTestBitMask = BodyType.player2.rawValue
-            self.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
         }
         else{
             self.physicsBody?.categoryBitMask = BodyType.player2.rawValue
             self.physicsBody?.contactTestBitMask = BodyType.player1.rawValue
-            self.physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.water.rawValue
         }
-        self.physicsBody?.contactTestBitMask |= BodyType.building.rawValue | BodyType.castle.rawValue | BodyType.water.rawValue | BodyType.fireball.rawValue | BodyType.enemy.rawValue
+        self.physicsBody?.contactTestBitMask |= BodyType.building.rawValue | BodyType.water.rawValue | BodyType.fireball.rawValue | BodyType.enemy.rawValue
+        self.physicsBody?.collisionBitMask = BodyType.road.rawValue | BodyType.water.rawValue | BodyType.building.rawValue
     }
     
     func setDatabaseReference(){
@@ -311,10 +321,21 @@ class Player: SKSpriteNode{
     }
     
     func damaged(damage: Int){
-        print("hp before attack:\(hp)")
         hp -= damage
-        print("hp after attack:\(hp)")
-        print(damage)
+        switch face{
+        case .down:
+            run(SKAction(named: "p\(playerLabel)_getattackeddown")!)
+            break
+        case .left:
+            run(SKAction(named: "p\(playerLabel)_getattackedleft")!)
+            break
+        case .right:
+            run(SKAction(named: "p\(playerLabel)_getattackedright")!)
+            break
+        case .up:
+            run(SKAction(named: "p\(playerLabel)_getattackedup")!)
+            break
+        }
         refHP.setValue(hp)
     }
     

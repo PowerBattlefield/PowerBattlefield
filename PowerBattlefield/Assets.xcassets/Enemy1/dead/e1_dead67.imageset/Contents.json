@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "e1_dead67.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Top-Down Dungeon Platformer_Monster Castle - Front.png",
       "scale" : "2x"
     },
     {

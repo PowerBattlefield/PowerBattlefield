@@ -11,7 +11,6 @@
 		686AD30421A1112D0012C3D5 /* CreateRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */; };
 		686AD30621A138AA0012C3D5 /* roomAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686AD30521A138AA0012C3D5 /* roomAPI.swift */; };
 		689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF039218FB7090059CFFE /* MyTileSet.sks */; };
-		689DF043218FB70A0059CFFE /* Castle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF03C218FB70A0059CFFE /* Castle.swift */; };
 		689DF048218FBC0B0059CFFE /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF045218FBC0A0059CFFE /* GameScene.sks */; };
 		689DF049218FBC0B0059CFFE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF046218FBC0A0059CFFE /* GameScene.swift */; };
 		689DF04A218FBC0B0059CFFE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF047218FBC0B0059CFFE /* GameViewController.swift */; };
@@ -40,7 +39,6 @@
 		686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoomViewController.swift; sourceTree = "<group>"; };
 		686AD30521A138AA0012C3D5 /* roomAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = roomAPI.swift; sourceTree = "<group>"; };
 		689DF039218FB7090059CFFE /* MyTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyTileSet.sks; sourceTree = "<group>"; };
-		689DF03C218FB70A0059CFFE /* Castle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Castle.swift; sourceTree = "<group>"; };
 		689DF045218FBC0A0059CFFE /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		689DF046218FBC0A0059CFFE /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		689DF047218FBC0B0059CFFE /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -123,12 +121,8 @@
 				689DF047218FBC0B0059CFFE /* GameViewController.swift */,
 				FBA65C7A21A941C600C5890D /* EndViewController.swift */,
 				689DF046218FBC0A0059CFFE /* GameScene.swift */,
-				FBA65C7C21AA21B000C5890D /* FireBall.swift */,
 				FB6338E621A8CEBF005447FB /* Player.swift */,
 				FBA65C8221AAACC600C5890D /* Enemy.swift */,
-				689DF03C218FB70A0059CFFE /* Castle.swift */,
-				FBA65C7E21AA780200C5890D /* FireballParticle.sks */,
-				FBA65C8021AA7E5000C5890D /* SwordParticle.sks */,
 				689DF045218FBC0A0059CFFE /* GameScene.sks */,
 				FBA65C8421AAC5F700C5890D /* EnemyActions.sks */,
 				689DF04C218FBCD20059CFFE /* Actions.sks */,
@@ -139,6 +133,9 @@
 				FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */,
 				FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */,
 				FBD2AEF2218FAA0F00B49DC6 /* Info.plist */,
+				FBA65C7C21AA21B000C5890D /* FireBall.swift */,
+				FBA65C7E21AA780200C5890D /* FireballParticle.sks */,
+				FBA65C8021AA7E5000C5890D /* SwordParticle.sks */,
 				686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */,
 				686AD30521A138AA0012C3D5 /* roomAPI.swift */,
 			);
@@ -297,7 +294,6 @@
 				FBA65C7D21AA21B000C5890D /* FireBall.swift in Sources */,
 				689DF049218FBC0B0059CFFE /* GameScene.swift in Sources */,
 				FB2F9DF1219FF2A30068A8AC /* RoomViewController.swift in Sources */,
-				689DF043218FB70A0059CFFE /* Castle.swift in Sources */,
 				FB2F9DEF219FCFAE0068A8AC /* LobbyViewController.swift in Sources */,
 				FB2F9DED219FBEFA0068A8AC /* LoginViewController.swift in Sources */,
 				FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */,

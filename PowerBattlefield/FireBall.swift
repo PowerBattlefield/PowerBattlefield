@@ -8,7 +8,8 @@ class FireBall: SKSpriteNode {
         physicsBody = SKPhysicsBody(circleOfRadius: 10)
         physicsBody?.categoryBitMask = BodyType.fireball.rawValue
         physicsBody?.affectedByGravity = false
-        physicsBody?.collisionBitMask = BodyType.castle.rawValue | BodyType.road.rawValue | BodyType.player1.rawValue
+        physicsBody?.collisionBitMask = BodyType.road.rawValue | BodyType.player1.rawValue
+        physicsBody?.contactTestBitMask = BodyType.boat.rawValue | BodyType.movingTotem.rawValue | BodyType.building.rawValue | BodyType.enemy.rawValue
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -14,14 +14,20 @@ class Enemy:SKSpriteNode{
     var moveDistance:CGFloat = 50
     var face = PlayerFace.down
     var enemyLabel = 1
+    var hp = 100
     
     init(texture: SKTexture, color: SKColor, size: CGSize, spawnPos: CGPoint) {
         super.init(texture: texture, color: color, size: size)
         position = CGPoint(x: spawnPos.x, y: spawnPos.y)
-        physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        physicsBody = SKPhysicsBody(texture: texture, size: size)
         physicsBody?.categoryBitMask = BodyType.enemy.rawValue
         physicsBody?.affectedByGravity = false
-        physicsBody?.collisionBitMask = BodyType.water.rawValue | BodyType.road.rawValue
+        physicsBody?.angularDamping = 0
+        physicsBody?.allowsRotation = false
+        physicsBody?.linearDamping = 0
+        physicsBody?.restitution = 0
+        physicsBody?.angularDamping = 0
+        physicsBody?.collisionBitMask =  BodyType.building.rawValue | BodyType.water.rawValue | BodyType.road.rawValue
         
         idleDownAnimation()
         
@@ -170,5 +176,33 @@ class Enemy:SKSpriteNode{
         }
         
         run(attackAction)
+    }
+    
+    func deadAnimation(){
+        removeAllActions()
+        run(SKAction.sequence([SKAction(named: "e1_dead")!, SKAction.run {
+            self.removeFromParent()
+            }]))
+    }
+    
+    func damaged(damage: Int){
+        hp -= damage
+        switch face{
+        case .down:
+            run(SKAction(named: "e1_getattackeddown")!)
+            break
+        case .left:
+            run(SKAction(named: "e1_getattackedleft")!)
+            break
+        case .right:
+            run(SKAction(named: "e1_getattackedright")!)
+            break
+        case .up:
+            run(SKAction(named: "e1_getattackedup")!)
+            break
+        }
+        if hp <= 0{
+            deadAnimation()
+        }
     }
 }

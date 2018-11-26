@@ -38,7 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Health bar
     let playerHealthBar = SKSpriteNode()
-    let MaxHealth:CGFloat = 1000
+    let MaxHealth:CGFloat = CGFloat(GameEnum.playerMaxHealth.rawValue)
     
     func setPlayers(){
         if(currentPlayer == 1){
@@ -65,6 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 otherPlayer1.initialize(playerLabel: 1, roomId: roomId)
             }
         }
+        thePlayer.zPosition = 900
     }
     
     override func willMove(from view: SKView) {
@@ -74,7 +75,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var enemyNumber = 0
     func spawnEnemy(spawnPos: CGPoint, updateStateTime: Int){
-        let enemy = Enemy(texture: SKTexture(imageNamed: "e1_idledown_01"), color: SKColor.clear, size: CGSize(width: 400, height: 500), spawnPos: spawnPos)
+        let enemy = Enemy(texture: SKTexture(imageNamed: "e1_idledown_01"), color: SKColor.clear, size: SKTexture(imageNamed: "e1_idledown_01").size(), spawnPos: spawnPos)
         addChild(enemy)
         enemies.append(enemy)
         enemyNumber += 1
@@ -92,6 +93,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         setPlayers()
         spawnEnemy(spawnPos: CGPoint(x: -100, y: -100), updateStateTime: 2)
+        spawnEnemy(spawnPos: CGPoint(x: -500, y: -500), updateStateTime: 3)
+        spawnEnemy(spawnPos: CGPoint(x: 100, y: 500), updateStateTime: 1)
+        spawnEnemy(spawnPos: CGPoint(x: 300, y: 500), updateStateTime: 4)
+        spawnEnemy(spawnPos: CGPoint(x: -500, y: 500), updateStateTime: 3)
+        spawnEnemy(spawnPos: CGPoint(x: -600, y: 100), updateStateTime: 2)
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
             let gameIsOn = snapshot.value as? Bool ?? false
             if !gameIsOn{
@@ -123,13 +129,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if (node.name == "Building") {
                 if (node is SKSpriteNode) {
                     node.physicsBody?.categoryBitMask = BodyType.building.rawValue
+                }
+            }
+            
+            if (node.name == "MovingTotem") {
+                if (node is SKSpriteNode) {
+                    node.physicsBody?.categoryBitMask = BodyType.movingTotem.rawValue
                     node.physicsBody?.collisionBitMask = 0
                 }
             }
             
-            if let aCastle:Castle = node as? Castle {
-                aCastle.setUpCastle()
-                aCastle.dudesInCastle = 5
+            if (node.name == "Boat") {
+                if (node is SKSpriteNode) {
+                    node.physicsBody?.categoryBitMask = BodyType.boat.rawValue
+                }
             }
             
             if (node.name == "GrassTiles") {
@@ -176,8 +189,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     func updateHealthBar(value:CGFloat) {
         var hp = value
-        if (hp>1000) {
-            hp = 1000
+        if (hp>CGFloat(GameEnum.playerMaxHealth.rawValue)) {
+            hp = CGFloat(GameEnum.playerMaxHealth.rawValue)
         } else if (hp<0) {
             hp = 0
         }
@@ -202,6 +215,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // set sprite texture and size
         playerHealthBar.texture = SKTexture(image: spriteImage!)
         playerHealthBar.size = barSize
+        playerHealthBar.zPosition = 900
         playerHealthBar.position = CGPoint(x: thePlayer.position.x-5, y: thePlayer.position.y+30)
     }
     func updateCamera() {
@@ -338,7 +352,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.otherPlayer1.moveRight(otherPlayer: true)
             }
         }
-       Database.database().reference().child(roomId).child("player1").child("hp").observe(DataEventType.value) { (snapshot) in
+        Database.database().reference().child(roomId).child("player1").child("hp").observe(DataEventType.value) { (snapshot) in
             if !self.firstObserve{
                 if let hp = snapshot.value as? Int{
                     if self.thePlayer.playerLabel == 1{
@@ -435,13 +449,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         otherPlayer1.refAttack.observe(DataEventType.value) { (snapshot) in
-           
+            
             if self.firstObserve{
                 self.firstObserve = false
             }else{
                 self.otherPlayer1.attack(otherPlayer: true)
                 if self.otherPlayer1.playerLabel == 1{
                     self.detectAttacked(attacker:self.otherPlayer1, attacked: self.thePlayer)
+                    for enemy in self.enemies{
+                        self.detectAttackedEnemy(attacker: self.otherPlayer1, attacked: enemy)
+                    }
                 }
             }
         }
@@ -496,6 +513,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var updateEnemyStateTime = 3
     
     var enemyStateAmount = 0
+    
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         updateCamera()
@@ -602,7 +620,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             holdBeginTime = 0
         }
         
-
+        
         if skillIsOn{
             let label = Skill_btn.childNode(withName: "skillTime") as! SKLabelNode
             if skillBeginTime == 0{
@@ -647,20 +665,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
-                switch attacked.face{
-                case .down:
-                    attacked.run(SKAction(named: "p2_getattackeddown")!)
-                    break
-                case .left:
-                    attacked.run(SKAction(named: "p2_getattackedleft")!)
-                    break
-                case .right:
-                    attacked.run(SKAction(named: "p2_getattackedright")!)
-                    break
-                case .up:
-                    attacked.run(SKAction(named: "p2_getattackedup")!)
-                    break
-                }
             }
             
         }else if attacker.face == PlayerFace.left {
@@ -668,20 +672,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
-                switch attacked.face{
-                case .down:
-                    attacked.run(SKAction(named: "p2_getattackeddown")!)
-                    break
-                case .left:
-                    attacked.run(SKAction(named: "p2_getattackedleft")!)
-                    break
-                case .right:
-                    attacked.run(SKAction(named: "p2_getattackedright")!)
-                    break
-                case .up:
-                    attacked.run(SKAction(named: "p2_getattackedup")!)
-                    break
-                }
             }
             
         }else if attacker.face == PlayerFace.up {
@@ -690,20 +680,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
-                switch attacked.face{
-                case .down:
-                    attacked.run(SKAction(named: "p2_getattackeddown")!)
-                    break
-                case .left:
-                    attacked.run(SKAction(named: "p2_getattackedleft")!)
-                    break
-                case .right:
-                    attacked.run(SKAction(named: "p2_getattackedright")!)
-                    break
-                case .up:
-                    attacked.run(SKAction(named: "p2_getattackedup")!)
-                    break
-                }
             }
             
         }else if attacker.face == PlayerFace.down {
@@ -712,26 +688,61 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
-                switch attacked.face{
-                case .down:
-                    attacked.run(SKAction(named: "p2_getattackeddown")!)
-                    break
-                case .left:
-                    attacked.run(SKAction(named: "p2_getattackedleft")!)
-                    break
-                case .right:
-                    attacked.run(SKAction(named: "p2_getattackedright")!)
-                    break
-                case .up:
-                    attacked.run(SKAction(named: "p2_getattackedup")!)
-                    break
-                }
             }
         }
         
         if attackedFlag{
             let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
             emitter.position = CGPoint(x: 0, y: 0)
+            attacked.addChild(emitter)
+            let wait:SKAction = SKAction.wait(forDuration: 0.5)
+            let finish:SKAction = SKAction.run {
+                emitter.removeFromParent()
+            }
+            let seq:SKAction = SKAction.sequence( [wait, finish] )
+            run(seq)
+        }
+    }
+    
+    func detectAttackedEnemy(attacker: Player, attacked: Enemy){
+        print(attacker.position)
+        let enemyPosAdjust = CGPoint(x: attacked.position.x - 20, y: attacked.position.y + 120)
+        print(enemyPosAdjust)
+        var attackedFlag = false
+        if attacker.face == PlayerFace.right {
+            if attacker.position.x > enemyPosAdjust.x - attacker.range - 35 && attacker.position.x < enemyPosAdjust.x && abs(attacker.position.y - enemyPosAdjust.y) < attacker.range/2 + 70{
+                print("attacted")
+                attackedFlag = true
+                attacked.damaged(damage: attacker.damage)
+            }
+            
+        }else if attacker.face == PlayerFace.left {
+            if attacker.position.x < enemyPosAdjust.x + attacker.range + 60 && attacker.position.x > enemyPosAdjust.x && abs(attacker.position.y - enemyPosAdjust.y) < attacker.range/2 + 70{
+                print("attacted")
+                attackedFlag = true
+                attacked.damaged(damage: attacker.damage)
+            }
+            
+        }else if attacker.face == PlayerFace.up {
+            
+            if attacker.position.y > enemyPosAdjust.y - attacker.range - 120 && attacker.position.y < enemyPosAdjust.y && abs(attacker.position.x - enemyPosAdjust.x) < attacker.range/2 + 45{
+                print("attacted")
+                attackedFlag = true
+                attacked.damaged(damage: attacker.damage)
+            }
+            
+        }else if attacker.face == PlayerFace.down {
+            
+            if attacker.position.y < enemyPosAdjust.y + attacker.range + 120 && attacker.position.y > enemyPosAdjust.y && abs(attacker.position.x - enemyPosAdjust.x) < attacker.range/2 + 45{
+                print("attacted")
+                attackedFlag = true
+                attacked.damaged(damage: attacker.damage)
+            }
+        }
+        
+        if attackedFlag{
+            let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
+            emitter.position = CGPoint(x: -20, y: 120)
             attacked.addChild(emitter)
             let wait:SKAction = SKAction.wait(forDuration: 0.5)
             let finish:SKAction = SKAction.run {
@@ -749,7 +760,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(!gameEnd){
             for t in touches {
-     
+                
                 let location = t.location(in: self)
                 let node = self.atPoint(location)
                 if (node.name == "Attack_btn") {
@@ -759,6 +770,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         thePlayer.attack(otherPlayer: false)
                         if thePlayer.playerLabel == 1{
                             detectAttacked(attacker: thePlayer, attacked: otherPlayer1)
+                            for enemy in enemies{
+                                detectAttackedEnemy(attacker: thePlayer, attacked: enemy)
+                            }
+                            
                         }
                         Attack_btn.color = UIColor.black
                         Attack_btn.colorBlendFactor = 1
@@ -803,7 +818,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-       
+        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -818,6 +833,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //MARK: Physics contacts
     func didBegin(_ contact: SKPhysicsContact) {
+        checkPlayerAttacked(contact)
+        checkBuildingAttacked(contact)
+        checkEnemyAttacked(contact)
+    }
+    
+    func checkPlayerAttacked(_ contact: SKPhysicsContact){
         var attacked = false
         if (contact.bodyA.categoryBitMask == BodyType.player1.rawValue && contact.bodyB.categoryBitMask == BodyType.fireball.rawValue) {
             contact.bodyB.node?.removeFromParent()
@@ -827,27 +848,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             attacked = true
         }
         if attacked{
-            let emitter = SKEmitterNode(fileNamed: "FireballParticle")!
-            emitter.position = CGPoint(x: 0, y: 0)
             if thePlayer.playerLabel == 1{
                 thePlayer.damaged(damage: otherPlayer1.damage)
-                thePlayer.addChild(emitter)
-                switch thePlayer.face{
-                case .down:
-                    thePlayer.run(SKAction(named: "p1_getattackeddown")!)
-                    break
-                case .left:
-                    thePlayer.run(SKAction(named: "p1_getattackedleft")!)
-                    break
-                case .right:
-                    thePlayer.run(SKAction(named: "p1_getattackedright")!)
-                    break
-                case .up:
-                    thePlayer.run(SKAction(named: "p1_getattackedup")!)
-                    break
-                }
+                addFireballEmitter(node:thePlayer)
             }else{
-                otherPlayer1.addChild(emitter)
+                addFireballEmitter(node:otherPlayer1)
                 switch otherPlayer1.face{
                 case .down:
                     otherPlayer1.run(SKAction(named: "p1_getattackeddown")!)
@@ -863,12 +868,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     break
                 }
             }
-            let wait:SKAction = SKAction.wait(forDuration: 0.5)
-            let finish:SKAction = SKAction.run {
-                emitter.removeFromParent()
-            }
-            let seq:SKAction = SKAction.sequence( [wait, finish] )
-            run(seq)
         }
+    }
+    
+    func checkBuildingAttacked(_ contact: SKPhysicsContact){
+        if (contact.bodyB.categoryBitMask == BodyType.boat.rawValue && contact.bodyA.categoryBitMask == BodyType.fireball.rawValue) {
+            contact.bodyA.node?.removeFromParent()
+            addFireballEmitter(node: contact.bodyB.node!)
+        } else if (contact.bodyB.categoryBitMask == BodyType.fireball.rawValue && contact.bodyA.categoryBitMask == BodyType.boat.rawValue) {
+            contact.bodyB.node?.removeFromParent()
+            addFireballEmitter(node: contact.bodyA.node!)
+        } else if (contact.bodyB.categoryBitMask == BodyType.movingTotem.rawValue && contact.bodyA.categoryBitMask == BodyType.fireball.rawValue) {
+            contact.bodyA.node?.removeFromParent()
+            addFireballEmitter(node: contact.bodyB.node!)
+        } else if (contact.bodyB.categoryBitMask == BodyType.fireball.rawValue && contact.bodyA.categoryBitMask == BodyType.movingTotem.rawValue) {
+            contact.bodyB.node?.removeFromParent()
+            addFireballEmitter(node: contact.bodyA.node!)
+        }else if (contact.bodyB.categoryBitMask == BodyType.building.rawValue && contact.bodyA.categoryBitMask == BodyType.fireball.rawValue) {
+            contact.bodyA.node?.removeFromParent()
+            addFireballEmitter(node: contact.bodyB.node!)
+        } else if (contact.bodyB.categoryBitMask == BodyType.fireball.rawValue && contact.bodyA.categoryBitMask == BodyType.building.rawValue) {
+            contact.bodyB.node?.removeFromParent()
+            addFireballEmitter(node: contact.bodyA.node!)
+        }
+    }
+    
+    func checkEnemyAttacked(_ contact: SKPhysicsContact){
+        if (contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.fireball.rawValue) {
+            contact.bodyB.node?.removeFromParent()
+            addFireballEmitter(node: contact.bodyA.node!)
+            (contact.bodyA.node as! Enemy).damaged(damage:Damage.fireball.rawValue)
+        } else if (contact.bodyB.categoryBitMask == BodyType.enemy.rawValue && contact.bodyA.categoryBitMask == BodyType.fireball.rawValue) {
+            contact.bodyA.node?.removeFromParent()
+            addFireballEmitter(node: contact.bodyB.node!)
+            (contact.bodyA.node as! Enemy).damaged(damage:Damage.fireball.rawValue)
+        }
+    }
+    
+    func addFireballEmitter(node:SKNode){
+        let emitter = SKEmitterNode(fileNamed: "FireballParticle")!
+        emitter.position = CGPoint(x: 0, y: 0)
+        node.addChild(emitter)
+        let wait:SKAction = SKAction.wait(forDuration: 0.5)
+        let finish:SKAction = SKAction.run {
+            emitter.removeFromParent()
+        }
+        let seq:SKAction = SKAction.sequence( [wait, finish] )
+        run(seq)
     }
 }
