@@ -7,6 +7,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboard()
         // Do any additional setup after loading the view.
         appDeleagte.allowRotation = true
     }
@@ -42,7 +43,7 @@ class LoginViewController: UIViewController {
         authUI?.delegate = self
         
         let authViewConroller = authUI!.authViewController()
-        
+        authViewConroller.hideKeyboard()
         present(authViewConroller, animated: true, completion: nil)
         
     }

@@ -74,6 +74,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboard()
         gameEnds()
         chatDisplay.isEditable = false
         playerList.delegate = self
@@ -254,4 +255,22 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     */
 
+}
+
+extension UIViewController
+{
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
+        
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard()
+    {
+        view.endEditing(true)
+    }
 }
