@@ -13,7 +13,7 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         appDeleagte.allowRotation = true
         super.viewDidLoad()
-        var number = 2
+        var number = 1
         Database.database().reference().child(roomId).child("playerNames").observe(DataEventType.value){ (snapshot) in
             for rest in snapshot.children{
                 let player = rest as! DataSnapshot
