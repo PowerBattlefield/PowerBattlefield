@@ -18,8 +18,14 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
         let text = rooms![indexPath.row].roomName
         cell.textLabel!.text = text
+        cell.textLabel?.textColor = UIColor.blue.withAlphaComponent(0.6)
+        cell.textLabel!.font = UIFont.boldSystemFont(ofSize: 20)
+        cell.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
         let playerNumberLabel = UILabel(frame: CGRect(x: self.view.frame.maxX - 50, y: 0, width: 50, height: cell.frame.height))
         playerNumberLabel.text = "\(rooms![indexPath.row].playerNumber!)/2"
+        playerNumberLabel.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0)
+        playerNumberLabel.textColor = UIColor.blue.withAlphaComponent(0.6)
+        playerNumberLabel.font = UIFont.boldSystemFont(ofSize: 20)
         cell.addSubview(playerNumberLabel)
         return cell
     }
@@ -38,6 +44,8 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         super.viewDidLoad()
         roomList.dataSource = self
         roomList.delegate = self
+        let background = UIImage(named: "bgcreateroom")
+        roomList.backgroundColor = UIColor(patternImage: background!)
     }
 
 

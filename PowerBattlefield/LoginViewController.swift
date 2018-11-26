@@ -9,6 +9,8 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         appDeleagte.allowRotation = true
+        let background = UIImage(named: "bglogin")
+        self.view.backgroundColor = UIColor(patternImage: background!)
     }
     
     override func viewWillAppear(_ animated: Bool) {

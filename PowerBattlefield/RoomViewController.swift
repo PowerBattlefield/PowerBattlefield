@@ -41,6 +41,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     @IBOutlet weak var textInput: UITextField!
     @IBOutlet weak var playerList: UITableView!
     @IBOutlet weak var roomNameLabel: UILabel!
+    @IBOutlet weak var send: UIButton!
     var roomId :String!
     var roomName:String!
     var number: Int!
@@ -71,14 +72,32 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        let background = UIImage(named: "mountain")
+        self.view.backgroundColor = UIColor(patternImage: background!)
         gameEnds()
         chatDisplay.isEditable = false
         playerList.delegate = self
         playerList.dataSource = self
         roomNameLabel.text = roomName
+        chatDisplay.backgroundColor = UIColor.white
+        textInput.backgroundColor = UIColor.white
+        startOrReadyBtn.backgroundColor = UIColor.white
+        send.backgroundColor = UIColor.white
+        startOrReadyBtn.layer.cornerRadius = 20
+        startOrReadyBtn.layer.masksToBounds = true
+        //        textInput.layer.cornerRadius = 20
+        //        textInput.layer.masksToBounds = true
+        playerList.backgroundColor = UIColor.white
+        playerList.alpha = 0.8
+        chatDisplay.alpha = 0.8
+        startOrReadyBtn.alpha = 0.8
+        textInput.alpha = 0.8
+        send.alpha = 0.8
+        send.layer.cornerRadius = 5
+        send.layer.masksToBounds = true
         self.view.bringSubviewToFront(roomNameLabel)
         let room = Database.database().reference().child(roomId)
         room.child("gameIsOn").setValue(false)
