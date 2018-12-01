@@ -12,16 +12,6 @@ class LoginViewController: UIViewController {
         appDeleagte.allowRotation = true
         let background = UIImage(named: "bglogin")
         self.view.backgroundColor = UIColor(patternImage: background!)
-        if let id = Auth.auth().currentUser?.uid {
-            uid = id
-        }else{
-            uid = ""
-        }
-        
-        //if logged in user, go to lobby view
-        if(uid.count > 0){
-            performSegue(withIdentifier: "show", sender: self)
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,6 +21,15 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if let id = Auth.auth().currentUser?.uid {
+            uid = id
+        }else{
+            uid = ""
+        }
+        //if logged in user, go to lobby view
+        if(uid.count > 0){
+            performSegue(withIdentifier: "show", sender: self)
+        }
     }
 
     @IBAction func loginBtn(_ sender: Any) {
