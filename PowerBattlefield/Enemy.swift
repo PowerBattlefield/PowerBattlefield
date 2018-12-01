@@ -12,9 +12,15 @@ class Enemy:SKSpriteNode{
     var moveSpeed:TimeInterval = 0.5
     var moveAmount = 0
     var moveDistance:CGFloat = 50
-    var face = PlayerFace.down
+    var face = PlayerFace.right
     var enemyLabel = 1
     var hp = 100
+    var range:CGFloat = 100
+    var damage = 1
+    var updateStateTime = 1
+    var stateSet = false
+    var stateSetTime = TimeInterval(0)
+    var stateAmount = 0
     
     init(texture: SKTexture, color: SKColor, size: CGSize, spawnPos: CGPoint) {
         super.init(texture: texture, color: color, size: size)
@@ -34,7 +40,7 @@ class Enemy:SKSpriteNode{
         
     }
     
-    func observeStateChange(roomId: String){
+    func observeStateChange(roomId: String, thePlayer: Player, otherPlayer1: Player){
         Database.database().reference().child(roomId).child("enemy\(enemyLabel)").observe(DataEventType.value) { (snapshot) in
             var state = 0
             var face = 0
@@ -46,7 +52,7 @@ class Enemy:SKSpriteNode{
                 }
             }
             if state == EnemyState.attack.rawValue{
-                self.attack()
+                self.attack(thePlayer: thePlayer, otherPlayer1: otherPlayer1)
             }
             else if state == EnemyState.walk.rawValue{
                 if face == PlayerFace.left.rawValue{
@@ -159,7 +165,7 @@ class Enemy:SKSpriteNode{
         run(seq)
     }
     
-    func attack(){
+    func attack(thePlayer: Player, otherPlayer1: Player){
         var attackAction: SKAction = SKAction()
         switch face{
         case PlayerFace.right:
@@ -175,8 +181,56 @@ class Enemy:SKSpriteNode{
             attackAction = SKAction(named: "e1_attackdown")!
             
         }
-        
+        detectAttackedPlayer(player: thePlayer, enemy: self)
+        detectAttackedPlayer(player: otherPlayer1, enemy: self)
         run(attackAction)
+    }
+    
+    func detectAttackedPlayer(player: Player, enemy: Enemy){
+        let enemyPosAdjust = CGPoint(x: enemy.position.x - 20, y: enemy.position.y + 120)
+        var attackedFlag = false
+        if face == PlayerFace.right {
+            if enemyPosAdjust.x > player.position.x - enemy.range - 50 && enemyPosAdjust.x < player.position.x && abs(player.position.y - enemyPosAdjust.y) < enemy.range/2 + 10{
+                print("attacted")
+                attackedFlag = true
+                player.damaged(damage: enemy.damage)
+            }
+            
+        }else if face == PlayerFace.left {
+            if enemyPosAdjust.x < player.position.x + enemy.range + 20 && enemyPosAdjust.x > player.position.x && abs(player.position.y - enemyPosAdjust.y) < enemy.range/2+10{
+                print("attacted")
+                attackedFlag = true
+                player.damaged(damage: enemy.damage)
+            }
+            
+        }else if face == PlayerFace.up {
+            
+            if enemyPosAdjust.y > player.position.y - enemy.range - 60 && enemyPosAdjust.y < player.position.y && abs(player.position.x - enemyPosAdjust.x) < enemy.range/2 + 15{
+                print("attacted")
+                attackedFlag = true
+                player.damaged(damage: enemy.damage)
+            }
+            
+        }else if face == PlayerFace.down {
+            
+            if enemyPosAdjust.y < player.position.y + enemy.range - 40 && enemyPosAdjust.y > player.position.y && abs(player.position.x - enemyPosAdjust.x) < enemy.range/2 + 15{
+                print("attacted")
+                attackedFlag = true
+                player.damaged(damage: enemy.damage)
+            }
+        }
+        
+        if attackedFlag{
+            let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
+            emitter.position = CGPoint(x: 0, y: 0)
+            player.addChild(emitter)
+            let wait:SKAction = SKAction.wait(forDuration: 0.5)
+            let finish:SKAction = SKAction.run {
+                emitter.removeFromParent()
+            }
+            let seq:SKAction = SKAction.sequence( [wait, finish] )
+            run(seq)
+        }
     }
     
     func deadAnimation(){
