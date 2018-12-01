@@ -17,7 +17,9 @@ class GameViewController: UIViewController {
         Database.database().reference().child(roomId).child("playerNames").observe(DataEventType.value){ (snapshot) in
             for rest in snapshot.children{
                 let player = rest as! DataSnapshot
+                print(player.key)
                 if Auth.auth().currentUser?.uid == player.key{
+                    print("")
                     self.playerNumber = number
                     break
                 }
