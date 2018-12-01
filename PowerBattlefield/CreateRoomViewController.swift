@@ -29,22 +29,24 @@ class CreateRoomViewController: UIViewController {
     }
     
     @IBAction func create(_ sender: Any) {
-        let roomNumber = Database.database().reference().child("number of rooms")
-        roomNumber.observeSingleEvent(of: .value, with: { (snapshot) in
-            self.roomId = snapshot.value as? Int ?? 0
-            self.roomId = self.roomId + 1
-            roomNumber.setValue(self.roomId)
-            let room = Database.database().reference().child(String(self.roomId))
-            room.child("roomName").setValue(self.roomName.text)
-            room.child("roomOwner").setValue(Auth.auth().currentUser?.uid)
-            let newVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomVC") as! RoomViewController
-            newVC.roomId = String(self.roomId)
-            newVC.roomName = self.roomName.text
-            newVC.roomOwner = Auth.auth().currentUser?.uid
-            newVC.audioPlayer = self.audioPlayer
-            self.present(newVC, animated: true, completion: nil)
-        }) { (error) in
-            print(error.localizedDescription)
+        if(self.roomName.text!.count > 0){
+            let roomNumber = Database.database().reference().child("number of rooms")
+            roomNumber.observeSingleEvent(of: .value, with: { (snapshot) in
+                self.roomId = snapshot.value as? Int ?? 0
+                self.roomId = self.roomId + 1
+                roomNumber.setValue(self.roomId)
+                let room = Database.database().reference().child(String(self.roomId))
+                room.child("roomName").setValue(self.roomName.text)
+                room.child("roomOwner").setValue(Auth.auth().currentUser?.uid)
+                let newVC = self.storyboard?.instantiateViewController(withIdentifier: "RoomVC") as! RoomViewController
+                newVC.roomId = String(self.roomId)
+                newVC.roomName = self.roomName.text
+                newVC.roomOwner = Auth.auth().currentUser?.uid
+                newVC.audioPlayer = self.audioPlayer
+                self.present(newVC, animated: true, completion: nil)
+            }) { (error) in
+                print(error.localizedDescription)
+            }
         }
     }
 

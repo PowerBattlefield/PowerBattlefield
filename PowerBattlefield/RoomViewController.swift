@@ -232,6 +232,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
         appDeleagte.isInRoom = false
         let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
+        newVC.audioPlayer = self.audioPlayer
         self.present(newVC, animated: true, completion: nil)
     }
     

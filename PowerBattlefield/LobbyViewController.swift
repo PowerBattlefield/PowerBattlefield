@@ -36,14 +36,14 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             newVC.roomId = rooms![indexPath.row].roomId
             newVC.roomName = rooms![indexPath.row].roomName
             newVC.roomOwner = rooms![indexPath.row].roomOwner
-            newVC.audioPlayer = self.audioPlayer!
+            newVC.audioPlayer = audioPlayer
             self.present(newVC, animated: true, completion: nil)
         }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showCreateRoom" {
             if let destinationVC = segue.destination as? CreateRoomViewController {
-                destinationVC.audioPlayer = self.audioPlayer
+                destinationVC.audioPlayer = audioPlayer
             }
         }
     }
@@ -78,8 +78,11 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
                         dict[room.key] = room.value
                     }
                     if dict["playerNumber"] != nil && dict["roomName"] != nil && dict["roomOwner"] != nil && dict["gameIsOn"] != nil{
-                        let data = Room(playerNumber: dict["playerNumber"] as! Int, roomName: dict["roomName"] as! String, roomId: roomId, roomOwner: dict["roomOwner"] as! String, gameIsOn: dict["gameIsOn"] as! Bool)
-                        self.rooms!.append(data)
+                        let playerNumber = dict["playerNumber"] as! Int
+                        if dict["gameIsOn"] as! Bool == false && playerNumber < 2 {
+                            let data = Room(playerNumber: dict["playerNumber"] as! Int, roomName: dict["roomName"] as! String, roomId: roomId, roomOwner: dict["roomOwner"] as! String, gameIsOn: dict["gameIsOn"] as! Bool)
+                            self.rooms!.append(data)
+                        }
                     }
                 }
             }
