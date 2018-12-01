@@ -3,6 +3,7 @@ import SpriteKit
 import GameplayKit
 import Firebase
 class GameViewController: UIViewController {
+    var scene :GameScene?
     var roomId :String!
     var roomName :String!
     var roomOwner :String!
@@ -31,18 +32,17 @@ class GameViewController: UIViewController {
     func goToGameScene(){
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = GameScene(fileNamed: "GameScene") {
+            scene = GameScene(fileNamed: "GameScene")
                 // Set the scale mode to scale to fit the window
                 //scene.size
-                scene.size = CGSize(width: CGFloat(screenHeight), height: CGFloat(screenWidth))
-                scene.scaleMode = SKSceneScaleMode.resizeFill
-                scene.viewController = self
-                scene.userData = NSMutableDictionary()
-                scene.userData?.setValue(roomId, forKey: "roomId")
-                scene.userData?.setValue(playerNumber, forKey: "playerNumber")
+                scene!.size = CGSize(width: CGFloat(screenHeight), height: CGFloat(screenWidth))
+                scene!.scaleMode = SKSceneScaleMode.resizeFill
+                scene!.viewController = self
+                scene!.userData = NSMutableDictionary()
+                scene!.userData?.setValue(roomId, forKey: "roomId")
+                scene!.userData?.setValue(playerNumber, forKey: "playerNumber")
                 // Present the scene
                 view.presentScene(scene)
-            }
             
             view.ignoresSiblingOrder = true
             view.showsPhysics = false

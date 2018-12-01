@@ -62,6 +62,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             let newVC = self.storyboard?.instantiateViewController(withIdentifier: "EndVC") as! EndViewController
                             newVC.roomId = self.roomId
                             newVC.displayText = "Congratulations! You win the game!"
+                            newVC.audioPlayer = self.audioPlayer
                             self.present(newVC, animated: false, completion: nil)
                         }else{
                             let newVC = self.storyboard?.instantiateViewController(withIdentifier: "EndVC") as! EndViewController
@@ -117,7 +118,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         textInput.alpha = 0.8
         send.alpha = 0.8
         send.layer.masksToBounds = true
-        self.view.bringSubviewToFront(roomNameLabel)
+        self.view.bringSubview(toFront: roomNameLabel)
         let room = Database.database().reference().child(roomId)
         room.child("gameIsOn").setValue(false)
         if Auth.auth().currentUser?.uid == roomOwner{
@@ -170,6 +171,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 newVC.roomName = self.roomName
                 newVC.roomOwner = self.roomOwner
                 if(self.audioPlayer != nil){
+                    print(1111)
                     self.audioPlayer.stop()
                 }
                 self.present(newVC, animated: true, completion: nil)
@@ -234,6 +236,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     @IBAction func quitRoom(_ sender: Any) {
         let room = Database.database().reference().child(roomId)
         room.child("playerNames").removeAllObservers()
+        room.child("gameIsOn").removeAllObservers()
         room.child("playerNumber").setValue(players.count-1)
         room.child("playerNames").child(Auth.auth().currentUser!.uid).removeValue()
         room.child("playerIsReady").child(Auth.auth().currentUser!.uid).removeValue()

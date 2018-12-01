@@ -3,12 +3,12 @@ import GameplayKit
 import Firebase
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    var viewController: UIViewController?
+    weak var viewController: GameViewController? = GameViewController()
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
     var thePlayer:Player = Player()
     var otherPlayer1:Player = Player()
-    var theWeapon:SKSpriteNode = SKSpriteNode()
+    var theWeapon:SKSpriteNode? = SKSpriteNode()
     var moveSpeed:TimeInterval = 1
     var currentPlayer = 1
     var currentPlayerState = 1
@@ -108,10 +108,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let gameIsOn = snapshot.value as? Bool ?? false
             if !gameIsOn{
                 self.sound.stopBGM()
+                self.sound.removeFromParent()
                 self.removeAllActions()
                 self.removeAllChildren()
                 self.removeFromParent()
+                self.viewController?.removeFromParentViewController()
                 self.view?.presentScene(nil)
+                self.view?.removeFromSuperview()
+                self.scene?.removeFromParent()
                 self.viewController?.dismiss(animated: false, completion: nil)
                 //self.viewController?.performSegue(withIdentifier: "quit", sender: self.viewController)
             }
@@ -133,6 +137,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //setup sound node
         addChild(sound)
+//        sound = SoundManager()
         print("123")
         sound.playBackGround()
         
@@ -582,7 +587,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 if(enemy.hp <= 0){
-                    enemies.remove(at: enemies.firstIndex(of: enemy)!)
+//                    enemies.remove(at: enemies.firstIndex(of: enemy)!)
+                    enemies.remove(at: enemies.index(of: enemy)!)
                 }else{
                     if !enemy.stateSet{
                         let state = Int(arc4random_uniform(3)) + 1
@@ -611,7 +617,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     Database.database().reference().child(roomId).child("enemy\(i)").child("hp").observeSingleEvent(of: .value, with: { (snapshot) in
                         enemy.hp = snapshot.value as? Int ?? 100
                         if(enemy.hp <= 0){
-                            self.enemies.remove(at: self.enemies.firstIndex(of: enemy)!)
+//                            self.enemies.remove(at: self.enemies.firstIndex(of: enemy)!)
+                            self.enemies.remove(at: self.enemies.index(of: enemy)!)
                         }
                     })
                     i += 1

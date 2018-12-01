@@ -80,6 +80,7 @@ class Player: SKSpriteNode{
     func initialize(playerLabel: Int, roomId: String){
         self.playerLabel = playerLabel
         self.roomId = roomId
+        self.hp = 1
         setDatabaseReference()
         setPhysicsBody()
         idleDownAnimation()
