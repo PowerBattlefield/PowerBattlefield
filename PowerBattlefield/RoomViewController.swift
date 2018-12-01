@@ -1,6 +1,6 @@
 import UIKit
 import Firebase
-
+import AVFoundation
 class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return players.count
@@ -49,6 +49,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var players:[String:String] = [:]
     let appDeleagte = UIApplication.shared.delegate as! AppDelegate
     var playerIsReady:[String:Bool] = [:]
+    var audioPlayer: AVAudioPlayer!
 
     func gameEnds(){
         Database.database().reference().child(roomId).child("winner").observe(DataEventType.value) { (snapshot) in
@@ -97,7 +98,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         textInput.alpha = 0.8
         send.alpha = 0.8
         send.layer.masksToBounds = true
-        self.view.bringSubviewToFront(roomNameLabel)
+        self.view.bringSubview(toFront: roomNameLabel)
         let room = Database.database().reference().child(roomId)
         room.child("gameIsOn").setValue(false)
         if Auth.auth().currentUser?.uid == roomOwner{
@@ -241,6 +242,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 }
                 if allIsReady{
                     room.child("gameIsOn").setValue(true)
+                    self.audioPlayer.stop()
                 }
             })
         }else if startOrReadyBtn.titleLabel?.text == "Ready"{

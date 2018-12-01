@@ -1,9 +1,10 @@
 import UIKit
 import FirebaseUI
 import Firebase
-
+import AVFoundation
 
 class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+    var audioPlayer: AVAudioPlayer!
     var roomNumber:Int!
     var rooms:[Room]? = []
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -35,7 +36,15 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             newVC.roomId = rooms![indexPath.row].roomId
             newVC.roomName = rooms![indexPath.row].roomName
             newVC.roomOwner = rooms![indexPath.row].roomOwner
+            newVC.audioPlayer = self.audioPlayer!
             self.present(newVC, animated: true, completion: nil)
+        }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showCreateRoom" {
+            if let destinationVC = segue.destination as? CreateRoomViewController {
+                destinationVC.audioPlayer = self.audioPlayer
+            }
         }
     }
 
