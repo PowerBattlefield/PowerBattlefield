@@ -175,7 +175,9 @@ class Player: SKSpriteNode{
                 }
             }else{
                 let fireball = FireBall(texture: SKTexture(imageNamed: "fireball"), color: SKColor.clear, size: CGSize(width: 100, height: 100), playerPos: position)
-                parent!.addChild(fireball)
+                if let scene = parent{
+                    scene.addChild(fireball)
+                }
                 fireball.physicsBody?.applyImpulse(CGVector(dx:5, dy:0))
                 let wait:SKAction = SKAction.wait(forDuration: 1)
                 let finish:SKAction = SKAction.run {
@@ -195,7 +197,9 @@ class Player: SKSpriteNode{
                 }
             }else{
                 let fireball = FireBall(texture: SKTexture(imageNamed: "fireball"), color: SKColor.clear, size: CGSize(width: 100, height: 100), playerPos: position)
-                parent!.addChild(fireball)
+                if let scene = parent{
+                    scene.addChild(fireball)
+                }
                 fireball.physicsBody?.applyImpulse(CGVector(dx:-5, dy:0))
                 let wait:SKAction = SKAction.wait(forDuration: 1)
                 let finish:SKAction = SKAction.run {
@@ -215,7 +219,9 @@ class Player: SKSpriteNode{
                 }
             }else{
                 let fireball = FireBall(texture: SKTexture(imageNamed: "fireball"), color: SKColor.clear, size: CGSize(width: 100, height: 100), playerPos: position)
-                parent!.addChild(fireball)
+                if let scene = parent{
+                    scene.addChild(fireball)
+                }
                 fireball.physicsBody?.applyImpulse(CGVector(dx:0, dy:5))
                 let wait:SKAction = SKAction.wait(forDuration: 1)
                 let finish:SKAction = SKAction.run {
@@ -235,7 +241,9 @@ class Player: SKSpriteNode{
                 }
             }else{
                 let fireball = FireBall(texture: SKTexture(imageNamed: "fireball"), color: SKColor.clear, size: CGSize(width: 100, height: 100), playerPos: position)
-                parent!.addChild(fireball)
+                if let scene = parent{
+                    scene.addChild(fireball)
+                }
                 fireball.physicsBody?.applyImpulse(CGVector(dx:0, dy:-5))
                 let wait:SKAction = SKAction.wait(forDuration: 1)
                 let finish:SKAction = SKAction.run {

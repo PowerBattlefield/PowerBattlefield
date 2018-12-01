@@ -19,7 +19,7 @@ class GameViewController: UIViewController {
                 let player = rest as! DataSnapshot
                 print(player.key)
                 if Auth.auth().currentUser?.uid == player.key{
-                    print("")
+                    print("number:\(number)");
                     self.playerNumber = number
                     break
                 }
