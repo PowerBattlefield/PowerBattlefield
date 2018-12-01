@@ -18,6 +18,7 @@ enum BodyType:UInt32{
     case player2 = 256
     case enemy = 512
     case boat = 1024
+    case grassOnFire = 2048
 }
 
 enum PlayerState:Int{
@@ -51,10 +52,12 @@ class Player: SKSpriteNode{
     var hp:Int = GameEnum.playerMaxHealth.rawValue
     var hold:Bool = false
     var range:CGFloat = 100
+    var burn = TimeInterval(0)
     
     var damage = 0
     var otherPlayer1Pos:CGPoint = CGPoint.init()
     var time = TimeInterval(0)
+    
     
     var refx: DatabaseReference = Database.database().reference()
     var refy: DatabaseReference = Database.database().reference()
@@ -134,7 +137,7 @@ class Player: SKSpriteNode{
     func setPhysicsBody(){
         if playerLabel == 1{
             self.physicsBody?.categoryBitMask = BodyType.player1.rawValue
-            self.physicsBody?.contactTestBitMask = BodyType.player2.rawValue
+            self.physicsBody?.contactTestBitMask = BodyType.player2.rawValue | BodyType.grassOnFire.rawValue
         }
         else{
             self.physicsBody?.categoryBitMask = BodyType.player2.rawValue

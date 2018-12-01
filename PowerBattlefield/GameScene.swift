@@ -58,6 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 thePlayer = somePlayer
                 thePlayer.initialize(playerLabel: 2, roomId: roomId)
                 Database.database().reference().child(roomId).child(Auth.auth().currentUser!.uid).setValue(2)
+                Skill_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p2_skill"))
             }
             if let somePlayer = self.childNode(withName: "Player1") as? Player {
                 otherPlayer1 = somePlayer
@@ -98,9 +99,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnEnemy(spawnPos: CGPoint(x: 300, y: 500), updateStateTime: 4)
         spawnEnemy(spawnPos: CGPoint(x: -500, y: 500), updateStateTime: 3)
         spawnEnemy(spawnPos: CGPoint(x: -600, y: 100), updateStateTime: 2)
-        addFireOnPlayerEmitter(node: otherPlayer1)
-        addFireOnPlayerEmitter(node: thePlayer)
-        addFireOnGrassEmitter(node: otherPlayer1)
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
             let gameIsOn = snapshot.value as? Bool ?? false
             if !gameIsOn{
@@ -185,6 +183,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if (node.name == "Skill_btn") {
                 Skill_btn = node as! SKSpriteNode
                 Skill_btn.zPosition = 1000
+                if thePlayer.playerLabel == 1{
+                    Skill_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p1_skill"))
+                }else if thePlayer.playerLabel == 2{
+                    Skill_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p2_skill"))
+                }
             }
             
         }
@@ -405,6 +408,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.thePlayer.damage = 10
                         self.thePlayer.range = 100
                     }
+                }else if self.thePlayer.playerLabel == 2{
+                    if skillIsOn{
+                        self.addFireOnGrassEmitter(node: self.thePlayer)
+                    }
                 }
             }
         }
@@ -430,6 +437,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.otherPlayer1.moveSpeed = 0.5
                         self.otherPlayer1.damage = 10
                         self.otherPlayer1.range = 100
+                    }
+                }else if self.otherPlayer1.playerLabel == 2{
+                    if skillIsOn{
+                        self.addFireOnGrassEmitter(node: self.otherPlayer1)
                     }
                 }
             }
@@ -509,6 +520,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var endTime = TimeInterval(0)
     var holdBeginTime:TimeInterval = 0
     var skillBeginTime:TimeInterval = 0
+    var burnBeginTime:TimeInterval = 0
     var CDFlag:Bool = false
     
     var enemyStateSet = false
@@ -623,42 +635,109 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             holdBeginTime = 0
         }
         
-        
-        if skillIsOn{
-            let label = Skill_btn.childNode(withName: "skillTime") as! SKLabelNode
-            if skillBeginTime == 0{
-                skillBeginTime = currentTime
+        if(thePlayer.playerLabel == 1){
+            if thePlayer.burn != 0{
+                if thePlayer.burn == 5 && burnBeginTime == 0{
+                    burnBeginTime = currentTime
+                }
+                if currentTime - burnBeginTime > 0.5{
+                    burnBeginTime = currentTime
+                    thePlayer.burn -= 0.5
+                    Database.database().reference().child(roomId).child("player1").child("hp").setValue(thePlayer.hp-3)
+                }
+            }else if burnBeginTime != 0{
+                burnBeginTime = 0
+                thePlayer.moveSpeed = 0.5
+                let child = thePlayer.childNode(withName: "Fire") as! SKSpriteNode
+                child.removeAllChildren()
             }
-            if currentTime - skillBeginTime <= 20{
-                let duration = Int(21 - currentTime + skillBeginTime)
-                label.fontColor = UIColor.black
-                label.text = String(duration)
-            }else if currentTime - skillBeginTime > 20{
-                Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(false)
-                skillIsOn = false
-                CDFlag = true
-            }
-        }else{
-            if skillBeginTime != 0{
+            if skillIsOn{
                 let label = Skill_btn.childNode(withName: "skillTime") as! SKLabelNode
-                if currentTime - skillBeginTime <= 40{
-                    let coolDown = Int(41 - currentTime + skillBeginTime)
-                    label.fontColor = UIColor.white
-                    label.text = String(coolDown)
-                    if CDFlag{
-                        Skill_btn.color = UIColor.black
-                        Skill_btn.colorBlendFactor = 1
-                        let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 20)
-                        Skill_btn.run(colorize)
-                        CDFlag = false
+                if skillBeginTime == 0{
+                    skillBeginTime = currentTime
+                }
+                if currentTime - skillBeginTime <= 20{
+                    let duration = Int(21 - currentTime + skillBeginTime)
+                    label.fontColor = UIColor.black
+                    label.text = String(duration)
+                }else if currentTime - skillBeginTime > 20{
+                    Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(false)
+                    skillIsOn = false
+                    CDFlag = true
+                }
+            }else{
+                if skillBeginTime != 0{
+                    let label = Skill_btn.childNode(withName: "skillTime") as! SKLabelNode
+                    if currentTime - skillBeginTime <= 40{
+                        let coolDown = Int(41 - currentTime + skillBeginTime)
+                        label.fontColor = UIColor.white
+                        label.text = String(coolDown)
+                        if CDFlag{
+                            Skill_btn.color = UIColor.black
+                            Skill_btn.colorBlendFactor = 1
+                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 20)
+                            Skill_btn.run(colorize)
+                            CDFlag = false
+                        }
+                    }else if currentTime - skillBeginTime > 40{
+                        label.text = ""
+                        skillFlag = true
+                        skillBeginTime = 0
                     }
-                }else if currentTime - skillBeginTime > 40{
-                    label.text = ""
-                    skillFlag = true
-                    skillBeginTime = 0
+                }
+            }
+        }else if(thePlayer.playerLabel == 2){
+            if otherPlayer1.burn != 0{
+                if otherPlayer1.burn == 5 && burnBeginTime == 0{
+                    burnBeginTime = currentTime
+                }
+                if currentTime - burnBeginTime > 0.5{
+                    burnBeginTime = currentTime
+                    otherPlayer1.burn -= 0.5
+                }
+            }else if burnBeginTime != 0{
+                burnBeginTime = 0
+                otherPlayer1.moveSpeed = 0.5
+                let child = otherPlayer1.childNode(withName: "Fire") as! SKSpriteNode
+                child.removeAllChildren()
+            }
+            if skillIsOn{
+                let label = Skill_btn.childNode(withName: "skillTime") as! SKLabelNode
+                if skillBeginTime == 0{
+                    skillBeginTime = currentTime
+                }
+                if currentTime - skillBeginTime <= 5{
+                    let duration = Int(6 - currentTime + skillBeginTime)
+                    label.fontColor = UIColor.black
+                    label.text = String(duration)
+                }else if currentTime - skillBeginTime > 5{
+                    Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(false)
+                    skillIsOn = false
+                    CDFlag = true
+                }
+            }else{
+                if skillBeginTime != 0{
+                    let label = Skill_btn.childNode(withName: "skillTime") as! SKLabelNode
+                    if currentTime - skillBeginTime <= 15{
+                        let coolDown = Int(16 - currentTime + skillBeginTime)
+                        label.fontColor = UIColor.white
+                        label.text = String(coolDown)
+                        if CDFlag{
+                            Skill_btn.color = UIColor.black
+                            Skill_btn.colorBlendFactor = 1
+                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 5)
+                            Skill_btn.run(colorize)
+                            CDFlag = false
+                        }
+                    }else if currentTime - skillBeginTime > 15{
+                        label.text = ""
+                        skillFlag = true
+                        skillBeginTime = 0
+                    }
                 }
             }
         }
+        
     }
     
     func detectAttacked(attacker: Player, attacked: Player){
@@ -839,6 +918,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         checkPlayerAttacked(contact)
         checkBuildingAttacked(contact)
         checkEnemyAttacked(contact)
+        checkPlayerBurned(contact)
     }
     
     func checkPlayerAttacked(_ contact: SKPhysicsContact){
@@ -908,6 +988,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func checkPlayerBurned(_ contact: SKPhysicsContact){
+        if (contact.bodyA.categoryBitMask == BodyType.player1.rawValue && contact.bodyB.categoryBitMask == BodyType.grassOnFire.rawValue) {
+            addFireOnPlayerEmitter(node: contact.bodyA.node!)
+        } else if (contact.bodyB.categoryBitMask == BodyType.player1.rawValue && contact.bodyA.categoryBitMask == BodyType.grassOnFire.rawValue) {
+            addFireOnPlayerEmitter(node: contact.bodyB.node!)
+        }
+    }
+    
     func addFireballEmitter(node:SKNode){
         let emitter = SKEmitterNode(fileNamed: "FireballParticle")!
         if node.name == "enemy"{
@@ -924,26 +1012,88 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         run(seq)
     }
     func addFireOnPlayerEmitter(node:SKNode){
-        let emitter = SKEmitterNode(fileNamed: "FireOnPlayer")!
-        emitter.position = CGPoint(x: -5, y: -80)
-        node.addChild(emitter)
-        let wait:SKAction = SKAction.wait(forDuration: 50)
-        let finish:SKAction = SKAction.run {
-            emitter.removeFromParent()
+        if let player = node as? Player{
+            if(player.burn < 5){
+                let child = player.childNode(withName: "Fire") as! SKSpriteNode
+                let emitter = SKEmitterNode(fileNamed: "FireOnPlayer")!
+                emitter.position = CGPoint(x: -5, y: -80)
+                child.addChild(emitter)
+                player.burn = 5
+                player.moveSpeed = 0.75
+//                let wait:SKAction = SKAction.wait(forDuration: 5)
+//                let finish:SKAction = SKAction.run {
+//                    emitter.removeFromParent()
+//                    player.burn = false
+//                    player.moveSpeed = 0.5
+//                }
+//                let seq:SKAction = SKAction.sequence( [wait, finish] )
+//                run(seq)
+//            }else{
+//                let child = player.childNode(withName: "Fire") as! SKSpriteNode
+//                child.removeAllChildren()
+//                let emitter = SKEmitterNode(fileNamed: "FireOnPlayer")!
+//                emitter.position = CGPoint(x: -5, y: -80)
+//                child.addChild(emitter)
+//                let wait:SKAction = SKAction.wait(forDuration: 5)
+//                let finish:SKAction = SKAction.run {
+//                    emitter.removeFromParent()
+//                    player.burn = false
+//                    player.moveSpeed = 0.5
+//                }
+//                let seq:SKAction = SKAction.sequence( [wait, finish] )
+//                run(seq)
+            }
         }
-        let seq:SKAction = SKAction.sequence( [wait, finish] )
-        run(seq)
     }
     func addFireOnGrassEmitter(node:SKNode){
-        for i in 1...5{
-            let emitter = SKEmitterNode(fileNamed: "FireOnGrass")!
-            emitter.position = CGPoint(x: node.position.x + CGFloat(80 * i), y: node.position.y - 80)
-            if let grass = self.childNode(withName: "GrassTiles"){
-                grass.addChild(emitter)
+        if let player = node as? Player{
+            var attackAction = SKAction()
+            var x:CGFloat = 0, y:CGFloat = 0
+            switch player.face{
+            case .down:
+                attackAction = SKAction(named: "p\(player.playerLabel)_attackdown")!
+                player.run(attackAction)
+                x = 0; y = -1
+                break
+            case .left:
+                attackAction = SKAction(named: "p\(player.playerLabel)_attackleft")!
+                player.run(attackAction)
+                x = -1;y = 0
+                break
+            case .right:
+                attackAction = SKAction(named: "p\(player.playerLabel)_attackright")!
+                player.run(attackAction)
+                x = 1; y = 0
+                break
+            case .up:
+                attackAction = SKAction(named: "p\(player.playerLabel)_attackup")!
+                player.run(attackAction)
+                x = 0; y = 1
+                break
             }
-            let wait:SKAction = SKAction.wait(forDuration: 50)
+            let wait:SKAction = SKAction.wait(forDuration: 1)
             let finish:SKAction = SKAction.run {
-                emitter.removeFromParent()
+                for i in 1...5{
+                    let emitter = SKEmitterNode(fileNamed: "FireOnGrass")!
+                    let position = CGPoint(x: node.position.x + CGFloat(80 * i) * x, y: node.position.y - 90 + CGFloat(80 * i) * y)
+                    emitter.position = position
+                    let grassOnFire = SKSpriteNode(texture: nil, color: UIColor.clear, size: CGSize(width: 80, height: 80))
+                    grassOnFire.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 80, height: 80))
+                    grassOnFire.physicsBody?.categoryBitMask = BodyType.grassOnFire.rawValue
+                    grassOnFire.physicsBody?.collisionBitMask = 0
+                    grassOnFire.position = position
+                    self.addChild(grassOnFire)
+                    if let grass = self.childNode(withName: "GrassTiles"){
+                        grass.addChild(emitter)
+                    }
+                    let wait:SKAction = SKAction.wait(forDuration: 5)
+                    let finish:SKAction = SKAction.run {
+                        emitter.removeFromParent()
+                        grassOnFire.removeFromParent()
+                    }
+                    let seq:SKAction = SKAction.sequence( [wait, finish] )
+                    self.run(seq)
+                }
             }
             let seq:SKAction = SKAction.sequence( [wait, finish] )
             run(seq)
