@@ -4,6 +4,7 @@ import Firebase
 
 enum GameEnum: Int{
     case playerMaxHealth = 200
+    case winExp = 500
 }
 
 enum BodyType:UInt32{
@@ -57,6 +58,7 @@ class Player: SKSpriteNode{
     var damage = 0
     var otherPlayer1Pos:CGPoint = CGPoint.init()
     var time = TimeInterval(0)
+    var exp = 0
     
     
     var refx: DatabaseReference = Database.database().reference()
@@ -73,6 +75,7 @@ class Player: SKSpriteNode{
     var refPos: DatabaseReference = Database.database().reference()
     var refHP: DatabaseReference = Database.database().reference()
     var refSkill: DatabaseReference = Database.database().reference()
+    var refExp: DatabaseReference = Database.database().reference()
     
     func initialize(playerLabel: Int, roomId: String){
         self.playerLabel = playerLabel
@@ -162,6 +165,7 @@ class Player: SKSpriteNode{
         refPos = Database.database().reference().child(roomId).child("player\(playerLabel)").child("position")
         refHP = Database.database().reference().child(roomId).child("player\(playerLabel)").child("hp")
         refSkill = Database.database().reference().child(roomId).child("player\(playerLabel)").child("skill")
+        refExp = Database.database().reference().child(roomId).child("player\(playerLabel)").child("exp")
     }
     
     func attack(otherPlayer: Bool){
@@ -348,6 +352,11 @@ class Player: SKSpriteNode{
             break
         }
         refHP.setValue(hp)
+    }
+    
+    func expGained(exp: Int){
+        self.exp += exp
+        refExp.setValue(self.exp)
     }
     
 }

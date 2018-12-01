@@ -67,6 +67,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                             let newVC = self.storyboard?.instantiateViewController(withIdentifier: "EndVC") as! EndViewController
                             newVC.roomId = self.roomId
                             newVC.displayText = "You lose!"
+                            newVC.audioPlayer = self.audioPlayer
                             self.present(newVC, animated: false, completion: nil)
                         }
                     }
@@ -81,6 +82,15 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if !audioPlayer.isPlaying {
             audioPlayer.currentTime = 0
             audioPlayer.play()
+        }
+        let room = Database.database().reference().child(roomId)
+        room.child("gameIsOn").setValue(false)
+        if Auth.auth().currentUser?.uid == roomOwner{
+            startOrReadyBtn.setTitle("Start", for: .normal)
+            room.child("playerIsReady").child(Auth.auth().currentUser!.uid).setValue(true)
+        }else{
+            startOrReadyBtn.setTitle("Ready", for: .normal)
+            room.child("playerIsReady").child(Auth.auth().currentUser!.uid).setValue(false)
         }
     }
     override func viewDidLoad() {
@@ -159,6 +169,9 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 newVC.roomId = self.roomId
                 newVC.roomName = self.roomName
                 newVC.roomOwner = self.roomOwner
+                if(self.audioPlayer != nil){
+                    self.audioPlayer.stop()
+                }
                 self.present(newVC, animated: true, completion: nil)
             }
         }
@@ -176,6 +189,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             self.roomOwner = snapshot.value as? String ?? ""
             if self.roomOwner == Auth.auth().currentUser?.uid{
                 self.startOrReadyBtn.setTitle("Start", for: .normal)
+                room.child("playerIsReady").child(Auth.auth().currentUser!.uid).setValue(true)
             }
             self.playerList.reloadData()
         }
@@ -190,6 +204,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 room.child("kickPlayer").removeValue()
                 self.appDeleagte.isInRoom = false
                 let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
+                newVC.audioPlayer = self.audioPlayer
                 self.present(newVC, animated: true, completion: nil)
             }
         }
@@ -252,7 +267,9 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 }
                 if allIsReady{
                     room.child("gameIsOn").setValue(true)
-                    self.audioPlayer.stop()
+                    if(self.audioPlayer != nil){
+                        self.audioPlayer.stop()
+                    }
                 }
             })
         }else if startOrReadyBtn.titleLabel?.text == "Ready"{

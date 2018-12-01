@@ -16,11 +16,14 @@ class Enemy:SKSpriteNode{
     var enemyLabel = 1
     var hp = 100
     var range:CGFloat = 100
-    var damage = 1
+    var damage = 10
     var updateStateTime = 1
     var stateSet = false
     var stateSetTime = TimeInterval(0)
     var stateAmount = 0
+    var exp = 50
+    var enemyHPSet = false
+    var enemyHPSetTime = TimeInterval(0)
     
     init(texture: SKTexture, color: SKColor, size: CGSize, spawnPos: CGPoint) {
         super.init(texture: texture, color: color, size: size)
@@ -240,7 +243,7 @@ class Enemy:SKSpriteNode{
             }]))
     }
     
-    func damaged(damage: Int){
+    func damaged(damage: Int, attackedBy: Player){
         if hp > 0{
             hp -= damage
             
@@ -261,6 +264,7 @@ class Enemy:SKSpriteNode{
             
             if hp <= 0{
                 deadAnimation()
+                attackedBy.expGained(exp: self.exp)
             }
         }
     }

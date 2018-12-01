@@ -16,6 +16,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var skillIsOn = false
     var skillFlag = true
     var enemies: [Enemy] = []
+    var fired = false
     
     //get room id from room view
     var roomId: String!
@@ -132,6 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //setup sound node
         addChild(sound)
+        print("123")
         sound.playBackGround()
         
         for node in self.children {
@@ -395,6 +397,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        Database.database().reference().child(roomId).child("player1").child("exp").observe(DataEventType.value) { (snapshot) in
+            if !self.firstObserve{
+                if let exp = snapshot.value as? Int{
+                    if self.thePlayer.playerLabel == 1{
+                        
+                        self.thePlayer.exp = exp
+                    }else{
+                        
+                        self.otherPlayer1.exp = exp
+                    }
+                }
+            }
+        }
+        
+        Database.database().reference().child(roomId).child("player2").child("exp").observe(DataEventType.value) { (snapshot) in
+            if !self.firstObserve{
+                if let exp = snapshot.value as? Int{
+                    if self.thePlayer.playerLabel == 2{
+                        
+                        self.thePlayer.exp = exp
+                    }else{
+                        
+                        self.otherPlayer1.exp = exp
+                    }
+                }
+            }
+        }
+        
         thePlayer.refSkill.observe(DataEventType.value) { (snapshot) in
             if !self.firstObserve{
                 let skillIsOn = snapshot.value as? Bool ?? false
@@ -476,6 +506,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.firstObserve{
                 self.firstObserve = false
             }else{
+                self.fired = true
                 self.otherPlayer1.attack(otherPlayer: true)
                 if self.otherPlayer1.playerLabel == 1{
                     self.detectAttacked(attacker:self.otherPlayer1, attacked: self.thePlayer)
@@ -532,35 +563,59 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var burnBeginTime:TimeInterval = 0
     var CDFlag:Bool = false
     
-    var enemyStateSet = false
-    var enemySTateSetTime = TimeInterval(0)
-    
-    var enemyStateAmount = 0
-    
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        
         updateCamera()
         updateHealthBar(value: CGFloat(thePlayer.hp))
         if currentPlayer == 1{
             var i = 1
             for enemy in enemies{
-                if !enemy.stateSet{
-                    let state = Int(arc4random_uniform(3)) + 1
-                    let face = Int(arc4random_uniform(4)) + 1
-                    Database.database().reference().child(roomId).child("enemy\(i)").child("state").setValue(state)
-                    Database.database().reference().child(roomId).child("enemy\(i)").child("face").setValue(face)
-                    Database.database().reference().child(roomId).child("enemy\(i)").child("change").setValue(enemy.stateAmount)
-                    enemy.stateAmount += 1
-                    enemy.stateAmount += 1
-                    enemy.stateSet = true
-                    enemy.stateSetTime = currentTime
+                if !enemy.enemyHPSet{
+                    enemy.enemyHPSet = true
+                    Database.database().reference().child(roomId).child("enemy\(i)").child("hp").setValue(enemy.hp)
+                    enemy.enemyHPSetTime = currentTime
                     
                 }else{
-                    if Int(currentTime - enemy.stateSetTime) >= enemy.updateStateTime{
-                        enemy.stateSet = false
+                    if Int(currentTime - enemy.enemyHPSetTime) >= 1{
+                        enemy.enemyHPSet = false
                     }
                 }
-                i += 1
+                if(enemy.hp <= 0){
+                    enemies.remove(at: enemies.firstIndex(of: enemy)!)
+                }else{
+                    if !enemy.stateSet{
+                        let state = Int(arc4random_uniform(3)) + 1
+                        let face = Int(arc4random_uniform(4)) + 1
+                        Database.database().reference().child(roomId).child("enemy\(i)").child("state").setValue(state)
+                        Database.database().reference().child(roomId).child("enemy\(i)").child("face").setValue(face)
+                        Database.database().reference().child(roomId).child("enemy\(i)").child("change").setValue(enemy.stateAmount)
+                        enemy.stateAmount += 1
+                        enemy.stateAmount += 1
+                        enemy.stateSet = true
+                        enemy.stateSetTime = currentTime
+                        
+                    }else{
+                        if Int(currentTime - enemy.stateSetTime) >= enemy.updateStateTime{
+                            enemy.stateSet = false
+                        }
+                    }
+                    i += 1
+                }
+            }
+            
+        }else{
+            var i = 1
+            for enemy in enemies{
+                if enemy.enemyHPSet{
+                    Database.database().reference().child(roomId).child("enemy\(i)").child("hp").observeSingleEvent(of: .value, with: { (snapshot) in
+                        enemy.hp = snapshot.value as? Int ?? 100
+                        if(enemy.hp <= 0){
+                            self.enemies.remove(at: self.enemies.firstIndex(of: enemy)!)
+                        }
+                    })
+                    i += 1
+                }
             }
         }
         
@@ -796,38 +851,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func detectAttackedEnemy(attacker: Player, attacked: Enemy){
-        print(attacker.position)
         let enemyPosAdjust = CGPoint(x: attacked.position.x - 20, y: attacked.position.y + 120)
-        print(enemyPosAdjust)
         var attackedFlag = false
         if attacker.face == PlayerFace.right {
             if attacker.position.x > enemyPosAdjust.x - attacker.range - 35 && attacker.position.x < enemyPosAdjust.x && abs(attacker.position.y - enemyPosAdjust.y) < attacker.range/2 + 70{
                 print("attacted")
                 attackedFlag = true
-                attacked.damaged(damage: attacker.damage)
+                attacked.damaged(damage: attacker.damage, attackedBy: attacker)
             }
             
         }else if attacker.face == PlayerFace.left {
             if attacker.position.x < enemyPosAdjust.x + attacker.range + 60 && attacker.position.x > enemyPosAdjust.x && abs(attacker.position.y - enemyPosAdjust.y) < attacker.range/2 + 70{
                 print("attacted")
                 attackedFlag = true
-                attacked.damaged(damage: attacker.damage)
+                attacked.damaged(damage: attacker.damage, attackedBy: attacker)
             }
             
         }else if attacker.face == PlayerFace.up {
             
-            if attacker.position.y > enemyPosAdjust.y - attacker.range - 120 && attacker.position.y < enemyPosAdjust.y && abs(attacker.position.x - enemyPosAdjust.x) < attacker.range/2 + 45{
+            if attacker.position.y > enemyPosAdjust.y - attacker.range && attacker.position.y < enemyPosAdjust.y && abs(attacker.position.x - enemyPosAdjust.x) < attacker.range/2 + 45{
                 print("attacted")
                 attackedFlag = true
-                attacked.damaged(damage: attacker.damage)
+                attacked.damaged(damage: attacker.damage, attackedBy: attacker)
             }
             
         }else if attacker.face == PlayerFace.down {
             
-            if attacker.position.y < enemyPosAdjust.y + attacker.range + 120 && attacker.position.y > enemyPosAdjust.y && abs(attacker.position.x - enemyPosAdjust.x) < attacker.range/2 + 45{
+            if attacker.position.y < enemyPosAdjust.y + attacker.range && attacker.position.y > enemyPosAdjust.y && abs(attacker.position.x - enemyPosAdjust.x) < attacker.range/2 + 45{
                 print("attacted")
                 attackedFlag = true
-                attacked.damaged(damage: attacker.damage)
+                attacked.damaged(damage: attacker.damage, attackedBy: attacker)
             }
         }
         
@@ -859,6 +912,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         attackTime = time
                         attackTimeFlag = true
                         thePlayer.attack(otherPlayer: false)
+                        fired = true
                         if thePlayer.playerLabel == 1{
                             detectAttacked(attacker: thePlayer, attacked: otherPlayer1)
                             for enemy in enemies{
@@ -986,14 +1040,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func checkEnemyAttacked(_ contact: SKPhysicsContact){
-        if (contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.fireball.rawValue) {
-            contact.bodyB.node?.removeFromParent()
-            addFireballEmitter(node: contact.bodyA.node!)
-            (contact.bodyA.node as! Enemy).damaged(damage:Damage.fireball.rawValue)
-        } else if (contact.bodyB.categoryBitMask == BodyType.enemy.rawValue && contact.bodyA.categoryBitMask == BodyType.fireball.rawValue) {
-            contact.bodyA.node?.removeFromParent()
-            addFireballEmitter(node: contact.bodyB.node!)
-            (contact.bodyA.node as! Enemy).damaged(damage:Damage.fireball.rawValue)
+        if(fired){
+            if (contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.fireball.rawValue) {
+                contact.bodyB.node?.removeFromParent()
+                fired = false
+                addFireballEmitter(node: contact.bodyA.node!)
+                (contact.bodyA.node as! Enemy).damaged(damage:Damage.fireball.rawValue, attackedBy: thePlayer.playerLabel == 2 ? thePlayer : otherPlayer1)
+            }
         }
     }
     
