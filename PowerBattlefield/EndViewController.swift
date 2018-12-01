@@ -11,6 +11,8 @@ class EndViewController: UIViewController {
         
         displayLabel.text = displayText
         // Do any additional setup after loading the view.
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backtoroom")!)
+        
     }
     
     @IBAction func backToRoom(_ sender: Any) {

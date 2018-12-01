@@ -86,7 +86,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboard()
-        let background = UIImage(named: "mountain")
+        let background = UIImage(named: "bgcreateroom")
         self.view.backgroundColor = UIColor(patternImage: background!)
         gameEnds()
         chatDisplay.isEditable = false
@@ -107,7 +107,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         textInput.alpha = 0.8
         send.alpha = 0.8
         send.layer.masksToBounds = true
-        self.view.bringSubview(toFront: roomNameLabel)
+        self.view.bringSubviewToFront(roomNameLabel)
         let room = Database.database().reference().child(roomId)
         room.child("gameIsOn").setValue(false)
         if Auth.auth().currentUser?.uid == roomOwner{
