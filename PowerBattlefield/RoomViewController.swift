@@ -96,7 +96,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboard()
-        let background = UIImage(named: "mountain")
+        let background = UIImage(named: "bgcreateroom")
         self.view.backgroundColor = UIColor(patternImage: background!)
         gameEnds()
         chatDisplay.isEditable = false

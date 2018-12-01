@@ -29,6 +29,8 @@ class EndViewController: UIViewController {
                 self.present(newVC, animated: true, completion: nil)
             }
         }
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backtoroom")!)
+        
     }
     
     @IBAction func backToRoom(_ sender: Any) {
