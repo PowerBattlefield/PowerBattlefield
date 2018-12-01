@@ -40,6 +40,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let playerHealthBar = SKSpriteNode()
     let MaxHealth:CGFloat = CGFloat(GameEnum.playerMaxHealth.rawValue)
     
+    // sound
+    lazy var sound = SoundManager()
+    
     func setPlayers(){
         if(currentPlayer == 1){
             if let somePlayer = self.childNode(withName: "Player1") as? Player {
@@ -105,6 +108,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
             let gameIsOn = snapshot.value as? Bool ?? false
             if !gameIsOn{
+                self.sound.stopBGM()
                 self.removeAllActions()
                 self.removeAllChildren()
                 self.removeFromParent()
@@ -127,6 +131,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //setup health bar
         addChild(playerHealthBar)
         updateHealthBar(value: MaxHealth)
+        
+        //setup sound node
+        addChild(sound)
+        sound.playBackGround()
         
         for node in self.children {
             
