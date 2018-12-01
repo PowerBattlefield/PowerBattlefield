@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2B5C281B2193A0790046BFD6 /* DefultTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */; };
+		6834E66B21B247EF0066146C /* FireOnPlayer.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6834E66A21B247EF0066146C /* FireOnPlayer.sks */; };
+		6834E66D21B24B960066146C /* FireOnGrass.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6834E66C21B24B960066146C /* FireOnGrass.sks */; };
 		686AD30421A1112D0012C3D5 /* CreateRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */; };
 		686AD30621A138AA0012C3D5 /* roomAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686AD30521A138AA0012C3D5 /* roomAPI.swift */; };
 		689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF039218FB7090059CFFE /* MyTileSet.sks */; };
@@ -36,6 +38,8 @@
 /* Begin PBXFileReference section */
 		2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DefultTileSet.sks; sourceTree = "<group>"; };
 		3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PowerBattlefield.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6834E66A21B247EF0066146C /* FireOnPlayer.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireOnPlayer.sks; sourceTree = "<group>"; };
+		6834E66C21B24B960066146C /* FireOnGrass.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireOnGrass.sks; sourceTree = "<group>"; };
 		686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoomViewController.swift; sourceTree = "<group>"; };
 		686AD30521A138AA0012C3D5 /* roomAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = roomAPI.swift; sourceTree = "<group>"; };
 		689DF039218FB7090059CFFE /* MyTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyTileSet.sks; sourceTree = "<group>"; };
@@ -138,6 +142,8 @@
 				FBA65C8021AA7E5000C5890D /* SwordParticle.sks */,
 				686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */,
 				686AD30521A138AA0012C3D5 /* roomAPI.swift */,
+				6834E66A21B247EF0066146C /* FireOnPlayer.sks */,
+				6834E66C21B24B960066146C /* FireOnGrass.sks */,
 			);
 			path = PowerBattlefield;
 			sourceTree = "<group>";
@@ -212,7 +218,9 @@
 				689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */,
 				2B5C281B2193A0790046BFD6 /* DefultTileSet.sks in Resources */,
 				FBD2AEF9218FBDC800B49DC6 /* GoogleService-Info.plist in Resources */,
+				6834E66D21B24B960066146C /* FireOnGrass.sks in Resources */,
 				FBA65C7F21AA780200C5890D /* FireballParticle.sks in Resources */,
+				6834E66B21B247EF0066146C /* FireOnPlayer.sks in Resources */,
 				FBA65C8121AA7E5000C5890D /* SwordParticle.sks in Resources */,
 				FBA65C8521AAC5F700C5890D /* EnemyActions.sks in Resources */,
 			);

@@ -98,6 +98,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         spawnEnemy(spawnPos: CGPoint(x: 300, y: 500), updateStateTime: 4)
         spawnEnemy(spawnPos: CGPoint(x: -500, y: 500), updateStateTime: 3)
         spawnEnemy(spawnPos: CGPoint(x: -600, y: 100), updateStateTime: 2)
+        addFireOnPlayerEmitter(node: otherPlayer1)
+        addFireOnPlayerEmitter(node: thePlayer)
+        addFireOnGrassEmitter(node: otherPlayer1)
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
             let gameIsOn = snapshot.value as? Bool ?? false
             if !gameIsOn{
@@ -919,5 +922,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         let seq:SKAction = SKAction.sequence( [wait, finish] )
         run(seq)
+    }
+    func addFireOnPlayerEmitter(node:SKNode){
+        let emitter = SKEmitterNode(fileNamed: "FireOnPlayer")!
+        emitter.position = CGPoint(x: -5, y: -80)
+        node.addChild(emitter)
+        let wait:SKAction = SKAction.wait(forDuration: 50)
+        let finish:SKAction = SKAction.run {
+            emitter.removeFromParent()
+        }
+        let seq:SKAction = SKAction.sequence( [wait, finish] )
+        run(seq)
+    }
+    func addFireOnGrassEmitter(node:SKNode){
+        for i in 1...5{
+            let emitter = SKEmitterNode(fileNamed: "FireOnGrass")!
+            emitter.position = CGPoint(x: node.position.x + CGFloat(80 * i), y: node.position.y - 80)
+            if let grass = self.childNode(withName: "GrassTiles"){
+                grass.addChild(emitter)
+            }
+            let wait:SKAction = SKAction.wait(forDuration: 50)
+            let finish:SKAction = SKAction.run {
+                emitter.removeFromParent()
+            }
+            let seq:SKAction = SKAction.sequence( [wait, finish] )
+            run(seq)
+        }
     }
 }
