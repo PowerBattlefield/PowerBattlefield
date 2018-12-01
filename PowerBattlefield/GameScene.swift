@@ -40,6 +40,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let playerHealthBar = SKSpriteNode()
     let MaxHealth:CGFloat = CGFloat(GameEnum.playerMaxHealth.rawValue)
     
+    // sound
+    lazy var sound = SoundManager()
+    
     func setPlayers(){
         if(currentPlayer == 1){
             if let somePlayer = self.childNode(withName: "Player1") as? Player {
@@ -81,7 +84,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemies.append(enemy)
         enemyNumber += 1
         enemy.enemyLabel = enemyNumber
-        enemy.observeStateChange(roomId: roomId)
+        enemy.updateStateTime = updateStateTime
+        enemy.observeStateChange(roomId: roomId, thePlayer: thePlayer, otherPlayer1: otherPlayer1)
     }
     
     override func didMove(to view: SKView) {
@@ -102,6 +106,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
             let gameIsOn = snapshot.value as? Bool ?? false
             if !gameIsOn{
+                self.sound.stopBGM()
                 self.removeAllActions()
                 self.removeAllChildren()
                 self.removeFromParent()
@@ -124,6 +129,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //setup health bar
         addChild(playerHealthBar)
         updateHealthBar(value: MaxHealth)
+        
+        //setup sound node
+        addChild(sound)
+        sound.playBackGround()
         
         for node in self.children {
             
@@ -525,7 +534,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var enemyStateSet = false
     var enemySTateSetTime = TimeInterval(0)
-    var updateEnemyStateTime = 3
     
     var enemyStateAmount = 0
     
@@ -534,24 +542,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         updateCamera()
         updateHealthBar(value: CGFloat(thePlayer.hp))
         if currentPlayer == 1{
-            if !enemyStateSet{
-                var i = 1
-                for _ in enemies{
+            var i = 1
+            for enemy in enemies{
+                if !enemy.stateSet{
                     let state = Int(arc4random_uniform(3)) + 1
                     let face = Int(arc4random_uniform(4)) + 1
                     Database.database().reference().child(roomId).child("enemy\(i)").child("state").setValue(state)
                     Database.database().reference().child(roomId).child("enemy\(i)").child("face").setValue(face)
-                    Database.database().reference().child(roomId).child("enemy\(i)").child("change").setValue(enemyStateAmount)
-                    i += 1
-                    enemyStateAmount += 1
+                    Database.database().reference().child(roomId).child("enemy\(i)").child("change").setValue(enemy.stateAmount)
+                    enemy.stateAmount += 1
+                    enemy.stateAmount += 1
+                    enemy.stateSet = true
+                    enemy.stateSetTime = currentTime
+                    
+                }else{
+                    if Int(currentTime - enemy.stateSetTime) >= enemy.updateStateTime{
+                        enemy.stateSet = false
+                    }
                 }
-                enemyStateSet = true
-                enemySTateSetTime = currentTime
-                
-            }else{
-                if Int(time - enemySTateSetTime) >= updateEnemyStateTime{
-                    enemyStateSet = false
-                }
+                i += 1
             }
         }
         

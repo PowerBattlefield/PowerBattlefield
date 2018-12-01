@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B0BE1AE21B26CA20002C9FA /* login.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2B0BE1AD21B26CA20002C9FA /* login.mp3 */; };
+		2B0BE1B021B26F750002C9FA /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0BE1AF21B26F750002C9FA /* SoundManager.swift */; };
+		2B0BE1B221B270390002C9FA /* battle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2B0BE1B121B270390002C9FA /* battle.mp3 */; };
 		2B5C281B2193A0790046BFD6 /* DefultTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */; };
 		6834E66B21B247EF0066146C /* FireOnPlayer.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6834E66A21B247EF0066146C /* FireOnPlayer.sks */; };
 		6834E66D21B24B960066146C /* FireOnGrass.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6834E66C21B24B960066146C /* FireOnGrass.sks */; };
@@ -36,6 +39,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B0BE1AD21B26CA20002C9FA /* login.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = login.mp3; sourceTree = "<group>"; };
+		2B0BE1AF21B26F750002C9FA /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		2B0BE1B121B270390002C9FA /* battle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = battle.mp3; sourceTree = "<group>"; };
 		2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DefultTileSet.sks; sourceTree = "<group>"; };
 		3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PowerBattlefield.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6834E66A21B247EF0066146C /* FireOnPlayer.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireOnPlayer.sks; sourceTree = "<group>"; };
@@ -122,6 +128,7 @@
 				FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */,
 				FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */,
 				FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */,
+				686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */,
 				689DF047218FBC0B0059CFFE /* GameViewController.swift */,
 				FBA65C7A21A941C600C5890D /* EndViewController.swift */,
 				689DF046218FBC0A0059CFFE /* GameScene.swift */,
@@ -140,10 +147,12 @@
 				FBA65C7C21AA21B000C5890D /* FireBall.swift */,
 				FBA65C7E21AA780200C5890D /* FireballParticle.sks */,
 				FBA65C8021AA7E5000C5890D /* SwordParticle.sks */,
-				686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */,
 				686AD30521A138AA0012C3D5 /* roomAPI.swift */,
 				6834E66A21B247EF0066146C /* FireOnPlayer.sks */,
 				6834E66C21B24B960066146C /* FireOnGrass.sks */,
+				2B0BE1AD21B26CA20002C9FA /* login.mp3 */,
+				2B0BE1B121B270390002C9FA /* battle.mp3 */,
+				2B0BE1AF21B26F750002C9FA /* SoundManager.swift */,
 			);
 			path = PowerBattlefield;
 			sourceTree = "<group>";
@@ -220,8 +229,10 @@
 				FBD2AEF9218FBDC800B49DC6 /* GoogleService-Info.plist in Resources */,
 				6834E66D21B24B960066146C /* FireOnGrass.sks in Resources */,
 				FBA65C7F21AA780200C5890D /* FireballParticle.sks in Resources */,
+				2B0BE1AE21B26CA20002C9FA /* login.mp3 in Resources */,
 				6834E66B21B247EF0066146C /* FireOnPlayer.sks in Resources */,
 				FBA65C8121AA7E5000C5890D /* SwordParticle.sks in Resources */,
+				2B0BE1B221B270390002C9FA /* battle.mp3 in Resources */,
 				FBA65C8521AAC5F700C5890D /* EnemyActions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,6 +311,7 @@
 				686AD30421A1112D0012C3D5 /* CreateRoomViewController.swift in Sources */,
 				FBA65C8321AAACC600C5890D /* Enemy.swift in Sources */,
 				FBA65C7D21AA21B000C5890D /* FireBall.swift in Sources */,
+				2B0BE1B021B26F750002C9FA /* SoundManager.swift in Sources */,
 				689DF049218FBC0B0059CFFE /* GameScene.swift in Sources */,
 				FB2F9DF1219FF2A30068A8AC /* RoomViewController.swift in Sources */,
 				FB2F9DEF219FCFAE0068A8AC /* LobbyViewController.swift in Sources */,

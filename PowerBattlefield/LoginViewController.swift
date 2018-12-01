@@ -1,17 +1,41 @@
 import UIKit
 import FirebaseUI
+import AVFoundation
 
 class LoginViewController: UIViewController {
     var uid = ""
     let appDeleagte = UIApplication.shared.delegate as! AppDelegate
+    var audioPlayer: AVAudioPlayer!
     
+    func playBgMusic() {
+        let musicPath = Bundle.main.path(forResource: "login", ofType: "mp3")
+        let url = NSURL(fileURLWithPath: musicPath!)
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url as URL, fileTypeHint: "fail")
+            audioPlayer.numberOfLoops = -1
+            audioPlayer.volume = 1
+            audioPlayer.prepareToPlay()
+            audioPlayer.play()
+        } catch {
+            print("file read failed!")
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        playBgMusic()
         self.hideKeyboard()
         // Do any additional setup after loading the view.
         appDeleagte.allowRotation = true
         let background = UIImage(named: "bglogin")
         self.view.backgroundColor = UIColor(patternImage: background!)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "show" {
+            if let destinationVC = segue.destination as? LobbyViewController  {
+                destinationVC.audioPlayer = self.audioPlayer
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

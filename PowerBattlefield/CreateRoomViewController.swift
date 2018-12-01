@@ -1,11 +1,14 @@
 import UIKit
 import Firebase
+import AVFoundation
+
 class CreateRoomViewController: UIViewController {
 
     @IBOutlet weak var roompwd: UITextField!
     @IBOutlet weak var roomName: UITextField!
     @IBOutlet weak var create: UIButton!
     var roomId:Int!
+    var audioPlayer: AVAudioPlayer!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboard()
@@ -38,6 +41,7 @@ class CreateRoomViewController: UIViewController {
             newVC.roomId = String(self.roomId)
             newVC.roomName = self.roomName.text
             newVC.roomOwner = Auth.auth().currentUser?.uid
+            newVC.audioPlayer = self.audioPlayer
             self.present(newVC, animated: true, completion: nil)
         }) { (error) in
             print(error.localizedDescription)
