@@ -52,7 +52,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 thePlayer.initialize(playerLabel: 1, roomId: roomId)
                 Database.database().reference().child(roomId).child(Auth.auth().currentUser!.uid).setValue(1)
                 Database.database().reference().child(roomId).child("player1").child("skill").setValue(false)
-                Skill_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p1_skill"))
             }
             if let somePlayer = self.childNode(withName: "Player2") as? Player {
                 otherPlayer1 = somePlayer
@@ -63,7 +62,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 thePlayer = somePlayer
                 thePlayer.initialize(playerLabel: 2, roomId: roomId)
                 Database.database().reference().child(roomId).child(Auth.auth().currentUser!.uid).setValue(2)
-                Skill_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p2_skill"))
             }
             if let somePlayer = self.childNode(withName: "Player1") as? Player {
                 otherPlayer1 = somePlayer
@@ -361,22 +359,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var firstObserve = true
     func observeOtherPlayerMovements(){
         otherPlayer1.refMoveUp.observe(DataEventType.value) { (snapshot) in
-            if !self.firstObserve{
+            if !self.firstObserve && !self.gameEnd{
                 self.otherPlayer1.moveUp(otherPlayer: true)
             }
         }
         otherPlayer1.refMoveDown.observe(DataEventType.value) { (snapshot) in
-            if !self.firstObserve{
+            if !self.firstObserve && !self.gameEnd{
                 self.otherPlayer1.moveDown(otherPlayer: true)
             }
         }
         otherPlayer1.refMoveLeft.observe(DataEventType.value) { (snapshot) in
-            if !self.firstObserve{
+            if !self.firstObserve && !self.gameEnd{
                 self.otherPlayer1.moveLeft(otherPlayer: true)
             }
         }
         otherPlayer1.refMoveRight.observe(DataEventType.value) { (snapshot) in
-            if !self.firstObserve{
+            if !self.firstObserve && !self.gameEnd{
                 self.otherPlayer1.moveRight(otherPlayer: true)
             }
         }
@@ -437,7 +435,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         thePlayer.refSkill.observe(DataEventType.value) { (snapshot) in
-            if !self.firstObserve{
+            if !self.firstObserve && !self.gameEnd{
                 let skillIsOn = snapshot.value as? Bool ?? false
                 if self.thePlayer.playerLabel == 1{
                     let aura = self.thePlayer.childNode(withName: "Aura") as! SKSpriteNode
@@ -467,7 +465,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         otherPlayer1.refSkill.observe(DataEventType.value) { (snapshot) in
-            if !self.firstObserve{
+            if !self.firstObserve && !self.gameEnd{
                 let skillIsOn = snapshot.value as? Bool ?? false
                 if self.otherPlayer1.playerLabel == 1{
                     let aura = self.otherPlayer1.childNode(withName: "Aura") as! SKSpriteNode
@@ -497,7 +495,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         otherPlayer1.refPos.observe(DataEventType.value) { (snapshot) in
-            if !self.firstObserve{
+            if !self.firstObserve && !self.gameEnd{
                 var x = 0
                 var y = 0
                 for rest in snapshot.children.allObjects as! [DataSnapshot]{
@@ -516,7 +514,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if self.firstObserve{
                 self.firstObserve = false
-            }else{
+            }else if self.gameEnd{
                 self.fired = true
                 self.otherPlayer1.attack(otherPlayer: true)
                 if self.otherPlayer1.playerLabel == 1{
@@ -685,7 +683,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if hold{
+        if hold && !gameEnd{
             thePlayer.hold = true
             if holdBeginTime == 0{
                 

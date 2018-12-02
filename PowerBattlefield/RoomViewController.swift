@@ -304,10 +304,12 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         return false
     }
     
-    @objc func kick(sender: UIButton){
-        let uid = players.keys[players.index(players.startIndex, offsetBy: sender.tag)]
-        let room = Database.database().reference().child(roomId)
-        room.child("kickPlayer").setValue(uid)
+    @objc func kick(sender: UIButton?){
+        if sender != nil{
+            let uid = players.keys[players.index(players.startIndex, offsetBy: sender!.tag)]
+            let room = Database.database().reference().child(roomId)
+            room.child("kickPlayer").setValue(uid)
+        }
     }
     
     /*
