@@ -3,11 +3,12 @@ import SpriteKit
 import Firebase
 
 enum GameEnum: Int{
-    case playerMaxHealth = 100
+    case playerMaxHealth = 200
     case enemyMaxHealth = 1
-    case winExp = 500
-    case updateEnemy = 5
-    case maxEnemyNumber = 6
+    case winLevel = 5
+    case updateEnemy = 4
+    case maxEnemyNumber = 10
+    case levelUpRegen = 50
 }
 
 enum BodyType:UInt32{
@@ -365,12 +366,57 @@ class Player: SKSpriteNode{
         refHP.setValue(hp)
     }
     
-    func expGained(exp: Int){
-        self.exp += exp
+    let levelUpLabel = SKLabelNode(fontNamed: "Chalkduster")
+    var startGameLabelRemoved = false
+    var levelupFlag = false
+    var startTime = TimeInterval(0)
+    var startTimeSet = false
+    func levelUp(){
+        
+        if levelupFlag{
+            
+            if !startTimeSet{
+                hp += GameEnum.levelUpRegen.rawValue
+                if hp > GameEnum.playerMaxHealth.rawValue{
+                    hp = GameEnum.playerMaxHealth.rawValue
+                }
+                startTime = time
+                startTimeSet = true
+            }
+            
+            
+            let timePass = Int((time - startTime).truncatingRemainder(dividingBy: 6))
+            let timeRemain = 6 - timePass
+            
+            levelUpLabel.zPosition = 900
+            levelUpLabel.fontSize = 65
+            levelUpLabel.fontColor = UIColor.yellow
+            levelUpLabel.position = CGPoint(x: 0, y: CGFloat((time - startTime) * 10))
+            levelUpLabel.text = "Level Up!"
+            if levelUpLabel.parent == nil{
+                addChild(levelUpLabel)
+            }else{
+                levelUpLabel.removeFromParent()
+                addChild(levelUpLabel)
+            }
+            if timeRemain == 1{
+                levelupFlag = false
+                levelUpLabel.removeFromParent()
+                startTimeSet = false
+            }
+        }
+    }
+    
+    func checkLevelUp(){
         if self.exp >= levelUpExp[level - 1]{
+            levelupFlag = true
             self.exp -= levelUpExp[level - 1]
             level += 1
         }
+    }
+    
+    func expGained(exp: Int){
+        self.exp += exp
         refExp.setValue(self.exp)
         refLevel.setValue(level)
     }

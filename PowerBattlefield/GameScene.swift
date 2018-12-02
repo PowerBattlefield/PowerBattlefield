@@ -88,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             addChild(enemy)
             enemies.append(enemy)
             enemyNumber += 1
-            enemy.enemyLabel = enemyNumber
+            enemy.enemyLabel = enemies.count
             enemy.updateStateTime = updateStateTime
             enemy.observeStateChange(roomId: roomId, thePlayer: thePlayer, otherPlayer1: otherPlayer1)
         }
@@ -640,7 +640,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         winner.fontSize = 65
         winner.fontColor = UIColor.green
         winner.position = CGPoint(x: frame.midX, y: frame.midY + 200)
-        if(otherPlayer1.level < 5 && thePlayer.level < 5 && thePlayer.hp > 0 && otherPlayer1.hp > 0){
+        if(otherPlayer1.level < GameEnum.winLevel.rawValue && thePlayer.level < GameEnum.winLevel.rawValue && thePlayer.hp > 0 && otherPlayer1.hp > 0){
             winner.fontSize = 40
             if quitGame{
                 winner.text = "You Lose Because Of Quitting! Game ends in \(timeRemain - 1) seconds."
@@ -728,6 +728,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameStartTime = TimeInterval(0)
     var enemyFirstRead = true
     
+    func detectPlayerLevelUp(){
+        thePlayer.checkLevelUp()
+        otherPlayer1.checkLevelUp()
+        if thePlayer.levelupFlag{
+            thePlayer.levelUp()
+        }
+        if otherPlayer1.levelupFlag{
+            otherPlayer1.levelUp()
+        }
+    }
+    
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         if !gameStartTimeSet{
@@ -804,12 +815,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var i = 1
             for enemy in enemies{
                 if(enemy.hp > 0){
+                    if enemy.parent == nil{
+                        addChild(enemy)
+                    }
                     if !enemy.enemyHPGet && !enemyFirstRead{
                         enemyFirstRead = false
                         enemy.enemyHPGet = true
                         enemy.enemyHPGetTime = currentTime
                         Database.database().reference().child(roomId).child("enemy\(i)").child("pos").observeSingleEvent(of: .value, with: { (snapshot) in
-                            print(snapshot)
                             if !self.gameEnd{
                                 var x = 0
                                 var y = 0
@@ -820,19 +833,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                         y = (rest.value as! NSNumber).intValue
                                     }
                                 }
-                                print(x)
-                                print(y)
                                 enemy.position = CGPoint(x: x, y: y)
                             }
                         })
                         Database.database().reference().child(roomId).child("enemy\(i)").child("hp").observeSingleEvent(of: .value, with: { (snapshot) in
-                            print(snapshot)
                             enemy.hp = snapshot.value as? Int ?? 100
                             if(enemy.hp <= 0){
                                 if enemy.parent != nil && !enemy.dead{
                                     enemy.dead = true
                                     enemy.deadAnimation()
                                     self.enemyNumber -= 1
+                                }
+                            }else{
+                                if enemy.parent == nil{
+                                    self.addChild(enemy)
                                 }
                             }
                         })
@@ -855,6 +869,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         time = currentTime
         thePlayer.time = currentTime
+        otherPlayer1.time = currentTime
+        
+        detectPlayerLevelUp()
         
         if someoneQuit{
             endGame(currentTime: currentTime)
@@ -871,9 +888,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 deadAniFlag = true
             }
             endGame(currentTime: currentTime)
-        }else if thePlayer.level >= 5{
+        }else if thePlayer.level >= GameEnum.winLevel.rawValue{
             endGame(currentTime: currentTime)
-        }else if otherPlayer1.level >= 5{
+        }else if otherPlayer1.level >= GameEnum.winLevel.rawValue{
             endGame(currentTime: currentTime)
         }
         
@@ -1068,6 +1085,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 enemy.removeAllChildren()
             }
         }
+        
     }
     
     func detectAttacked(attacker: Player, attacked: Player){
