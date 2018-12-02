@@ -14,7 +14,7 @@ class Enemy:SKSpriteNode{
     var moveDistance:CGFloat = 50
     var face = PlayerFace.right
     var enemyLabel = 1
-    var hp = 100
+    var hp = GameEnum.enemyMaxHealth.rawValue
     var range:CGFloat = 100
     var damage = 10
     var updateStateTime = 1
@@ -36,7 +36,7 @@ class Enemy:SKSpriteNode{
         physicsBody?.linearDamping = 0
         physicsBody?.restitution = 0
         physicsBody?.angularDamping = 0
-        physicsBody?.collisionBitMask =  BodyType.building.rawValue | BodyType.water.rawValue | BodyType.road.rawValue
+        physicsBody?.collisionBitMask =  0
         
         name = "enemy"
         idleDownAnimation()
@@ -196,14 +196,12 @@ class Enemy:SKSpriteNode{
             if enemyPosAdjust.x > player.position.x - enemy.range - 50 && enemyPosAdjust.x < player.position.x && abs(player.position.y - enemyPosAdjust.y) < enemy.range/2 + 10{
                 print("attacted")
                 attackedFlag = true
-                player.damaged(damage: enemy.damage)
             }
             
         }else if face == PlayerFace.left {
             if enemyPosAdjust.x < player.position.x + enemy.range + 20 && enemyPosAdjust.x > player.position.x && abs(player.position.y - enemyPosAdjust.y) < enemy.range/2+10{
                 print("attacted")
                 attackedFlag = true
-                player.damaged(damage: enemy.damage)
             }
             
         }else if face == PlayerFace.up {
@@ -211,7 +209,6 @@ class Enemy:SKSpriteNode{
             if enemyPosAdjust.y > player.position.y - enemy.range - 60 && enemyPosAdjust.y < player.position.y && abs(player.position.x - enemyPosAdjust.x) < enemy.range/2 + 15{
                 print("attacted")
                 attackedFlag = true
-                player.damaged(damage: enemy.damage)
             }
             
         }else if face == PlayerFace.down {
@@ -219,11 +216,13 @@ class Enemy:SKSpriteNode{
             if enemyPosAdjust.y < player.position.y + enemy.range - 40 && enemyPosAdjust.y > player.position.y && abs(player.position.x - enemyPosAdjust.x) < enemy.range/2 + 15{
                 print("attacted")
                 attackedFlag = true
-                player.damaged(damage: enemy.damage)
             }
         }
         
         if attackedFlag{
+            if player.hp > 0{
+                player.damaged(damage: enemy.damage)
+            }
             let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
             emitter.position = CGPoint(x: 0, y: 0)
             player.addChild(emitter)

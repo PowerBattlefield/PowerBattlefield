@@ -3,8 +3,10 @@ import SpriteKit
 import Firebase
 
 enum GameEnum: Int{
-    case playerMaxHealth = 1
+    case playerMaxHealth = 100
+    case enemyMaxHealth = 1
     case winExp = 500
+    case updateEnemy = 5
 }
 
 enum BodyType:UInt32{
@@ -59,6 +61,8 @@ class Player: SKSpriteNode{
     var otherPlayer1Pos:CGPoint = CGPoint.init()
     var time = TimeInterval(0)
     var exp = 0
+    var level = 1
+    var levelUpExp = [100,200,300,400,500]
     
     
     var refx: DatabaseReference = Database.database().reference()
@@ -76,6 +80,7 @@ class Player: SKSpriteNode{
     var refHP: DatabaseReference = Database.database().reference()
     var refSkill: DatabaseReference = Database.database().reference()
     var refExp: DatabaseReference = Database.database().reference()
+    var refLevel: DatabaseReference = Database.database().reference()
     
     func initialize(playerLabel: Int, roomId: String){
         self.playerLabel = playerLabel
@@ -167,6 +172,7 @@ class Player: SKSpriteNode{
         refHP = Database.database().reference().child(roomId).child("player\(playerLabel)").child("hp")
         refSkill = Database.database().reference().child(roomId).child("player\(playerLabel)").child("skill")
         refExp = Database.database().reference().child(roomId).child("player\(playerLabel)").child("exp")
+        refLevel = Database.database().reference().child(roomId).child("player\(playerLabel)").child("level")
     }
     
     func attack(otherPlayer: Bool){
@@ -357,7 +363,12 @@ class Player: SKSpriteNode{
     
     func expGained(exp: Int){
         self.exp += exp
+        if self.exp >= levelUpExp[level - 1]{
+            self.exp -= exp
+            level += 1
+        }
         refExp.setValue(self.exp)
+        refLevel.setValue(level)
     }
     
 }

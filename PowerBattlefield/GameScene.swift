@@ -84,6 +84,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemies.append(enemy)
         enemyNumber += 1
         enemy.enemyLabel = enemyNumber
+        enemy.exp = (4 - updateStateTime) * 50
         enemy.updateStateTime = updateStateTime
         enemy.observeStateChange(roomId: roomId, thePlayer: thePlayer, otherPlayer1: otherPlayer1)
     }
@@ -97,12 +98,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         setPlayers()
-        spawnEnemy(spawnPos: CGPoint(x: -100, y: -100), updateStateTime: 2)
-        spawnEnemy(spawnPos: CGPoint(x: -500, y: -500), updateStateTime: 3)
-        spawnEnemy(spawnPos: CGPoint(x: 100, y: 500), updateStateTime: 1)
-        spawnEnemy(spawnPos: CGPoint(x: 300, y: 500), updateStateTime: 4)
-        spawnEnemy(spawnPos: CGPoint(x: -500, y: 500), updateStateTime: 3)
-        spawnEnemy(spawnPos: CGPoint(x: -600, y: 100), updateStateTime: 2)
+        spawnEnemy(spawnPos: CGPoint(x: -100, y: -100), updateStateTime: Int(arc4random_uniform(3)) + 1)
+        spawnEnemy(spawnPos: CGPoint(x: -500, y: -500), updateStateTime: Int(arc4random_uniform(3)) + 1)
+        spawnEnemy(spawnPos: CGPoint(x: 100, y: 500), updateStateTime: Int(arc4random_uniform(3)) + 1)
+        spawnEnemy(spawnPos: CGPoint(x: 300, y: 500), updateStateTime: Int(arc4random_uniform(3)) + 1)
+        spawnEnemy(spawnPos: CGPoint(x: -500, y: 500), updateStateTime: Int(arc4random_uniform(3)) + 1)
+        spawnEnemy(spawnPos: CGPoint(x: -600, y: 100), updateStateTime: Int(arc4random_uniform(3)) + 1)
         Database.database().reference().child(roomId).child("gameIsOn").observe(DataEventType.value){ (snapshot) in
             let gameIsOn = snapshot.value as? Bool ?? false
             if !gameIsOn{
@@ -111,7 +112,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.removeAllActions()
                 self.removeAllChildren()
                 self.removeFromParent()
-                self.viewController?.removeFromParentViewController()
+                self.viewController?.removeFromParent()
                 self.view?.presentScene(nil)
                 self.view?.removeFromSuperview()
                 self.scene?.removeFromParent()
@@ -142,7 +143,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //setup sound node
         addChild(sound)
 //        sound = SoundManager()
-        print("123")
         sound.playBackGround()
         
         for node in self.children {
@@ -358,6 +358,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var firstObserve = true
     func observeOtherPlayerMovements(){
+        
+        Database.database().reference().child(roomId).child("spawnEnemy").observe(DataEventType.value) { (snapshot) in
+           if !self.firstObserve && !self.gameEnd{
+                var x = 0
+                var y = 0
+                var time = 0
+                for rest in snapshot.children.allObjects as! [DataSnapshot]{
+                    if rest.key == "x"{
+                        x = (rest.value as! NSNumber).intValue
+                    }else if rest.key == "y"{
+                        y = (rest.value as! NSNumber).intValue
+                    }else if rest.key == "time"{
+                        time = (rest.value as! NSNumber).intValue
+                    }
+                }
+            self.spawnEnemy(spawnPos: CGPoint(x: x * 100, y: y * 100), updateStateTime: time)
+            }
+        }
+        
         otherPlayer1.refMoveUp.observe(DataEventType.value) { (snapshot) in
             if !self.firstObserve && !self.gameEnd{
                 self.otherPlayer1.moveUp(otherPlayer: true)
@@ -378,6 +397,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.otherPlayer1.moveRight(otherPlayer: true)
             }
         }
+
         Database.database().reference().child(roomId).child("player1").child("hp").observe(DataEventType.value) { (snapshot) in
             if !self.firstObserve{
                 if let hp = snapshot.value as? Int{
@@ -429,6 +449,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }else{
                         
                         self.otherPlayer1.exp = exp
+                    }
+                }
+            }
+        }
+        
+        Database.database().reference().child(roomId).child("player1").child("level").observe(DataEventType.value) { (snapshot) in
+            if !self.firstObserve{
+                if let level = snapshot.value as? Int{
+                    if self.thePlayer.playerLabel == 1{
+                        
+                        self.thePlayer.level = level
+                    }else{
+                        
+                        self.otherPlayer1.level = level
+                    }
+                }
+            }
+        }
+        
+        Database.database().reference().child(roomId).child("player2").child("level").observe(DataEventType.value) { (snapshot) in
+            if !self.firstObserve{
+                if let level = snapshot.value as? Int{
+                    if self.thePlayer.playerLabel == 2{
+                        
+                        self.thePlayer.level = level
+                    }else{
+                        
+                        self.otherPlayer1.level = level
                     }
                 }
             }
@@ -514,7 +562,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if self.firstObserve{
                 self.firstObserve = false
-            }else if self.gameEnd{
+            }else if !self.gameEnd{
                 self.fired = true
                 self.otherPlayer1.attack(otherPlayer: true)
                 if self.otherPlayer1.playerLabel == 1{
@@ -541,7 +589,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         winner.fontSize = 65
         winner.fontColor = UIColor.green
         winner.position = CGPoint(x: frame.midX, y: frame.midY + 200)
-        if(thePlayer.hp > 0 && otherPlayer1.hp > 0){
+        if(otherPlayer1.level < 5 && thePlayer.level < 5 && thePlayer.hp > 0 && otherPlayer1.hp > 0){
             winner.fontSize = 40
             if quitGame{
                 winner.text = "You Lose Because Of Quitting! Game ends in \(timeRemain - 1) seconds."
@@ -549,9 +597,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 winner.text = "You Win Because Other Quited! Game ends in \(timeRemain - 1) seconds."
             }
         }
-        else if(thePlayer.hp <= 0){
+        else if(thePlayer.hp <= 0 || otherPlayer1.level >= 5){
             winner.text = "You Lose! Game ends in \(timeRemain - 1) seconds."
-        }else{
+        }
+        else{
             winner.text = "You Win! Game ends in \(timeRemain - 1) seconds."
         }
         if winner.parent == nil{
@@ -589,28 +638,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var burnBeginTime:TimeInterval = 0
     var CDFlag:Bool = false
     
+    var enemySpawned = false
+    var enemySpawnTime = TimeInterval(0)
+    
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
         updateCamera()
         updateHealthBar(value: CGFloat(thePlayer.hp))
         if currentPlayer == 1{
+            if !enemySpawned{
+                enemySpawned = true
+                enemySpawnTime = currentTime
+                let enemyPosx = Int(arc4random_uniform(11)) - 5
+                let enemyPosy = Int(arc4random_uniform(11)) - 5
+                let updateTime = Int(arc4random_uniform(3)) + 1
+                Database.database().reference().child(roomId).child("spawnEnemy").child("x").setValue(enemyPosx)
+                Database.database().reference().child(roomId).child("spawnEnemy").child("y").setValue(enemyPosy)
+                Database.database().reference().child(roomId).child("spawnEnemy").child("time").setValue(updateTime)
+                
+            }else{
+                if Int(currentTime - enemySpawnTime) >= GameEnum.updateEnemy.rawValue{
+                    enemySpawned = false
+                }
+            }
+            
             var i = 1
             for enemy in enemies{
-                if !enemy.enemyHPSet{
-                    enemy.enemyHPSet = true
-                    Database.database().reference().child(roomId).child("enemy\(i)").child("hp").setValue(enemy.hp)
-                    enemy.enemyHPSetTime = currentTime
-                    
-                }else{
-                    if Int(currentTime - enemy.enemyHPSetTime) >= 1{
-                        enemy.enemyHPSet = false
+                if(enemy.hp > 0){
+                    if !enemy.enemyHPSet{
+                        enemy.enemyHPSet = true
+                        Database.database().reference().child(roomId).child("enemy\(i)").child("hp").setValue(enemy.hp)
+                        enemy.enemyHPSetTime = currentTime
+                        
+                    }else{
+                        if Int(currentTime - enemy.enemyHPSetTime) >= 1{
+                            enemy.enemyHPSet = false
+                        }
                     }
-                }
-                if(enemy.hp <= 0){
-//                    enemies.remove(at: enemies.firstIndex(of: enemy)!)
-                    enemies.remove(at: enemies.index(of: enemy)!)
-                }else{
                     if !enemy.stateSet{
                         let state = Int(arc4random_uniform(3)) + 1
                         let face = Int(arc4random_uniform(4)) + 1
@@ -626,44 +691,54 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if Int(currentTime - enemy.stateSetTime) >= enemy.updateStateTime{
                             enemy.stateSet = false
                         }
+                        
                     }
-                    i += 1
+                }else{
+                    if enemy.parent != nil{
+                        enemy.removeFromParent()
+                    }
                 }
+                i += 1
             }
             
         }else{
             var i = 1
             for enemy in enemies{
-                if enemy.enemyHPSet{
-                    Database.database().reference().child(roomId).child("enemy\(i)").child("hp").observeSingleEvent(of: .value, with: { (snapshot) in
-                        enemy.hp = snapshot.value as? Int ?? 100
-                        if(enemy.hp <= 0){
-//                            self.enemies.remove(at: self.enemies.firstIndex(of: enemy)!)
-                            self.enemies.remove(at: self.enemies.index(of: enemy)!)
-                        }
-                    })
-                    i += 1
+                if(enemy.hp > 0){
+                    if enemy.enemyHPSet{
+                        Database.database().reference().child(roomId).child("enemy\(i)").child("hp").observeSingleEvent(of: .value, with: { (snapshot) in
+                            enemy.hp = snapshot.value as? Int ?? 100
+                            if(enemy.hp <= 0){
+                                //self.enemies.remove(at: self.enemies.index(of: enemy)!)
+                            }
+                        })
+                        i += 1
+                    }
                 }
             }
         }
         
         time = currentTime
         thePlayer.time = currentTime
+        
         if someoneQuit{
             endGame(currentTime: currentTime)
-        }
-        if(thePlayer.hp <= 0){
+        }else if(thePlayer.hp <= 0){
             if !deadAniFlag{
                 thePlayer.deadAnimation()
                 deadAniFlag = true
             }
             endGame(currentTime: currentTime)
         }
-        if(otherPlayer1.hp <= 0){
+        else if(otherPlayer1.hp <= 0){
             if !deadAniFlag{
                 otherPlayer1.deadAnimation()
                 deadAniFlag = true
             }
+            endGame(currentTime: currentTime)
+        }else if thePlayer.level >= 5{
+            endGame(currentTime: currentTime)
+        }else if otherPlayer1.level >= 5{
             endGame(currentTime: currentTime)
         }
         
