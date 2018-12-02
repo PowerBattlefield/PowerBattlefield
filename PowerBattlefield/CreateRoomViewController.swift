@@ -13,9 +13,11 @@ class CreateRoomViewController: UIViewController {
         super.viewDidLoad()
         self.hideKeyboard()
         // Do any additional setup after loading the view.
-
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "bgcreateroom")
+        backgroundImage.contentMode = UIViewContentMode.scaleAspectFill
+        self.view.insertSubview(backgroundImage, at: 0)
         // Do any additional setup after loading the view.'
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "bgcreateroom")!)
         roomName.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
         roompwd.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
         create.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)

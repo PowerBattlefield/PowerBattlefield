@@ -24,6 +24,8 @@ class Enemy:SKSpriteNode{
     var exp = 50
     var enemyHPSet = false
     var enemyHPSetTime = TimeInterval(0)
+    var burn = TimeInterval(0)
+    var burnBeginTime = TimeInterval(0)
     
     init(texture: SKTexture, color: SKColor, size: CGSize, spawnPos: CGPoint) {
         super.init(texture: texture, color: color, size: size)
@@ -37,7 +39,7 @@ class Enemy:SKSpriteNode{
         physicsBody?.restitution = 0
         physicsBody?.angularDamping = 0
         physicsBody?.collisionBitMask =  BodyType.building.rawValue | BodyType.water.rawValue | BodyType.road.rawValue
-        
+        physicsBody?.contactTestBitMask = BodyType.grassOnFire.rawValue
         name = "enemy"
         idleDownAnimation()
         

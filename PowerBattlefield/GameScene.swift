@@ -514,7 +514,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if self.firstObserve{
                 self.firstObserve = false
-            }else if self.gameEnd{
+            }else if !self.gameEnd{
                 self.fired = true
                 self.otherPlayer1.attack(otherPlayer: true)
                 if self.otherPlayer1.playerLabel == 1{
@@ -781,6 +781,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }else if(thePlayer.playerLabel == 2){
+            for enemy in enemies{
+                if enemy.burn != 0{
+                    if enemy.burn == 5 && enemy.burnBeginTime == 0{
+                        enemy.burnBeginTime = currentTime
+                    }
+                    if currentTime - enemy.burnBeginTime > 0.5{
+                        enemy.burnBeginTime = currentTime
+                        enemy.burn -= 0.5
+                        enemy.damaged(damage: 6, attackedBy: thePlayer)
+                    }
+                }else if enemy.burnBeginTime != 0{
+                    enemy.burnBeginTime = 0
+                    enemy.removeAllChildren()
+                }
+            }
+            
             if otherPlayer1.burn != 0{
                 if otherPlayer1.burn == 5 && burnBeginTime == 0{
                     burnBeginTime = currentTime
@@ -1089,6 +1105,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if (contact.bodyB.categoryBitMask == BodyType.player1.rawValue && contact.bodyA.categoryBitMask == BodyType.grassOnFire.rawValue) {
             addFireOnPlayerEmitter(node: contact.bodyB.node!)
         }
+        if (contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.grassOnFire.rawValue) {
+            addFireOnPlayerEmitter(node: contact.bodyA.node!)
+        } else if (contact.bodyB.categoryBitMask == BodyType.enemy.rawValue && contact.bodyA.categoryBitMask == BodyType.grassOnFire.rawValue) {
+            addFireOnPlayerEmitter(node: contact.bodyB.node!)
+        }
     }
     
     func addFireballEmitter(node:SKNode){
@@ -1106,6 +1127,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let seq:SKAction = SKAction.sequence( [wait, finish] )
         run(seq)
     }
+    
     func addFireOnPlayerEmitter(node:SKNode){
         if let player = node as? Player{
             if(player.burn < 5){
@@ -1115,28 +1137,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 child.addChild(emitter)
                 player.burn = 5
                 player.moveSpeed = 0.75
-//                let wait:SKAction = SKAction.wait(forDuration: 5)
-//                let finish:SKAction = SKAction.run {
-//                    emitter.removeFromParent()
-//                    player.burn = false
-//                    player.moveSpeed = 0.5
-//                }
-//                let seq:SKAction = SKAction.sequence( [wait, finish] )
-//                run(seq)
-//            }else{
-//                let child = player.childNode(withName: "Fire") as! SKSpriteNode
-//                child.removeAllChildren()
-//                let emitter = SKEmitterNode(fileNamed: "FireOnPlayer")!
-//                emitter.position = CGPoint(x: -5, y: -80)
-//                child.addChild(emitter)
-//                let wait:SKAction = SKAction.wait(forDuration: 5)
-//                let finish:SKAction = SKAction.run {
-//                    emitter.removeFromParent()
-//                    player.burn = false
-//                    player.moveSpeed = 0.5
-//                }
-//                let seq:SKAction = SKAction.sequence( [wait, finish] )
-//                run(seq)
+            }
+        }
+        if let enemy = node as? Enemy{
+            if(enemy.burn < 5){
+                let emitter = SKEmitterNode(fileNamed: "FireOnPlayer")!
+                emitter.position = CGPoint(x: -20, y: 120)
+                enemy.addChild(emitter)
+                enemy.burn = 5
             }
         }
     }
