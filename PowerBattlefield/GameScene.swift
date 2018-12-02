@@ -803,7 +803,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var i = 1
             for enemy in enemies{
                 if(enemy.hp > 0){
-                    if enemy.enemyHPSet{
+                    if !enemy.enemyHPGet{
+                        enemy.enemyHPGet = true
+                        enemy.enemyHPGetTime = currentTime
                         Database.database().reference().child(roomId).child("enemy\(i)").child("pos").observeSingleEvent(of: .value, with: { (snapshot) in
                             print(snapshot)
                             if !self.gameEnd{
@@ -833,6 +835,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             }
                         })
                         
+                    }else{
+                        if Int(currentTime - enemy.enemyHPGetTime) >= 1{
+                            enemy.enemyHPGet = false
+                        }
                     }
                 }else{
                     if enemy.parent != nil && !enemy.dead{
