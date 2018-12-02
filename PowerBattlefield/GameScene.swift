@@ -89,7 +89,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemies.append(enemy)
             enemyNumber += 1
             enemy.enemyLabel = enemyNumber
-            enemy.exp = (4 - updateStateTime) * 50
             enemy.updateStateTime = updateStateTime
             enemy.observeStateChange(roomId: roomId, thePlayer: thePlayer, otherPlayer1: otherPlayer1)
         }
@@ -727,6 +726,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var enemySpawnTime = TimeInterval(0)
     var gameStartTimeSet = false
     var gameStartTime = TimeInterval(0)
+    var enemyFirstRead = true
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
@@ -804,7 +804,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var i = 1
             for enemy in enemies{
                 if(enemy.hp > 0){
-                    if !enemy.enemyHPGet{
+                    if !enemy.enemyHPGet && !enemyFirstRead{
+                        enemyFirstRead = false
                         enemy.enemyHPGet = true
                         enemy.enemyHPGetTime = currentTime
                         Database.database().reference().child(roomId).child("enemy\(i)").child("pos").observeSingleEvent(of: .value, with: { (snapshot) in

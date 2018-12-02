@@ -232,15 +232,6 @@ class Enemy:SKSpriteNode{
             if player.hp > 0{
                 player.damaged(damage: enemy.damage)
             }
-            let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
-            emitter.position = CGPoint(x: 0, y: 0)
-            player.addChild(emitter)
-            let wait:SKAction = SKAction.wait(forDuration: 0.5)
-            let finish:SKAction = SKAction.run {
-                emitter.removeFromParent()
-            }
-            let seq:SKAction = SKAction.sequence( [wait, finish] )
-            run(seq)
         }
     }
     

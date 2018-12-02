@@ -368,7 +368,7 @@ class Player: SKSpriteNode{
     func expGained(exp: Int){
         self.exp += exp
         if self.exp >= levelUpExp[level - 1]{
-            self.exp -= exp
+            self.exp -= levelUpExp[level - 1]
             level += 1
         }
         refExp.setValue(self.exp)
