@@ -636,6 +636,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let timeRemain = 6 - Int((currentTime - endTime).truncatingRemainder(dividingBy: 6))
         
+        winner.zPosition = 900
         winner.name = "winner"
         winner.fontSize = 65
         winner.fontColor = UIColor.green
@@ -683,29 +684,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     let startGameLabel = SKLabelNode(fontNamed: "Chalkduster")
+    var startGameLabelRemoved = false
+    var startTime = TimeInterval(0)
     func startGame(currentTime: TimeInterval){
-        if gameStart{
-            startGameLabel.removeFromParent()
-            return
-        }
-        if endTime == TimeInterval(0){
-            endTime = currentTime
-        }
         
-        let timeRemain = 6 - Int((currentTime - endTime).truncatingRemainder(dividingBy: 6))
-        
-        startGameLabel.fontSize = 65
-        startGameLabel.fontColor = UIColor.green
-        startGameLabel.position = CGPoint(x: frame.midX, y: frame.midY + 200)
-        startGameLabel.text = "Game starts in \(timeRemain - 1) seconds."
-        if startGameLabel.parent == nil{
-            addChild(startGameLabel)
-        }else{
-            startGameLabel.removeFromParent()
-            addChild(startGameLabel)
-        }
-        if timeRemain == 1{
-            gameStart = true
+        if !gameStart{
+            
+            if startTime == TimeInterval(0){
+                startTime = currentTime
+            }
+            
+            let timeRemain = 6 - Int((currentTime - startTime).truncatingRemainder(dividingBy: 6))
+            
+            startGameLabel.zPosition = 900
+            startGameLabel.fontSize = 65
+            startGameLabel.fontColor = UIColor.green
+            startGameLabel.position = CGPoint(x: frame.midX, y: frame.midY + 200)
+            startGameLabel.text = "Game starts in \(timeRemain - 2) seconds."
+            if startGameLabel.parent == nil{
+                addChild(startGameLabel)
+            }else{
+                startGameLabel.removeFromParent()
+                addChild(startGameLabel)
+            }
+            if timeRemain == 1{
+                gameStart = true
+                startGameLabel.removeFromParent()
+            }
         }
     }
     
@@ -1170,7 +1175,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var hold = false
     var moveDirection:String = "stop"
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if(!gameEnd){
+        if(!gameEnd && gameStart){
             for t in touches {
                 
                 let location = t.location(in: self)
