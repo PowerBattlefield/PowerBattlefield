@@ -220,7 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 Skill2_btn = node as! SKSpriteNode
                 Skill2_btn.zPosition = 1000
                 if thePlayer.playerLabel == 1{
-                    Skill2_btn.texture = SKTexture(image: #imageLiteral(resourceName: "Attack_btn"))
+                    Skill2_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p1_skill2"))
                 }else if thePlayer.playerLabel == 2{
                     Skill2_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p2_skill"))
                 }
@@ -1336,6 +1336,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (contact.bodyA.categoryBitMask == BodyType.player2.rawValue && contact.bodyB.categoryBitMask == BodyType.swordRain.rawValue) {
             if thePlayer.playerLabel == 1{
                 otherPlayer1.damaged(damage: 1)
+                let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
+                emitter.position = CGPoint(x: 0, y: 0)
+                otherPlayer1.addChild(emitter)
+                let wait:SKAction = SKAction.wait(forDuration: 0.5)
+                let finish:SKAction = SKAction.run {
+                    emitter.removeFromParent()
+                }
+                let seq:SKAction = SKAction.sequence( [wait, finish] )
+                run(seq)
             }else{
                 switch thePlayer.face{
                 case .down:
@@ -1351,10 +1360,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     thePlayer.run(SKAction(named: "p2_getattackedup")!)
                     break
                 }
+                let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
+                emitter.position = CGPoint(x: 0, y: 0)
+                thePlayer.addChild(emitter)
+                let wait:SKAction = SKAction.wait(forDuration: 0.5)
+                let finish:SKAction = SKAction.run {
+                    emitter.removeFromParent()
+                }
+                let seq:SKAction = SKAction.sequence( [wait, finish] )
+                run(seq)
             }
-        } else if (contact.bodyB.categoryBitMask == BodyType.player2.rawValue && contact.bodyA.categoryBitMask == BodyType.swordRain.rawValue) {
+        }else if (contact.bodyB.categoryBitMask == BodyType.player2.rawValue && contact.bodyA.categoryBitMask == BodyType.swordRain.rawValue) {
             if thePlayer.playerLabel == 1{
-                otherPlayer1.damaged(damage: 50)
+                otherPlayer1.damaged(damage: 1)
+                let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
+                emitter.position = CGPoint(x: 0, y: 0)
+                otherPlayer1.addChild(emitter)
+                let wait:SKAction = SKAction.wait(forDuration: 0.5)
+                let finish:SKAction = SKAction.run {
+                    emitter.removeFromParent()
+                }
+                let seq:SKAction = SKAction.sequence( [wait, finish] )
+                run(seq)
             }else{
                 switch thePlayer.face{
                 case .down:
@@ -1370,12 +1397,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     thePlayer.run(SKAction(named: "p2_getattackedup")!)
                     break
                 }
+                let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
+                emitter.position = CGPoint(x: 0, y: 0)
+                thePlayer.addChild(emitter)
+                let wait:SKAction = SKAction.wait(forDuration: 0.5)
+                let finish:SKAction = SKAction.run {
+                    emitter.removeFromParent()
+                }
+                let seq:SKAction = SKAction.sequence( [wait, finish] )
+                run(seq)
             }
         }
         if (contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.swordRain.rawValue) {
-            
+            if thePlayer.playerLabel == 1{
+                if let enemy = contact.bodyA.node as? Enemy{
+                    enemy.damaged(damage: 1, attackedBy: thePlayer)
+                }
+            }else{
+                if let enemy = contact.bodyA.node as? Enemy{
+                    enemy.damaged(damage: 1, attackedBy: otherPlayer1)
+                }
+            }
         } else if (contact.bodyB.categoryBitMask == BodyType.enemy.rawValue && contact.bodyA.categoryBitMask == BodyType.swordRain.rawValue) {
-            
+            if thePlayer.playerLabel == 1{
+                if let enemy = contact.bodyA.node as? Enemy{
+                    enemy.damaged(damage: 1, attackedBy: thePlayer)
+                }
+            }else{
+                if let enemy = contact.bodyA.node as? Enemy{
+                    enemy.damaged(damage: 1, attackedBy: otherPlayer1)
+                }
+            }
         }
     }
     
