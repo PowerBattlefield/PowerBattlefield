@@ -995,35 +995,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }else if(thePlayer.playerLabel == 2){
-            for enemy in enemies{
-                if enemy.burn != 0{
-                    if enemy.burn == 5 && enemy.burnBeginTime == 0{
-                        enemy.burnBeginTime = currentTime
-                    }
-                    if currentTime - enemy.burnBeginTime > 0.5{
-                        enemy.burnBeginTime = currentTime
-                        enemy.burn -= 0.5
-                        enemy.damaged(damage: 6, attackedBy: thePlayer)
-                    }
-                }
-            }
-        }
-        for enemy in enemies{
-            if enemy.burn != 0{
-                if enemy.burn == 5 && enemy.burnBeginTime == 0{
-                    enemy.burnBeginTime = currentTime
-                }
-                if currentTime - enemy.burnBeginTime > 0.5{
-                    enemy.burnBeginTime = currentTime
-                    enemy.burn -= 0.5
-                    enemy.damaged(damage: 6, attackedBy: thePlayer)
-                }
-            }else if enemy.burnBeginTime != 0{
-                enemy.burnBeginTime = 0
-                enemy.removeAllChildren()
-            }
-            
-            
             if otherPlayer1.burn != 0{
                 if otherPlayer1.burn == 5 && burnBeginTime == 0{
                     burnBeginTime = currentTime
@@ -1074,7 +1045,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
-        
+        for enemy in enemies{
+            if enemy.burn != 0{
+                if enemy.burn == 5 && enemy.burnBeginTime == 0{
+                    enemy.burnBeginTime = currentTime
+                }
+                if currentTime - enemy.burnBeginTime > 0.5{
+                    enemy.burnBeginTime = currentTime
+                    enemy.burn -= 0.5
+                    enemy.damaged(damage: 6, attackedBy: thePlayer)
+                }
+            }else if enemy.burnBeginTime != 0{
+                enemy.burnBeginTime = 0
+                enemy.removeAllChildren()
+            }
+        }
     }
     
     func detectAttacked(attacker: Player, attacked: Player){
