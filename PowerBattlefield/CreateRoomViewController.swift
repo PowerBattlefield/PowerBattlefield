@@ -4,7 +4,7 @@ import AVFoundation
 
 class CreateRoomViewController: UIViewController {
 
-    @IBOutlet weak var roompwd: UITextField!
+
     @IBOutlet weak var roomName: UITextField!
     @IBOutlet weak var create: UIButton!
     var roomId:Int!
@@ -15,11 +15,10 @@ class CreateRoomViewController: UIViewController {
         // Do any additional setup after loading the view.
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "bgcreateroom")
-        backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
+        backgroundImage.contentMode = UIViewContentMode.scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
         // Do any additional setup after loading the view.'
         roomName.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
-        roompwd.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
         create.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         create.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
         create.layer.cornerRadius = 20
