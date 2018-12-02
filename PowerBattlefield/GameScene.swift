@@ -721,6 +721,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var skill2BeginTime:TimeInterval = 0
     var burnBeginTime:TimeInterval = 0
     var CDFlag:Bool = false
+    var CD2Flag:Bool = false
     
     var enemySpawned = false
     var enemySpawnTime = TimeInterval(0)
@@ -972,7 +973,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill2").setValue(false)
                 skill2IsOn = false
-                CDFlag = true
+                CD2Flag = true
             }else{
                 if skill2BeginTime != 0{
                     let label = Skill2_btn.childNode(withName: "SkillTime") as! SKLabelNode
@@ -980,12 +981,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         let coolDown = Int(11 - currentTime + skill2BeginTime)
                         label.fontColor = UIColor.white
                         label.text = String(coolDown)
-                        if CDFlag{
+                        if CD2Flag{
                             Skill2_btn.color = UIColor.black
                             Skill2_btn.colorBlendFactor = 1
                             let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 10)
                             Skill2_btn.run(colorize)
-                            CDFlag = false
+                            CD2Flag = false
                         }
                     }else if currentTime - skill2BeginTime > 10{
                         label.text = ""
@@ -1420,11 +1421,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         } else if (contact.bodyB.categoryBitMask == BodyType.enemy.rawValue && contact.bodyA.categoryBitMask == BodyType.swordRain.rawValue) {
             if thePlayer.playerLabel == 1{
-                if let enemy = contact.bodyA.node as? Enemy{
+                if let enemy = contact.bodyB.node as? Enemy{
                     enemy.damaged(damage: 1, attackedBy: thePlayer)
                 }
             }else{
-                if let enemy = contact.bodyA.node as? Enemy{
+                if let enemy = contact.bodyB.node as? Enemy{
                     enemy.damaged(damage: 1, attackedBy: otherPlayer1)
                 }
             }
