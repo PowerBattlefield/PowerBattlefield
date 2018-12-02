@@ -57,7 +57,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 Database.database().reference().child(self.roomId).child(Auth.auth().currentUser!.uid).observe(DataEventType.value){ (snapshot) in
                     if let playerLabel = snapshot.value as? Int{
                         self.appDeleagte.isInRoom = false
-                        print("game end")
                         if winnerLabel == playerLabel{
                             let newVC = self.storyboard?.instantiateViewController(withIdentifier: "EndVC") as! EndViewController
                             newVC.roomId = self.roomId
@@ -171,7 +170,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 newVC.roomName = self.roomName
                 newVC.roomOwner = self.roomOwner
                 if(self.audioPlayer != nil){
-                    print(1111)
                     self.audioPlayer.stop()
                 }
                 self.present(newVC, animated: true, completion: nil)

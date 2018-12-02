@@ -3,7 +3,7 @@ import GameplayKit
 import Firebase
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    weak var viewController: GameViewController? = GameViewController()
+    var viewController: GameViewController? = GameViewController()
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
     var thePlayer:Player = Player()
@@ -1078,7 +1078,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if currentTime - enemy.burnBeginTime > 0.5{
                     enemy.burnBeginTime = currentTime
                     enemy.burn -= 0.5
-                    enemy.damaged(damage: 6, attackedBy: thePlayer)
+                    if thePlayer.playerLabel == 2{
+                        enemy.damaged(damage: 6, attackedBy: thePlayer)
+                    }else{
+                        enemy.damaged(damage: 6, attackedBy: otherPlayer1)
+                    }
                 }
             }else if enemy.burnBeginTime != 0{
                 enemy.burnBeginTime = 0
