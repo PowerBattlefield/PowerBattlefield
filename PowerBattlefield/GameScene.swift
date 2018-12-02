@@ -17,7 +17,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var skillFlag = true
     var enemies: [Enemy] = []
     var fired = false
-    
+    var quitGame = false
+    var someoneQuit = false
     //get room id from room view
     var roomId: String!
     
@@ -116,15 +117,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.view?.presentScene(nil)
                 self.view?.removeFromSuperview()
                 self.scene?.removeFromParent()
-                if self.gameEnd{
-                    self.viewController?.dismiss(animated: false, completion: nil)
-                }else{
-                    Database.database().reference().child(self.roomId).child("quitToLobby").setValue(true)
-                    self.viewController?.dismiss(animated: false, completion: nil)
-                }                
+                self.viewController?.dismiss(animated: false, completion: nil)
                 //self.viewController?.performSegue(withIdentifier: "quit", sender: self.viewController)
             }
         }
+        
+        Database.database().reference().child(roomId).child("someoneQuit").observe(DataEventType.value){ (snapshot) in
+            self.someoneQuit = snapshot.value as? Bool ?? false
+        }
+        
         self.physicsWorld.contactDelegate = self
         
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
@@ -536,13 +537,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             endTime = currentTime
         }
         
-        let timeRemain = 11 - Int((currentTime - endTime).truncatingRemainder(dividingBy: 11))
+        let timeRemain = 6 - Int((currentTime - endTime).truncatingRemainder(dividingBy: 6))
         
         winner.name = "winner"
         winner.fontSize = 65
-        winner.fontColor = SKColor.green
+        winner.fontColor = UIColor.green
         winner.position = CGPoint(x: frame.midX, y: frame.midY + 200)
-        if(thePlayer.hp <= 0){
+        if(thePlayer.hp > 0 && otherPlayer1.hp > 0){
+            winner.fontSize = 40
+            if quitGame{
+                winner.text = "You Lose Because Of Quitting! Game ends in \(timeRemain - 1) seconds."
+            }else{
+                winner.text = "You Win Because Other Quited! Game ends in \(timeRemain - 1) seconds."
+            }
+        }
+        else if(thePlayer.hp <= 0){
             winner.text = "You Lose! Game ends in \(timeRemain - 1) seconds."
         }else{
             winner.text = "You Win! Game ends in \(timeRemain - 1) seconds."
@@ -555,7 +564,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if timeRemain == 1{
-            if(thePlayer.hp <= 0){
+            if(thePlayer.hp > 0 && otherPlayer1.hp > 0){
+                if quitGame{
+                    Database.database().reference().child(roomId).child("winner").setValue(otherPlayer1.playerLabel)
+                    Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
+                }else{
+                    Database.database().reference().child(roomId).child("winner").setValue(thePlayer.playerLabel)
+                    Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
+                }
+            }
+            else if(thePlayer.hp <= 0){
                 Database.database().reference().child(roomId).child("winner").setValue(otherPlayer1.playerLabel)
                 Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
             }else{
@@ -633,7 +651,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         time = currentTime
         thePlayer.time = currentTime
-        
+        if someoneQuit{
+            endGame(currentTime: currentTime)
+        }
         if(thePlayer.hp <= 0){
             if !deadAniFlag{
                 thePlayer.deadAnimation()
@@ -958,7 +978,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     moveDirection = "right"
                 }
                 if (node.name == "Quit_btn"){
-                    Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
+//                    Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
+//                    self.viewController?.dismiss(animated: false, completion: nil)
+                    quitGame = true
+                    Database.database().reference().child(roomId).child("someoneQuit").setValue(true)
                 }
                 if (node.name == "Skill_btn"){
                     if skillFlag{
