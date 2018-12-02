@@ -20,17 +20,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="218" translatesAutoresizingMaskIntoConstraints="NO" id="Bsv-kc-hUR">
-                                <rect key="frame" x="269" y="53.5" width="129.5" height="268.5"/>
+                                <rect key="frame" x="137" y="6" width="394" height="363.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Power Battlefield" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CuJ-6F-HlX">
-                                        <rect key="frame" x="0.0" y="0.0" width="129.5" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="394" height="94.5"/>
+                                        <fontDescription key="fontDescription" name="PartyLetPlain" family="Party LET" pointSize="80"/>
+                                        <color key="textColor" red="1" green="0.66311038606562978" blue="0.047728132900136111" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
+                                        <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b8n-dE-K0c">
-                                        <rect key="frame" x="0.0" y="238.5" width="129.5" height="30"/>
-                                        <state key="normal" title="Login/Register"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b8n-dE-K0c">
+                                        <rect key="frame" x="0.0" y="312.5" width="394" height="51"/>
+                                        <fontDescription key="fontDescription" name="Papyrus" family="Papyrus" pointSize="25"/>
+                                        <size key="titleShadowOffset" width="1" height="0.0"/>
+                                        <state key="normal" title="Login/Register">
+                                            <color key="titleColor" red="1" green="0.93995180032142978" blue="0.55055342196841206" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="titleShadowColor" red="1" green="0.93995180030000003" blue="0.55055342200000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </state>
                                         <connections>
                                             <action selector="loginBtn:" destination="ljd-dg-mgb" eventType="touchUpInside" id="Ol4-wM-gaF"/>
                                             <segue destination="IRI-8X-yDk" kind="show" identifier="show" id="QVU-zo-Bsk"/>
@@ -354,27 +360,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-1n-Gh2">
-                                <rect key="frame" x="0.0" y="46" width="667" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sVM-O0-NKF">
-                                <rect key="frame" x="286" y="172.5" width="95" height="30"/>
-                                <state key="normal" title="Back to Room"/>
+                                <rect key="frame" x="286" y="231" width="95" height="30"/>
+                                <size key="titleShadowOffset" width="1" height="1"/>
+                                <state key="normal" title="Back to Room">
+                                    <color key="titleColor" red="0.98936863397124142" green="1" blue="0.95510725681530728" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <segue destination="IRI-8X-yDk" kind="show" identifier="quitToLobby" id="oEf-u3-YBQ"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-1n-Gh2">
+                                <rect key="frame" x="0.0" y="107" width="667" height="101.5"/>
+                                <fontDescription key="fontDescription" name="Zapfino" family="Zapfino" pointSize="30"/>
+                                <color key="textColor" red="1" green="0.67199000070463244" blue="0.070381659145747899" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="sVM-O0-NKF" firstAttribute="top" secondItem="3f9-1n-Gh2" secondAttribute="bottom" constant="22.5" id="Aee-P3-rfj"/>
                             <constraint firstItem="sVM-O0-NKF" firstAttribute="centerX" secondItem="XiZ-bs-ReS" secondAttribute="centerX" id="B6c-0g-VOi"/>
-                            <constraint firstItem="sVM-O0-NKF" firstAttribute="centerY" secondItem="XiZ-bs-ReS" secondAttribute="centerY" id="Y8Z-Z0-tmz"/>
-                            <constraint firstItem="3f9-1n-Gh2" firstAttribute="centerX" secondItem="XiZ-bs-ReS" secondAttribute="centerX" id="YlZ-uS-YhK"/>
+                            <constraint firstItem="3f9-1n-Gh2" firstAttribute="centerX" secondItem="XiZ-bs-ReS" secondAttribute="centerX" id="FWB-oW-O4o"/>
                             <constraint firstItem="3f9-1n-Gh2" firstAttribute="width" secondItem="3w8-Tc-iXV" secondAttribute="width" id="gLe-Ef-JvX"/>
-                            <constraint firstItem="3f9-1n-Gh2" firstAttribute="top" secondItem="XiZ-bs-ReS" secondAttribute="top" constant="46" id="qGa-9T-FBh"/>
+                            <constraint firstItem="3f9-1n-Gh2" firstAttribute="top" secondItem="XiZ-bs-ReS" secondAttribute="top" constant="107" id="t3S-qJ-N0u"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="XiZ-bs-ReS"/>
                     </view>
@@ -388,6 +398,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="QVU-zo-Bsk"/>
+        <segue reference="oEf-u3-YBQ"/>
     </inferredMetricsTieBreakers>
 </document>
