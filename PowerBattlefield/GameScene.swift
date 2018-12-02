@@ -21,6 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var someoneQuit = false
     //get room id from room view
     var roomId: String!
+    var gameStart = false
     
     var gameEnd = false
     
@@ -152,6 +153,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if (node.name == "Building") {
                 if (node is SKSpriteNode) {
                     node.physicsBody?.categoryBitMask = BodyType.building.rawValue
+                    node.physicsBody?.collisionBitMask = 0
                 }
             }
             
@@ -375,8 +377,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         time = (rest.value as! NSNumber).intValue
                     }
                 }
-            self.spawnEnemy(spawnPos: CGPoint(x: x * 100, y: y * 100), updateStateTime: time)
+            if self.gameStartTimeSet && Int(self.time - self.gameStartTime) > 10{
+                self.spawnEnemy(spawnPos: CGPoint(x: x * 100, y: y * 100), updateStateTime: time)
             }
+        }
         }
         
         otherPlayer1.refMoveUp.observe(DataEventType.value) { (snapshot) in
@@ -633,6 +637,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    let startGameLabel = SKLabelNode(fontNamed: "Chalkduster")
+    func startGame(currentTime: TimeInterval){
+        if gameStart{
+            startGameLabel.removeFromParent()
+            return
+        }
+        if endTime == TimeInterval(0){
+            endTime = currentTime
+        }
+        
+        let timeRemain = 6 - Int((currentTime - endTime).truncatingRemainder(dividingBy: 6))
+        
+        startGameLabel.fontSize = 65
+        startGameLabel.fontColor = UIColor.green
+        startGameLabel.position = CGPoint(x: frame.midX, y: frame.midY + 200)
+        startGameLabel.text = "Game starts in \(timeRemain - 1) seconds."
+        if startGameLabel.parent == nil{
+            addChild(startGameLabel)
+        }else{
+            startGameLabel.removeFromParent()
+            addChild(startGameLabel)
+        }
+        if timeRemain == 1{
+            gameStart = true
+        }
+    }
+    
     var deadAniFlag = false
     var endTime = TimeInterval(0)
     var holdBeginTime:TimeInterval = 0
@@ -642,13 +673,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var enemySpawned = false
     var enemySpawnTime = TimeInterval(0)
+    var gameStartTimeSet = false
+    var gameStartTime = TimeInterval(0)
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        if !gameStartTimeSet{
+            gameStartTime = currentTime
+            gameStartTimeSet = true
+        }
+        
+        if !gameStart{
+            startGame(currentTime: currentTime)
+        }
         
         updateCamera()
         updateHealthBar(value: CGFloat(thePlayer.hp))
-        if currentPlayer == 1{
+        if currentPlayer == 1  && gameStart{
             if !enemySpawned{
                 enemySpawned = true
                 enemySpawnTime = currentTime
@@ -667,17 +708,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             var i = 1
             for enemy in enemies{
-                if(enemy.hp > 0){
-                    if !enemy.enemyHPSet{
-                        enemy.enemyHPSet = true
-                        Database.database().reference().child(roomId).child("enemy\(i)").child("hp").setValue(enemy.hp)
-                        enemy.enemyHPSetTime = currentTime
-                        
-                    }else{
-                        if Int(currentTime - enemy.enemyHPSetTime) >= 1{
-                            enemy.enemyHPSet = false
-                        }
+                if !enemy.enemyHPSet{
+                    enemy.enemyHPSet = true
+                    Database.database().reference().child(roomId).child("enemy\(i)").child("hp").setValue(enemy.hp)
+                    Database.database().reference().child(roomId).child("enemy\(i)").child("pos").child("x").setValue(enemy.position.x)
+                    Database.database().reference().child(roomId).child("enemy\(i)").child("pos").child("y").setValue(enemy.position.y)
+                    enemy.enemyHPSetTime = currentTime
+                    
+                }else{
+                    if Int(currentTime - enemy.enemyHPSetTime) >= 1{
+                        enemy.enemyHPSet = false
                     }
+                }
+                if(enemy.hp > 0){
                     if !enemy.stateSet{
                         let state = Int(arc4random_uniform(3)) + 1
                         let face = Int(arc4random_uniform(4)) + 1
@@ -696,27 +739,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                     }
                 }else{
-                    if enemy.parent != nil{
-                        enemy.removeFromParent()
+                    if enemy.parent != nil && !enemy.dead{
+                        enemy.dead = true
+                        enemy.deadAnimation()
+                        enemyNumber -= 1
                     }
                 }
                 i += 1
             }
             
-        }else{
+        }else if gameStart{
             var i = 1
             for enemy in enemies{
                 if(enemy.hp > 0){
                     if enemy.enemyHPSet{
-                        Database.database().reference().child(roomId).child("enemy\(i)").child("hp").observeSingleEvent(of: .value, with: { (snapshot) in
-                            enemy.hp = snapshot.value as? Int ?? 100
-                            if(enemy.hp <= 0){
-                                //self.enemies.remove(at: self.enemies.index(of: enemy)!)
+                        Database.database().reference().child(roomId).child("enemy\(i)").child("pos").observeSingleEvent(of: .value, with: { (snapshot) in
+                            print(snapshot)
+                            if !self.gameEnd{
+                                var x = 0
+                                var y = 0
+                                for rest in snapshot.children.allObjects as! [DataSnapshot]{
+                                    if rest.key == "x"{
+                                        x = (rest.value as! NSNumber).intValue
+                                    }else{
+                                        y = (rest.value as! NSNumber).intValue
+                                    }
+                                }
+                                print(x)
+                                print(y)
+                                enemy.position = CGPoint(x: x, y: y)
                             }
                         })
-                        i += 1
+                        Database.database().reference().child(roomId).child("enemy\(i)").child("hp").observeSingleEvent(of: .value, with: { (snapshot) in
+                            print(snapshot)
+                            enemy.hp = snapshot.value as? Int ?? 100
+                            if(enemy.hp <= 0){
+                                if enemy.parent != nil && !enemy.dead{
+                                    enemy.dead = true
+                                    enemy.deadAnimation()
+                                    self.enemyNumber -= 1
+                                }
+                            }
+                        })
+                        
+                    }
+                }else{
+                    if enemy.parent != nil && !enemy.dead{
+                        enemy.dead = true
+                        enemy.deadAnimation()
+                        enemyNumber -= 1
                     }
                 }
+                i += 1
             }
         }
         
@@ -744,23 +818,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             endGame(currentTime: currentTime)
         }
         
-        for node in self.children {
-            
-            if (node.name == "Building") {
-                
-                if (node.position.y > thePlayer.position.y){
-                    
-                    node.zPosition = -100
-                    
-                } else {
-                    
-                    node.zPosition = 100
-                    
-                }
-            }
-        }
-        
-        if hold && !gameEnd{
+        if hold && !gameEnd && gameStart{
             thePlayer.hold = true
             if holdBeginTime == 0{
                 
@@ -857,22 +915,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }
-        }else if(thePlayer.playerLabel == 2){
-            for enemy in enemies{
-                if enemy.burn != 0{
-                    if enemy.burn == 5 && enemy.burnBeginTime == 0{
-                        enemy.burnBeginTime = currentTime
-                    }
-                    if currentTime - enemy.burnBeginTime > 0.5{
-                        enemy.burnBeginTime = currentTime
-                        enemy.burn -= 0.5
-                        enemy.damaged(damage: 6, attackedBy: thePlayer)
-                    }
-                }else if enemy.burnBeginTime != 0{
-                    enemy.burnBeginTime = 0
-                    enemy.removeAllChildren()
+        }
+        for enemy in enemies{
+            if enemy.burn != 0{
+                if enemy.burn == 5 && enemy.burnBeginTime == 0{
+                    enemy.burnBeginTime = currentTime
                 }
+                if currentTime - enemy.burnBeginTime > 0.5{
+                    enemy.burnBeginTime = currentTime
+                    enemy.burn -= 0.5
+                    enemy.damaged(damage: 6, attackedBy: thePlayer)
+                }
+            }else if enemy.burnBeginTime != 0{
+                enemy.burnBeginTime = 0
+                enemy.removeAllChildren()
             }
+            
             
             if otherPlayer1.burn != 0{
                 if otherPlayer1.burn == 5 && burnBeginTime == 0{

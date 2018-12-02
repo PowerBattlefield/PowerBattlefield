@@ -51,7 +51,6 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     @IBOutlet weak var roomList: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("load")
         roomList.dataSource = self
         roomList.delegate = self
         //let background = UIImage(named: "bgcreateroom")
@@ -69,7 +68,6 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         present(loginVC, animated: true, completion: nil)
     }
     override func viewDidAppear(_ animated: Bool) {
-        print("appear")
         guard (audioPlayer != nil) else {
             return
         }

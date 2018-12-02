@@ -26,6 +26,7 @@ class Enemy:SKSpriteNode{
     var enemyHPSetTime = TimeInterval(0)
     var burn = TimeInterval(0)
     var burnBeginTime = TimeInterval(0)
+    var dead = false
     
     init(texture: SKTexture, color: SKColor, size: CGSize, spawnPos: CGPoint) {
         super.init(texture: texture, color: color, size: size)
@@ -39,7 +40,8 @@ class Enemy:SKSpriteNode{
         physicsBody?.restitution = 0
         physicsBody?.angularDamping = 0
         physicsBody?.collisionBitMask =  0
-        
+        physicsBody?.contactTestBitMask =  BodyType.grassOnFire.rawValue
+        self.zPosition = 700
         name = "enemy"
         idleDownAnimation()
         
@@ -47,37 +49,39 @@ class Enemy:SKSpriteNode{
     
     func observeStateChange(roomId: String, thePlayer: Player, otherPlayer1: Player){
         Database.database().reference().child(roomId).child("enemy\(enemyLabel)").observe(DataEventType.value) { (snapshot) in
-            var state = 0
-            var face = 0
-            for rest in snapshot.children.allObjects as! [DataSnapshot]{
-                if rest.key == "state"{
-                    state = (rest.value as! NSNumber).intValue
-                }else if rest.key == "face"{
-                    face = (rest.value as! NSNumber).intValue
+            if self.hp > 0{
+                var state = 0
+                var face = 0
+                for rest in snapshot.children.allObjects as! [DataSnapshot]{
+                    if rest.key == "state"{
+                        state = (rest.value as! NSNumber).intValue
+                    }else if rest.key == "face"{
+                        face = (rest.value as! NSNumber).intValue
+                    }
                 }
-            }
-            if state == EnemyState.attack.rawValue{
-                self.attack(thePlayer: thePlayer, otherPlayer1: otherPlayer1)
-            }
-            else if state == EnemyState.walk.rawValue{
-                if face == PlayerFace.left.rawValue{
-                    self.moveLeft()
-                }else if face == PlayerFace.right.rawValue{
-                    self.moveRight()
-                }else if face == PlayerFace.up.rawValue{
-                    self.moveUp()
-                }else if face == PlayerFace.down.rawValue{
-                    self.moveDown()
+                if state == EnemyState.attack.rawValue{
+                    self.attack(thePlayer: thePlayer, otherPlayer1: otherPlayer1)
                 }
-            }else if state == EnemyState.idle.rawValue{
-                if face == PlayerFace.left.rawValue{
-                    self.idleLeftAnimation()
-                }else if face == PlayerFace.right.rawValue{
-                    self.idleRightAnimation()
-                }else if face == PlayerFace.up.rawValue{
-                    self.idleUpAnimation()
-                }else if face == PlayerFace.down.rawValue{
-                    self.idleDownAnimation()
+                else if state == EnemyState.walk.rawValue{
+                    if face == PlayerFace.left.rawValue{
+                        self.moveLeft()
+                    }else if face == PlayerFace.right.rawValue{
+                        self.moveRight()
+                    }else if face == PlayerFace.up.rawValue{
+                        self.moveUp()
+                    }else if face == PlayerFace.down.rawValue{
+                        self.moveDown()
+                    }
+                }else if state == EnemyState.idle.rawValue{
+                    if face == PlayerFace.left.rawValue{
+                        self.idleLeftAnimation()
+                    }else if face == PlayerFace.right.rawValue{
+                        self.idleRightAnimation()
+                    }else if face == PlayerFace.up.rawValue{
+                        self.idleUpAnimation()
+                    }else if face == PlayerFace.down.rawValue{
+                        self.idleDownAnimation()
+                    }
                 }
             }
         }
@@ -264,7 +268,6 @@ class Enemy:SKSpriteNode{
             }
             
             if hp <= 0{
-                deadAnimation()
                 attackedBy.expGained(exp: self.exp)
             }
         }
