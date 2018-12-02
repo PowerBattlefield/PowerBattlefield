@@ -54,8 +54,11 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         print("load")
         roomList.dataSource = self
         roomList.delegate = self
-        let background = UIImage(named: "bgcreateroom")
-        roomList.backgroundColor = UIColor(patternImage: background!)
+        //let background = UIImage(named: "bgcreateroom")
+        let view = UIImageView(frame: self.view.frame)
+        view.image = UIImage(named: "bgcreateroom")
+        roomList.backgroundView = view
+        //roomList.backgroundColor = UIColor(patternImage: background!)
     }
 
 
