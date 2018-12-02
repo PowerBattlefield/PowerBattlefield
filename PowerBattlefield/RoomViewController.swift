@@ -211,6 +211,8 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             if uid == Auth.auth().currentUser?.uid{
                 let room = Database.database().reference().child(self.roomId)
                 room.child("playerNumber").setValue(self.players.count-1)
+                room.child("gameIsOn").removeAllObservers()
+                room.child("playerNumber").removeAllObservers()
                 room.child("playerNames").child(Auth.auth().currentUser!.uid).removeValue()
                 room.child("playerIsReady").child(Auth.auth().currentUser!.uid).removeValue()
                 room.child("kickPlayer").removeValue()
@@ -221,6 +223,10 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
         }
         
+        appDeleagte.isInRoom = false
+        let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
+        newVC.audioPlayer = self.audioPlayer
+        self.present(newVC, animated: true, completion: nil)
         //appDeleagte.allowRotation = true
         appDeleagte.roomId = roomId
         appDeleagte.roomOwner = roomOwner

@@ -28,6 +28,9 @@ class CreateRoomViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func cancelCreate(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     @IBAction func create(_ sender: Any) {
         if(self.roomName.text!.count > 0){
             let roomNumber = Database.database().reference().child("number of rooms")

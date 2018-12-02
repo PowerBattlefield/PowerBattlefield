@@ -51,6 +51,7 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     @IBOutlet weak var roomList: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("load")
         roomList.dataSource = self
         roomList.delegate = self
         let background = UIImage(named: "bgcreateroom")
@@ -65,6 +66,7 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         present(loginVC, animated: true, completion: nil)
     }
     override func viewDidAppear(_ animated: Bool) {
+        print("appear")
         guard (audioPlayer != nil) else {
             return
         }
@@ -96,6 +98,11 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
             }
             self.roomList.reloadData()
         }
+    }
+    @IBAction func createRoom(_ sender: Any) {
+        let newVC = self.storyboard?.instantiateViewController(withIdentifier: "CreateRoomVC") as! CreateRoomViewController
+        newVC.audioPlayer = self.audioPlayer
+        self.present(newVC, animated: true, completion: nil)
     }
     override func viewWillDisappear(_ animated: Bool) {
         Database.database().reference().removeAllObservers()

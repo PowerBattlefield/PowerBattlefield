@@ -203,8 +203,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ms6-NN-DZP"/>
                                     <barButtonItem title="Create Room" id="uK6-LN-AAF">
                                         <connections>
-                                            <action selector="createRoom:" destination="IRI-8X-yDk" id="8iw-xl-d2s"/>
-                                            <segue destination="DMx-Jv-wkk" kind="show" identifier="showCreateRoom" id="VKm-6v-OSQ"/>
+                                            <action selector="createRoom:" destination="IRI-8X-yDk" id="Auu-YA-d2v"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -237,7 +236,7 @@
         <!--Create Room View Controller-->
         <scene sceneID="JDT-iH-PWp">
             <objects>
-                <viewController id="DMx-Jv-wkk" customClass="CreateRoomViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateRoomVC" id="DMx-Jv-wkk" customClass="CreateRoomViewController" customModule="PowerBattlefield" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ghc-pZ-fhd">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -274,7 +273,7 @@
                                 <items>
                                     <barButtonItem title="Cancel" id="IVI-u0-7wV">
                                         <connections>
-                                            <segue destination="IRI-8X-yDk" kind="show" id="ODp-G6-Z5j"/>
+                                            <action selector="cancelCreate:" destination="DMx-Jv-wkk" id="Cba-8O-bXb"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -389,6 +388,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Pla-4v-m6K"/>
+        <segue reference="QVU-zo-Bsk"/>
     </inferredMetricsTieBreakers>
 </document>
