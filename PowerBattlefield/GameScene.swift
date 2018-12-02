@@ -116,7 +116,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.view?.presentScene(nil)
                 self.view?.removeFromSuperview()
                 self.scene?.removeFromParent()
-                self.viewController?.dismiss(animated: false, completion: nil)
+                if self.gameEnd{
+                    self.viewController?.dismiss(animated: false, completion: nil)
+                }else{
+                    Database.database().reference().child(self.roomId).child("quitToLobby").setValue(true)
+                    self.viewController?.dismiss(animated: false, completion: nil)
+                }                
                 //self.viewController?.performSegue(withIdentifier: "quit", sender: self.viewController)
             }
         }

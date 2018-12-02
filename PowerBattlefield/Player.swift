@@ -3,7 +3,7 @@ import SpriteKit
 import Firebase
 
 enum GameEnum: Int{
-    case playerMaxHealth = 200
+    case playerMaxHealth = 1
     case winExp = 500
 }
 
@@ -80,7 +80,7 @@ class Player: SKSpriteNode{
     func initialize(playerLabel: Int, roomId: String){
         self.playerLabel = playerLabel
         self.roomId = roomId
-        self.hp = 1
+        self.hp = GameEnum.playerMaxHealth.rawValue
         setDatabaseReference()
         setPhysicsBody()
         idleDownAnimation()

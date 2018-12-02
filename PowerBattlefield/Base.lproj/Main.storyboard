@@ -340,6 +340,7 @@
                     <navigationItem key="navigationItem" id="lA8-Tg-koE"/>
                     <connections>
                         <segue destination="seb-p3-zhP" kind="show" identifier="quit" id="JSs-f8-tbf"/>
+                        <segue destination="IRI-8X-yDk" kind="show" identifier="quitGame" id="Pla-4v-m6K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -388,6 +389,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oEf-u3-YBQ"/>
+        <segue reference="Pla-4v-m6K"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -10,14 +10,16 @@ class LoginViewController: UIViewController {
     func playBgMusic() {
         let musicPath = Bundle.main.path(forResource: "login", ofType: "mp3")
         let url = NSURL(fileURLWithPath: musicPath!)
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url as URL, fileTypeHint: "fail")
-            audioPlayer.numberOfLoops = -1
-            audioPlayer.volume = 1
-            audioPlayer.prepareToPlay()
-            audioPlayer.play()
-        } catch {
-            print("file read failed!")
+        if(audioPlayer == nil){
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: url as URL, fileTypeHint: "fail")
+                audioPlayer.numberOfLoops = -1
+                audioPlayer.volume = 1
+                audioPlayer.prepareToPlay()
+                audioPlayer.play()
+            } catch {
+                print("file read failed!")
+            }
         }
     }
     override func viewDidLoad() {

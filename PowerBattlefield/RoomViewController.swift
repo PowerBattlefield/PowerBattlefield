@@ -178,6 +178,16 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
         }
         
+        room.child("quitToLobby").observe(DataEventType.value){ (snapshot) in
+            let quitToLobby = snapshot.value as? Bool ?? false
+            if quitToLobby{
+                room.removeValue()
+                let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
+                newVC.audioPlayer = self.audioPlayer
+                self.present(newVC, animated: false, completion: nil)
+            }
+        }
+        
         room.child("playerIsReady").observe(DataEventType.value){ (snapshot) in
             self.playerIsReady = [:]
             for rest in snapshot.children{

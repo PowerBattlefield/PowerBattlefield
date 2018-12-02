@@ -61,9 +61,17 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     @IBAction func signoutBtnTypped(_ sender: Any) {
         try! Auth.auth().signOut()
         let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginViewController
+        loginVC.audioPlayer = self.audioPlayer
         present(loginVC, animated: true, completion: nil)
     }
     override func viewDidAppear(_ animated: Bool) {
+        guard (audioPlayer != nil) else {
+            return
+        }
+        if !audioPlayer.isPlaying {
+            audioPlayer.currentTime = 0
+            audioPlayer.play()
+        }
         let database = Database.database().reference()
         database.observe(DataEventType.value){ (snapshot) in
             self.rooms = []
