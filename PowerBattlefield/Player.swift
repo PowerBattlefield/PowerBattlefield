@@ -7,6 +7,7 @@ enum GameEnum: Int{
     case enemyMaxHealth = 1
     case winExp = 500
     case updateEnemy = 5
+    case maxEnemyNumber = 10
 }
 
 enum BodyType:UInt32{

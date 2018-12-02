@@ -79,14 +79,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var enemyNumber = 0
     func spawnEnemy(spawnPos: CGPoint, updateStateTime: Int){
-        let enemy = Enemy(texture: SKTexture(imageNamed: "e1_idledown_01"), color: SKColor.clear, size: SKTexture(imageNamed: "e1_idledown_01").size(), spawnPos: spawnPos)
-        addChild(enemy)
-        enemies.append(enemy)
-        enemyNumber += 1
-        enemy.enemyLabel = enemyNumber
-        enemy.exp = (4 - updateStateTime) * 50
-        enemy.updateStateTime = updateStateTime
-        enemy.observeStateChange(roomId: roomId, thePlayer: thePlayer, otherPlayer1: otherPlayer1)
+        if enemyNumber <= GameEnum.maxEnemyNumber.rawValue{
+            let enemy = Enemy(texture: SKTexture(imageNamed: "e1_idledown_01"), color: SKColor.clear, size: SKTexture(imageNamed: "e1_idledown_01").size(), spawnPos: spawnPos)
+            addChild(enemy)
+            enemies.append(enemy)
+            enemyNumber += 1
+            enemy.enemyLabel = enemyNumber
+            enemy.exp = (4 - updateStateTime) * 50
+            enemy.updateStateTime = updateStateTime
+            enemy.observeStateChange(roomId: roomId, thePlayer: thePlayer, otherPlayer1: otherPlayer1)
+        }
     }
     
     override func didMove(to view: SKView) {
