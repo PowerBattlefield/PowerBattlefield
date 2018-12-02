@@ -7,7 +7,7 @@ enum GameEnum: Int{
     case enemyMaxHealth = 1
     case winExp = 500
     case updateEnemy = 5
-    case maxEnemyNumber = 10
+    case maxEnemyNumber = 6
 }
 
 enum BodyType:UInt32{
@@ -23,6 +23,7 @@ enum BodyType:UInt32{
     case enemy = 512
     case boat = 1024
     case grassOnFire = 2048
+    case swordRain = 4096
 }
 
 enum PlayerState:Int{
@@ -80,6 +81,7 @@ class Player: SKSpriteNode{
     var refPos: DatabaseReference = Database.database().reference()
     var refHP: DatabaseReference = Database.database().reference()
     var refSkill: DatabaseReference = Database.database().reference()
+    var refSkill2: DatabaseReference = Database.database().reference()
     var refExp: DatabaseReference = Database.database().reference()
     var refLevel: DatabaseReference = Database.database().reference()
     
@@ -151,7 +153,7 @@ class Player: SKSpriteNode{
         }
         else{
             self.physicsBody?.categoryBitMask = BodyType.player2.rawValue
-            self.physicsBody?.contactTestBitMask = BodyType.player1.rawValue
+            self.physicsBody?.contactTestBitMask = BodyType.player1.rawValue | BodyType.swordRain.rawValue
         }
         self.physicsBody?.contactTestBitMask |= BodyType.building.rawValue | BodyType.water.rawValue | BodyType.fireball.rawValue | BodyType.enemy.rawValue
         self.physicsBody?.collisionBitMask = BodyType.road.rawValue | BodyType.water.rawValue | BodyType.building.rawValue
@@ -172,6 +174,7 @@ class Player: SKSpriteNode{
         refPos = Database.database().reference().child(roomId).child("player\(playerLabel)").child("position")
         refHP = Database.database().reference().child(roomId).child("player\(playerLabel)").child("hp")
         refSkill = Database.database().reference().child(roomId).child("player\(playerLabel)").child("skill")
+        refSkill2 = Database.database().reference().child(roomId).child("player\(playerLabel)").child("skill2")
         refExp = Database.database().reference().child(roomId).child("player\(playerLabel)").child("exp")
         refLevel = Database.database().reference().child(roomId).child("player\(playerLabel)").child("level")
     }
