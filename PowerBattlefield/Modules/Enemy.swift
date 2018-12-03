@@ -259,7 +259,6 @@ class Enemy:SKSpriteNode{
             }
             
             if hp <= 0{
-                print(hp)
                 attackedBy.expGained(exp: self.exp)
             }
         }

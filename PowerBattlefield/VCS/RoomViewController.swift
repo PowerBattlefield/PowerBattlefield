@@ -215,7 +215,7 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
         newVC.audioPlayer = self.audioPlayer
         self.present(newVC, animated: true, completion: nil)
-        //appDeleagte.allowRotation = true
+
         appDeleagte.roomId = roomId
         appDeleagte.roomOwner = roomOwner
         appDeleagte.isInRoom = true
@@ -299,16 +299,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             room.child("kickPlayer").setValue(uid)
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 

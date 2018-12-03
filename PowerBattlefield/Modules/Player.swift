@@ -70,7 +70,7 @@ class Player: SKSpriteNode{
     var time = TimeInterval(0)
     var exp = 0
     var level = 1
-    var levelUpExp = [100,300,600,1000,1500]
+    var levelUpExp = [100,300,600,1000,1500,1500,1500,1500]
     
     
     var refx: DatabaseReference = Database.database().reference()

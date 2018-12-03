@@ -15,20 +15,7 @@ class EndViewController: UIViewController {
         displayLabel.text = displayText
         // Do any additional setup after loading the view.
         Database.database().reference().child(roomId).removeValue()
-//        room.child("kickPlayer").observe(DataEventType.value){ (snapshot) in
-//            let uid = snapshot.value as? String ?? ""
-//            if uid == Auth.auth().currentUser?.uid{
-//                let room = Database.database().reference().child(self.roomId)
-//                room.child("playerNumber").setValue(1)
-//                room.child("playerNames").child(Auth.auth().currentUser!.uid).removeValue()
-//                room.child("playerIsReady").child(Auth.auth().currentUser!.uid).removeValue()
-//                room.child("kickPlayer").removeValue()
-//                self.appDeleagte.isInRoom = false
-//                let newVC = self.storyboard?.instantiateViewController(withIdentifier: "LobbyVC") as! LobbyViewController
-//                newVC.audioPlayer = self.audioPlayer
-//                self.present(newVC, animated: true, completion: nil)
-//            }
-//        }
+
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "backtoroom")!)
         
     }

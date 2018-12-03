@@ -53,11 +53,9 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         super.viewDidLoad()
         roomList.dataSource = self
         roomList.delegate = self
-        //let background = UIImage(named: "bgcreateroom")
         let view = UIImageView(frame: self.view.frame)
         view.image = UIImage(named: "bgcreateroom")
         roomList.backgroundView = view
-        //roomList.backgroundColor = UIColor(patternImage: background!)
     }
 
 
@@ -108,14 +106,4 @@ class LobbyViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     override func viewWillDisappear(_ animated: Bool) {
         Database.database().reference().removeAllObservers()
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -1337,8 +1337,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     moveDirection = "right"
                 }
                 if (node.name == "Quit_btn"){
-//                    Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
-//                    self.viewController?.dismiss(animated: false, completion: nil)
+
                     quitGame = true
                     Database.database().reference().child(roomId).child("someoneQuit").setValue(true)
                 }
@@ -1482,19 +1481,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         if (contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.snowFlake.rawValue) {
             if let enemy = contact.bodyA.node as? Enemy{
-                
-                if thePlayer.playerLabel == 2{
-                    enemy.damaged(damage: 20, attackedBy: thePlayer)
-                }else{
-                    enemy.damaged(damage: 20, attackedBy: otherPlayer1)
+                if enemy.hp > 0{
+                    if thePlayer.playerLabel == 2{
+                        enemy.damaged(damage: 20, attackedBy: thePlayer)
+                    }else{
+                        enemy.damaged(damage: 20, attackedBy: otherPlayer1)
+                    }
                 }
             }
         } else if (contact.bodyB.categoryBitMask == BodyType.enemy.rawValue && contact.bodyA.categoryBitMask == BodyType.snowFlake.rawValue) {
             if let enemy = contact.bodyB.node as? Enemy{
-                if thePlayer.playerLabel == 2{
-                    enemy.damaged(damage: 20, attackedBy: thePlayer)
-                }else{
-                    enemy.damaged(damage: 20, attackedBy: otherPlayer1)
+                if enemy.hp > 0{
+                    if thePlayer.playerLabel == 2{
+                        enemy.damaged(damage: 20, attackedBy: thePlayer)
+                    }else{
+                        enemy.damaged(damage: 20, attackedBy: otherPlayer1)
+                    }
                 }
             }
         }
