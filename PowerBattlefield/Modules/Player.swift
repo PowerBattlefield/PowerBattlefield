@@ -374,6 +374,8 @@ class Player: SKSpriteNode{
     var levelupFlag = false
     var startTime = TimeInterval(0)
     var startTimeSet = false
+    let emitter = SKEmitterNode(fileNamed: "LevelUp")!
+    
     func levelUp(){
         
         if levelupFlag{
@@ -396,15 +398,21 @@ class Player: SKSpriteNode{
             levelUpLabel.fontColor = UIColor.yellow
             levelUpLabel.position = CGPoint(x: 0, y: CGFloat((time - startTime) * 10))
             levelUpLabel.text = "Level Up!"
-            if levelUpLabel.parent == nil{
+            emitter.position = CGPoint(x: -5, y: -80)
+            if levelUpLabel.parent == nil && emitter.parent == nil{
                 addChild(levelUpLabel)
-            }else{
+                addChild(emitter)
+            }else if levelUpLabel.parent != nil{
                 levelUpLabel.removeFromParent()
-                addChild(levelUpLabel)
+                addChild(levelUpLabel)                
+            }else{
+                emitter.removeFromParent()
+                addChild(emitter)
             }
             if timeRemain == 1{
                 levelupFlag = false
                 levelUpLabel.removeFromParent()
+                emitter.removeFromParent()
                 startTimeSet = false
             }
         }

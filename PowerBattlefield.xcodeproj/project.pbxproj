@@ -12,7 +12,6 @@
 		688113E221B4D9830006C6F0 /* FireballParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 688113DB21B4D9820006C6F0 /* FireballParticle.sks */; };
 		688113E421B4D9830006C6F0 /* FireOnGrass.sks in Resources */ = {isa = PBXBuildFile; fileRef = 688113DD21B4D9830006C6F0 /* FireOnGrass.sks */; };
 		688113E521B4D9830006C6F0 /* SwordRain.sks in Resources */ = {isa = PBXBuildFile; fileRef = 688113DE21B4D9830006C6F0 /* SwordRain.sks */; };
-		688113E621B4D9830006C6F0 /* LevelUp.sks in Resources */ = {isa = PBXBuildFile; fileRef = 688113DF21B4D9830006C6F0 /* LevelUp.sks */; };
 		688113E721B4D9830006C6F0 /* FireOnPlayer.sks in Resources */ = {isa = PBXBuildFile; fileRef = 688113E021B4D9830006C6F0 /* FireOnPlayer.sks */; };
 		688113E821B4D9830006C6F0 /* SwordParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 688113E121B4D9830006C6F0 /* SwordParticle.sks */; };
 		688113EC21B4D9A70006C6F0 /* roomAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688113E921B4D9A70006C6F0 /* roomAPI.swift */; };
@@ -54,7 +53,6 @@
 		688113DB21B4D9820006C6F0 /* FireballParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireballParticle.sks; sourceTree = "<group>"; };
 		688113DD21B4D9830006C6F0 /* FireOnGrass.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireOnGrass.sks; sourceTree = "<group>"; };
 		688113DE21B4D9830006C6F0 /* SwordRain.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SwordRain.sks; sourceTree = "<group>"; };
-		688113DF21B4D9830006C6F0 /* LevelUp.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelUp.sks; sourceTree = "<group>"; };
 		688113E021B4D9830006C6F0 /* FireOnPlayer.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireOnPlayer.sks; sourceTree = "<group>"; };
 		688113E121B4D9830006C6F0 /* SwordParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SwordParticle.sks; sourceTree = "<group>"; };
 		688113E921B4D9A70006C6F0 /* roomAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = roomAPI.swift; sourceTree = "<group>"; };
@@ -182,7 +180,6 @@
 				688113DB21B4D9820006C6F0 /* FireballParticle.sks */,
 				688113DD21B4D9830006C6F0 /* FireOnGrass.sks */,
 				688113E021B4D9830006C6F0 /* FireOnPlayer.sks */,
-				688113DF21B4D9830006C6F0 /* LevelUp.sks */,
 				688113E121B4D9830006C6F0 /* SwordParticle.sks */,
 				6881140121B4DA3D0006C6F0 /* SnowFlake.sks */,
 				688113DE21B4D9830006C6F0 /* SwordRain.sks */,
@@ -316,7 +313,6 @@
 				688113E221B4D9830006C6F0 /* FireballParticle.sks in Resources */,
 				FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */,
 				688113FC21B4D9CB0006C6F0 /* login.mp3 in Resources */,
-				688113E621B4D9830006C6F0 /* LevelUp.sks in Resources */,
 				688113F621B4D9CB0006C6F0 /* attack03.wav in Resources */,
 				688113E721B4D9830006C6F0 /* FireOnPlayer.sks in Resources */,
 				688113FA21B4D9CB0006C6F0 /* attack02.wav in Resources */,
