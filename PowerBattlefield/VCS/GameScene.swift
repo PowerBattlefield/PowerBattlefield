@@ -223,10 +223,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if thePlayer.playerLabel == 1{
                     Skill2_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p1_skill2"))
                 }else if thePlayer.playerLabel == 2{
-                    Skill2_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p2_skill"))
+                    Skill2_btn.texture = SKTexture(image: #imageLiteral(resourceName: "p2_skill2"))
                 }
             }
-            
         }
         observeOtherPlayerMovements()
     }
@@ -428,6 +427,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     ice.alpha = 1
                 }else{
                     ice.alpha = 0
+                    switch self.otherPlayer1.face{
+                    case .down:
+                        self.otherPlayer1.run(SKAction(named: "p1_getattackeddown")!)
+                        break
+                    case .left:
+                        self.otherPlayer1.run(SKAction(named: "p1_getattackedleft")!)
+                        break
+                    case .right:
+                        self.otherPlayer1.run(SKAction(named: "p1_getattackedright")!)
+                        break
+                    case .up:
+                        self.otherPlayer1.run(SKAction(named: "p1_getattackedup")!)
+                        break
+                    }
                 }
             }
         }
@@ -973,12 +986,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let freeze = thePlayer.childNode(withName: "Ice") as! SKSpriteNode
                     freeze.alpha = 1
                     Database.database().reference().child(roomId).child("player1").child("freeze").setValue(true)
-                    if currentTime - freezeBeginTime > 5{
+                    if currentTime - freezeBeginTime > 2{
                         thePlayer.freeze = 0
                         thePlayer.isInSnow = false
                         freezeBeginTime = 0
                         thePlayer.moveSpeed = 0.5
-                        Database.database().reference().child(roomId).child("player1").child("hp").setValue(thePlayer.hp-10)
+                        thePlayer.damaged(damage: 10)
                         Database.database().reference().child(roomId).child("player1").child("freeze").setValue(false)
                         freeze.alpha = 0
                     }
@@ -1121,19 +1134,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
             if skill2IsOn{
-                let label = Skill2_btn.childNode(withName: "SkillTime") as! SKLabelNode
                 if skill2BeginTime == 0{
                     skill2BeginTime = currentTime
                 }
-                if currentTime - skill2BeginTime <= 5{
-                    let duration = Int(6 - currentTime + skill2BeginTime)
-                    label.fontColor = UIColor.black
-                    label.text = String(duration)
-                }else if currentTime - skill2BeginTime > 5{
-                    Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill2").setValue(false)
-                    skill2IsOn = false
-                    CD2Flag = true
-                }
+                Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill2").setValue(false)
+                skill2IsOn = false
+                CD2Flag = true
             }else{
                 if skill2BeginTime != 0{
                     let label = Skill2_btn.childNode(withName: "SkillTime") as! SKLabelNode
@@ -1144,7 +1150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if CD2Flag{
                             Skill2_btn.color = UIColor.black
                             Skill2_btn.colorBlendFactor = 1
-                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 15)
+                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 20)
                             Skill2_btn.run(colorize)
                             CD2Flag = false
                         }
@@ -1748,7 +1754,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if let grass = self.childNode(withName: "GrassTiles"){
                             grass.addChild(emitter)
                         }
-                        let wait:SKAction = SKAction.wait(forDuration: 5)
+                        let wait:SKAction = SKAction.wait(forDuration: 3)
                         let finish:SKAction = SKAction.run {
                             emitter.removeFromParent()
                             snowFlake.removeFromParent()

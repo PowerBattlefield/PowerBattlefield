@@ -62,6 +62,7 @@ class Player: SKSpriteNode{
     var burn = TimeInterval(0)
     var freeze = TimeInterval(0)
     var isInSnow:Bool = false
+    var isFreezed:Bool = false
     
     var damage = 0
     var otherPlayer1Pos:CGPoint = CGPoint.init()
