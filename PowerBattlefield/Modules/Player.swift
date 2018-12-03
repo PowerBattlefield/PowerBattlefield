@@ -7,7 +7,7 @@ enum GameEnum: Int{
     case enemyMaxHealth = 1
     case winLevel = 5
     case updateEnemy = 4
-    case maxEnemyNumber = 6
+    case maxEnemyNumber = 3
     case levelUpRegen = 50
 }
 
