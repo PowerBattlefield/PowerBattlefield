@@ -957,6 +957,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 child.removeAllChildren()
             }
             if skillIsOn{
+                if thePlayer.burn == 0{
+                    thePlayer.moveSpeed = 0.3
+                }
                 let label = Skill_btn.childNode(withName: "SkillTime") as! SKLabelNode
                 if skillBeginTime == 0{
                     skillBeginTime = currentTime
@@ -969,6 +972,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(false)
                     skillIsOn = false
                     CDFlag = true
+                    if thePlayer.burn == 0{
+                        thePlayer.moveSpeed = 0.5
+                    }
                 }
             }else{
                 if skillBeginTime != 0{
