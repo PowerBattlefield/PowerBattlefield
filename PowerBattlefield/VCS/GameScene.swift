@@ -1303,6 +1303,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if time - attackTime > 1{
                         attackTimeFlag = false
                     }
+                    sound.playAudio(musicName: "attack_sword01")
                 }
                 if (node.name == "Up_btn") {
                     hold = true
@@ -1331,7 +1332,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(true)
                         skillIsOn = true
                         skillFlag = false
-                        sound.playAudio(musicName: "attack02")
+                        sound.playAudio(musicName: "attack04")
                     }
                 }
                 if (node.name == "Skill2_btn"){
