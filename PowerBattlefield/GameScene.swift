@@ -1,6 +1,7 @@
 import SpriteKit
 import GameplayKit
 import Firebase
+import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewController: GameViewController? = GameViewController()
@@ -48,6 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // sound
     lazy var sound = SoundManager()
+    var audioPlayer: AVAudioPlayer!
     
     func setPlayers(){
         if(currentPlayer == 1){
@@ -1244,6 +1246,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(true)
                         skillIsOn = true
                         skillFlag = false
+                        sound.playAudio(musicName: "attack_sword03")
                     }
                 }
                 if (node.name == "Skill2_btn"){
@@ -1251,6 +1254,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill2").setValue(true)
                         skill2IsOn = true
                         skill2Flag = false
+                        sound.playAudio(musicName: "attack02")
                     }
                 }
                 break

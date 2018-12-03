@@ -14,7 +14,7 @@ class LoginViewController: UIViewController {
             do {
                 audioPlayer = try AVAudioPlayer(contentsOf: url as URL, fileTypeHint: "fail")
                 audioPlayer.numberOfLoops = -1
-                audioPlayer.volume = 1
+                audioPlayer.volume = 0.5
                 audioPlayer.prepareToPlay()
                 audioPlayer.play()
             } catch {
