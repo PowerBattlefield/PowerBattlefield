@@ -815,42 +815,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var i = 1
             for enemy in enemies{
                 if(enemy.hp > 0){
-                    if enemy.parent == nil{
-                        addChild(enemy)
-                    }
-                    if !enemy.enemyHPGet && !enemyFirstRead{
-                        enemyFirstRead = false
+                    if !enemy.enemyHPGet{
+                         print("3")
                         enemy.enemyHPGet = true
-                        enemy.enemyHPGetTime = currentTime
-                        Database.database().reference().child(roomId).child("enemy\(i)").child("pos").observeSingleEvent(of: .value, with: { (snapshot) in
-                            if !self.gameEnd{
-                                var x = 0
-                                var y = 0
-                                for rest in snapshot.children.allObjects as! [DataSnapshot]{
-                                    if rest.key == "x"{
-                                        x = (rest.value as! NSNumber).intValue
-                                    }else{
-                                        y = (rest.value as! NSNumber).intValue
+                        if enemy.enemyFirstRead{
+                            enemy.enemyFirstRead = false
+                        }
+                        else{
+                            enemy.enemyHPGetTime = currentTime
+                            Database.database().reference().child(roomId).child("enemy\(i)").child("pos").observeSingleEvent(of: .value, with: { (snapshot) in
+                                print("pos")
+                                if !self.gameEnd{
+                                    var x = 0
+                                    var y = 0
+                                    for rest in snapshot.children.allObjects as! [DataSnapshot]{
+                                        if rest.key == "x"{
+                                            x = (rest.value as! NSNumber).intValue
+                                        }else{
+                                            y = (rest.value as! NSNumber).intValue
+                                        }
+                                    }
+                                    enemy.position = CGPoint(x: x, y: y)
+                                }
+                            })
+                            Database.database().reference().child(roomId).child("enemy\(i)").child("hp").observeSingleEvent(of: .value, with: { (snapshot) in
+                                enemy.hp = snapshot.value as? Int ?? 100
+                                print("hp")
+                                if(enemy.hp <= 0){
+                                    if enemy.parent != nil && !enemy.dead{
+                                        enemy.dead = true
+                                        enemy.deadAnimation()
+                                        self.enemyNumber -= 1
+                                    }
+                                }else{
+                                    if enemy.parent == nil{
+                                        self.addChild(enemy)
                                     }
                                 }
-                                enemy.position = CGPoint(x: x, y: y)
-                            }
-                        })
-                        Database.database().reference().child(roomId).child("enemy\(i)").child("hp").observeSingleEvent(of: .value, with: { (snapshot) in
-                            enemy.hp = snapshot.value as? Int ?? 100
-                            if(enemy.hp <= 0){
-                                if enemy.parent != nil && !enemy.dead{
-                                    enemy.dead = true
-                                    enemy.deadAnimation()
-                                    self.enemyNumber -= 1
-                                }
-                            }else{
-                                if enemy.parent == nil{
-                                    self.addChild(enemy)
-                                }
-                            }
-                        })
-                        
+                            })
+                        }
                     }else{
                         if Int(currentTime - enemy.enemyHPGetTime) >= 1{
                             enemy.enemyHPGet = false

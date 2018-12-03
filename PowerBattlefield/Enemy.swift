@@ -28,6 +28,7 @@ class Enemy:SKSpriteNode{
     var burnBeginTime = TimeInterval(0)
     var dead = false
     var enemyHPGet = false
+    var enemyFirstRead = true
     var enemyHPGetTime = TimeInterval(0)
     
     init(texture: SKTexture, color: SKColor, size: CGSize, spawnPos: CGPoint) {
