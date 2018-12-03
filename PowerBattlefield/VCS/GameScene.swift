@@ -565,6 +565,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if self.thePlayer.playerLabel == 1{
                     if skill2IsOn{
                         self.addSwordRainOnGrassEmitter(node: self.thePlayer)
+                        self.otherPlayer1.damagedBySwordRain = 0
                     }
                 }else if self.thePlayer.playerLabel == 2{
                     if skill2IsOn{
@@ -610,6 +611,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if self.otherPlayer1.playerLabel == 1{
                     if skill2IsOn{
                         self.addSwordRainOnGrassEmitter(node: self.otherPlayer1)
+                        self.thePlayer.damagedBySwordRain = 0
                     }
                 }else if self.otherPlayer1.playerLabel == 2{
                     if skill2IsOn{
@@ -1471,9 +1473,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         if (contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.snowFlake.rawValue) {
-            //addFireOnPlayerEmitter(node: contact.bodyA.node!)
+            if thePlayer.playerLabel == 1{
+                if let enemy = contact.bodyA.node as? Enemy{
+                    enemy.damaged(damage: 20, attackedBy: otherPlayer1)
+                }else{
+                    if let enemy = contact.bodyA.node as? Enemy{
+                        enemy.damaged(damage: 20, attackedBy: thePlayer)
+                    }
+                }
+            }
         } else if (contact.bodyB.categoryBitMask == BodyType.enemy.rawValue && contact.bodyA.categoryBitMask == BodyType.snowFlake.rawValue) {
-            //addFireOnPlayerEmitter(node: contact.bodyB.node!)
+            if thePlayer.playerLabel == 1{
+                if let enemy = contact.bodyA.node as? Enemy{
+                    enemy.damaged(damage: 20, attackedBy: otherPlayer1)
+                }else{
+                    if let enemy = contact.bodyA.node as? Enemy{
+                        enemy.damaged(damage: 20, attackedBy: thePlayer)
+                    }
+                }
+            }
         }
     }
     
@@ -1488,23 +1506,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             let seq:SKAction = SKAction.sequence( [wait, finish] )
             run(seq)
-            if thePlayer.playerLabel == 1{
+            if thePlayer.playerLabel == 1 && otherPlayer1.damagedBySwordRain < 30{
                 otherPlayer1.damaged(damage: 1)
-                
+                otherPlayer1.damagedBySwordRain += 1
             }else{
-                switch thePlayer.face{
-                case .down:
-                    thePlayer.run(SKAction(named: "p2_getattackeddown")!)
-                    break
-                case .left:
-                    thePlayer.run(SKAction(named: "p2_getattackedleft")!)
-                    break
-                case .right:
-                    thePlayer.run(SKAction(named: "p2_getattackedright")!)
-                    break
-                case .up:
-                    thePlayer.run(SKAction(named: "p2_getattackedup")!)
-                    break
+                if thePlayer.damagedBySwordRain < 30{
+                    thePlayer.damagedBySwordRain += 1
+                    switch thePlayer.face{
+                    case .down:
+                        thePlayer.run(SKAction(named: "p2_getattackeddown")!)
+                        break
+                    case .left:
+                        thePlayer.run(SKAction(named: "p2_getattackedleft")!)
+                        break
+                    case .right:
+                        thePlayer.run(SKAction(named: "p2_getattackedright")!)
+                        break
+                    case .up:
+                        thePlayer.run(SKAction(named: "p2_getattackedup")!)
+                        break
+                    }
                 }
             }
         }else if (contact.bodyB.categoryBitMask == BodyType.player2.rawValue && contact.bodyA.categoryBitMask == BodyType.swordRain.rawValue) {
@@ -1517,9 +1538,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             let seq:SKAction = SKAction.sequence( [wait, finish] )
             run(seq)
-            if thePlayer.playerLabel == 1{
+            if thePlayer.playerLabel == 1 && otherPlayer1.damagedBySwordRain < 30{
                 otherPlayer1.damaged(damage: 1)
-            }else{
+                otherPlayer1.damagedBySwordRain += 1
+            }else if thePlayer.damagedBySwordRain < 30{
+                thePlayer.damagedBySwordRain += 1
                 switch thePlayer.face{
                 case .down:
                     thePlayer.run(SKAction(named: "p2_getattackeddown")!)
