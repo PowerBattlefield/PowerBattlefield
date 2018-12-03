@@ -971,196 +971,198 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             thePlayer.hold = false
             holdBeginTime = 0
         }
-        
-        if(thePlayer.playerLabel == 1){
-            if thePlayer.isInSnow{
-                if freezeBeginTime == 0{
-                    freezeBeginTime = currentTime
-                }
-                if thePlayer.freeze < 1 && currentTime - freezeBeginTime > 0.5{
-                    freezeBeginTime = currentTime
-                    thePlayer.freeze += 1
-                }
-                else if thePlayer.freeze == 1{
-                    let freeze = thePlayer.childNode(withName: "Ice") as! SKSpriteNode
-                    freeze.alpha = 1
-                    Database.database().reference().child(roomId).child("player1").child("freeze").setValue(true)
-                    if currentTime - freezeBeginTime > 4{
-                        thePlayer.freeze = 0
-                        thePlayer.isInSnow = false
-                        freezeBeginTime = 0
-                        thePlayer.moveSpeed = 0.5
-                        thePlayer.damaged(damage: 10)
-                        Database.database().reference().child(roomId).child("player1").child("freeze").setValue(false)
-                        freeze.alpha = 0
+        if !gameEnd && gameStart{
+            if(thePlayer.playerLabel == 1){
+                if thePlayer.isInSnow{
+                    if freezeBeginTime == 0{
+                        freezeBeginTime = currentTime
                     }
+                    if thePlayer.freeze < 1 && currentTime - freezeBeginTime > 0.5{
+                        freezeBeginTime = currentTime
+                        thePlayer.freeze += 1
+                    }
+                    else if thePlayer.freeze == 1{
+                        let freeze = thePlayer.childNode(withName: "Ice") as! SKSpriteNode
+                        freeze.alpha = 1
+                        Database.database().reference().child(roomId).child("player1").child("freeze").setValue(true)
+                        if currentTime - freezeBeginTime > 4{
+                            thePlayer.freeze = 0
+                            thePlayer.isInSnow = false
+                            freezeBeginTime = 0
+                            thePlayer.moveSpeed = 0.5
+                            thePlayer.damaged(damage: 10)
+                            Database.database().reference().child(roomId).child("player1").child("freeze").setValue(false)
+                            freeze.alpha = 0
+                        }
+                    }
+                }else if !skillIsOn{
+                    thePlayer.moveSpeed = 0.5
                 }
-            }else if !skillIsOn{
-                thePlayer.moveSpeed = 0.5
-            }
-            if thePlayer.burn != 0{
-                if thePlayer.burn == 5 && burnBeginTime == 0{
-                    burnBeginTime = currentTime
+                if thePlayer.burn != 0{
+                    if thePlayer.burn == 5 && burnBeginTime == 0{
+                        burnBeginTime = currentTime
+                    }
+                    if currentTime - burnBeginTime > 0.5{
+                        burnBeginTime = currentTime
+                        thePlayer.burn -= 0.5
+                        thePlayer.damaged(damage: 3)
+                    }
+                }else if burnBeginTime != 0{
+                    burnBeginTime = 0
+                    thePlayer.moveSpeed = 0.5
+                    let child = thePlayer.childNode(withName: "Fire") as! SKSpriteNode
+                    child.removeAllChildren()
                 }
-                if currentTime - burnBeginTime > 0.5{
-                    burnBeginTime = currentTime
-                    thePlayer.burn -= 0.5
-                    thePlayer.damaged(damage: 3)
-                }
-            }else if burnBeginTime != 0{
-                burnBeginTime = 0
-                thePlayer.moveSpeed = 0.5
-                let child = thePlayer.childNode(withName: "Fire") as! SKSpriteNode
-                child.removeAllChildren()
-            }
-            if skillIsOn{
-                if thePlayer.burn == 0{
-                    thePlayer.moveSpeed = 0.3
-                }
-                let label = Skill_btn.childNode(withName: "SkillTime") as! SKLabelNode
-                if skillBeginTime == 0{
-                    skillBeginTime = currentTime
-                }
-                if currentTime - skillBeginTime <= 20{
-                    let duration = Int(21 - currentTime + skillBeginTime)
-                    label.fontColor = UIColor.black
-                    label.text = String(duration)
-                }else if currentTime - skillBeginTime > 20{
-                    Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(false)
-                    skillIsOn = false
-                    CDFlag = true
+                if skillIsOn{
                     if thePlayer.burn == 0{
-                        thePlayer.moveSpeed = 0.5
+                        thePlayer.moveSpeed = 0.3
                     }
-                }
-            }else{
-                if skillBeginTime != 0{
                     let label = Skill_btn.childNode(withName: "SkillTime") as! SKLabelNode
-                    if currentTime - skillBeginTime <= 40{
-                        let coolDown = Int(41 - currentTime + skillBeginTime)
-                        label.fontColor = UIColor.white
-                        label.text = String(coolDown)
-                        if CDFlag{
-                            Skill_btn.color = UIColor.black
-                            Skill_btn.colorBlendFactor = 1
-                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 20)
-                            Skill_btn.run(colorize)
-                            CDFlag = false
+                    if skillBeginTime == 0{
+                        skillBeginTime = currentTime
+                    }
+                    if currentTime - skillBeginTime <= 20{
+                        let duration = Int(21 - currentTime + skillBeginTime)
+                        label.fontColor = UIColor.black
+                        label.text = String(duration)
+                    }else if currentTime - skillBeginTime > 20{
+                        Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(false)
+                        skillIsOn = false
+                        CDFlag = true
+                        if thePlayer.burn == 0{
+                            thePlayer.moveSpeed = 0.5
                         }
-                    }else if currentTime - skillBeginTime > 40{
-                        label.text = ""
-                        skillFlag = true
-                        skillBeginTime = 0
+                    }
+                }else{
+                    if skillBeginTime != 0{
+                        let label = Skill_btn.childNode(withName: "SkillTime") as! SKLabelNode
+                        if currentTime - skillBeginTime <= 40{
+                            let coolDown = Int(41 - currentTime + skillBeginTime)
+                            label.fontColor = UIColor.white
+                            label.text = String(coolDown)
+                            if CDFlag{
+                                Skill_btn.color = UIColor.black
+                                Skill_btn.colorBlendFactor = 1
+                                let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 20)
+                                Skill_btn.run(colorize)
+                                CDFlag = false
+                            }
+                        }else if currentTime - skillBeginTime > 40{
+                            label.text = ""
+                            skillFlag = true
+                            skillBeginTime = 0
+                        }
                     }
                 }
-            }
-            if skill2IsOn{
-                if skill2BeginTime == 0{
-                    skill2BeginTime = currentTime
-                }
-                Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill2").setValue(false)
-                skill2IsOn = false
-                CD2Flag = true
-            }else{
-                if skill2BeginTime != 0{
-                    let label = Skill2_btn.childNode(withName: "SkillTime") as! SKLabelNode
-                    if currentTime - skill2BeginTime <= 20{
-                        let coolDown = Int(21 - currentTime + skill2BeginTime)
-                        label.fontColor = UIColor.white
-                        label.text = String(coolDown)
-                        if CD2Flag{
-                            Skill2_btn.color = UIColor.black
-                            Skill2_btn.colorBlendFactor = 1
-                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 20)
-                            Skill2_btn.run(colorize)
-                            CD2Flag = false
+                if skill2IsOn{
+                    if skill2BeginTime == 0{
+                        skill2BeginTime = currentTime
+                    }
+                    Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill2").setValue(false)
+                    skill2IsOn = false
+                    CD2Flag = true
+                }else{
+                    if skill2BeginTime != 0{
+                        let label = Skill2_btn.childNode(withName: "SkillTime") as! SKLabelNode
+                        if currentTime - skill2BeginTime <= 20{
+                            let coolDown = Int(21 - currentTime + skill2BeginTime)
+                            label.fontColor = UIColor.white
+                            label.text = String(coolDown)
+                            if CD2Flag{
+                                Skill2_btn.color = UIColor.black
+                                Skill2_btn.colorBlendFactor = 1
+                                let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 20)
+                                Skill2_btn.run(colorize)
+                                CD2Flag = false
+                            }
+                        }else if currentTime - skill2BeginTime > 20{
+                            label.text = ""
+                            skill2Flag = true
+                            skill2BeginTime = 0
                         }
-                    }else if currentTime - skill2BeginTime > 20{
-                        label.text = ""
-                        skill2Flag = true
-                        skill2BeginTime = 0
                     }
                 }
-            }
-        }else if(thePlayer.playerLabel == 2){
-            if otherPlayer1.burn != 0{
-                if otherPlayer1.burn == 5 && burnBeginTime == 0{
-                    burnBeginTime = currentTime
+            }else if(thePlayer.playerLabel == 2){
+                if otherPlayer1.burn != 0{
+                    if otherPlayer1.burn == 5 && burnBeginTime == 0{
+                        burnBeginTime = currentTime
+                    }
+                    if currentTime - burnBeginTime > 0.5{
+                        burnBeginTime = currentTime
+                        otherPlayer1.burn -= 0.5
+                    }
+                }else if burnBeginTime != 0{
+                    burnBeginTime = 0
+                    otherPlayer1.moveSpeed = 0.5
+                    let child = otherPlayer1.childNode(withName: "Fire") as! SKSpriteNode
+                    child.removeAllChildren()
                 }
-                if currentTime - burnBeginTime > 0.5{
-                    burnBeginTime = currentTime
-                    otherPlayer1.burn -= 0.5
-                }
-            }else if burnBeginTime != 0{
-                burnBeginTime = 0
-                otherPlayer1.moveSpeed = 0.5
-                let child = otherPlayer1.childNode(withName: "Fire") as! SKSpriteNode
-                child.removeAllChildren()
-            }
-            if skillIsOn{
-                let label = Skill_btn.childNode(withName: "SkillTime") as! SKLabelNode
-                if skillBeginTime == 0{
-                    skillBeginTime = currentTime
-                }
-                if currentTime - skillBeginTime <= 5{
-                    let duration = Int(6 - currentTime + skillBeginTime)
-                    label.fontColor = UIColor.black
-                    label.text = String(duration)
-                }else if currentTime - skillBeginTime > 5{
-                    Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(false)
-                    skillIsOn = false
-                    CDFlag = true
-                }
-            }else{
-                if skillBeginTime != 0{
+                if skillIsOn{
                     let label = Skill_btn.childNode(withName: "SkillTime") as! SKLabelNode
-                    if currentTime - skillBeginTime <= 15{
-                        let coolDown = Int(16 - currentTime + skillBeginTime)
-                        label.fontColor = UIColor.white
-                        label.text = String(coolDown)
-                        if CDFlag{
-                            Skill_btn.color = UIColor.black
-                            Skill_btn.colorBlendFactor = 1
-                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 10)
-                            Skill_btn.run(colorize)
-                            CDFlag = false
+                    if skillBeginTime == 0{
+                        skillBeginTime = currentTime
+                    }
+                    if currentTime - skillBeginTime <= 5{
+                        let duration = Int(6 - currentTime + skillBeginTime)
+                        label.fontColor = UIColor.black
+                        label.text = String(duration)
+                    }else if currentTime - skillBeginTime > 5{
+                        Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(false)
+                        skillIsOn = false
+                        CDFlag = true
+                    }
+                }else{
+                    if skillBeginTime != 0{
+                        let label = Skill_btn.childNode(withName: "SkillTime") as! SKLabelNode
+                        if currentTime - skillBeginTime <= 15{
+                            let coolDown = Int(16 - currentTime + skillBeginTime)
+                            label.fontColor = UIColor.white
+                            label.text = String(coolDown)
+                            if CDFlag{
+                                Skill_btn.color = UIColor.black
+                                Skill_btn.colorBlendFactor = 1
+                                let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 10)
+                                Skill_btn.run(colorize)
+                                CDFlag = false
+                            }
+                        }else if currentTime - skillBeginTime > 15{
+                            label.text = ""
+                            skillFlag = true
+                            skillBeginTime = 0
                         }
-                    }else if currentTime - skillBeginTime > 15{
-                        label.text = ""
-                        skillFlag = true
-                        skillBeginTime = 0
                     }
                 }
-            }
-            if skill2IsOn{
-                if skill2BeginTime == 0{
-                    skill2BeginTime = currentTime
-                }
-                Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill2").setValue(false)
-                skill2IsOn = false
-                CD2Flag = true
-            }else{
-                if skill2BeginTime != 0{
-                    let label = Skill2_btn.childNode(withName: "SkillTime") as! SKLabelNode
-                    if currentTime - skill2BeginTime <= 20{
-                        let coolDown = Int(21 - currentTime + skill2BeginTime)
-                        label.fontColor = UIColor.white
-                        label.text = String(coolDown)
-                        if CD2Flag{
-                            Skill2_btn.color = UIColor.black
-                            Skill2_btn.colorBlendFactor = 1
-                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 20)
-                            Skill2_btn.run(colorize)
-                            CD2Flag = false
+                if skill2IsOn{
+                    if skill2BeginTime == 0{
+                        skill2BeginTime = currentTime
+                    }
+                    Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill2").setValue(false)
+                    skill2IsOn = false
+                    CD2Flag = true
+                }else{
+                    if skill2BeginTime != 0{
+                        let label = Skill2_btn.childNode(withName: "SkillTime") as! SKLabelNode
+                        if currentTime - skill2BeginTime <= 20{
+                            let coolDown = Int(21 - currentTime + skill2BeginTime)
+                            label.fontColor = UIColor.white
+                            label.text = String(coolDown)
+                            if CD2Flag{
+                                Skill2_btn.color = UIColor.black
+                                Skill2_btn.colorBlendFactor = 1
+                                let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 20)
+                                Skill2_btn.run(colorize)
+                                CD2Flag = false
+                            }
+                        }else if currentTime - skill2BeginTime > 20{
+                            label.text = ""
+                            skill2Flag = true
+                            skill2BeginTime = 0
                         }
-                    }else if currentTime - skill2BeginTime > 20{
-                        label.text = ""
-                        skill2Flag = true
-                        skill2BeginTime = 0
                     }
                 }
             }
         }
+        
         for enemy in enemies{
             if enemy.burn != 0{
                 if enemy.burn == 5 && enemy.burnBeginTime == 0{
