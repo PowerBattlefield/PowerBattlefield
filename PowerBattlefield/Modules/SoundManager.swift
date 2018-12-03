@@ -6,8 +6,6 @@ class SoundManager :SKNode{
 
     var BGMPlayer = AVAudioPlayer()
     var audioPlayer = AVAudioPlayer()
-
-    let hitAct = SKAction.playSoundFileNamed("hit.mp3", waitForCompletion: false)
     
     func playBackGround(){
         let url = getLocation(musicName: "battle")
@@ -32,10 +30,6 @@ class SoundManager :SKNode{
     }
     
     
-    func playHit(){
-        print("!")
-        self.run(hitAct)
-    }
     
     func playAudio(musicName: String){
         print("play" + musicName)

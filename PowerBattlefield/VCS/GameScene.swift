@@ -695,6 +695,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if quitGame{
                     Database.database().reference().child(roomId).child("winner").setValue(otherPlayer1.playerLabel)
                     Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
+                }
+                else if thePlayer.level >= 5{
+                    Database.database().reference().child(roomId).child("winner").setValue(thePlayer.playerLabel)
+                    Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
+                }else if otherPlayer1.level >= 5{
+                    Database.database().reference().child(roomId).child("winner").setValue(otherPlayer1.playerLabel)
+                    Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
                 }else{
                     Database.database().reference().child(roomId).child("winner").setValue(thePlayer.playerLabel)
                     Database.database().reference().child(roomId).child("gameIsOn").setValue(false)
@@ -1489,7 +1496,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
                     emitter.position = CGPoint(x: 0, y: 0)
                     player.addChild(emitter)
-                    print(player.damagedBySwordRain)
+   
                     let wait:SKAction = SKAction.wait(forDuration: 0.5)
                     let finish:SKAction = SKAction.run {
                         emitter.removeFromParent()
@@ -1526,7 +1533,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
                     emitter.position = CGPoint(x: 0, y: 0)
                     player.addChild(emitter)
-                    print(player.damagedBySwordRain)
+ 
                     let wait:SKAction = SKAction.wait(forDuration: 0.5)
                     let finish:SKAction = SKAction.run {
                         emitter.removeFromParent()
