@@ -39,7 +39,7 @@
 		FBA65C8321AAACC600C5890D /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA65C8221AAACC600C5890D /* Enemy.swift */; };
 		FBA65C8521AAC5F700C5890D /* EnemyActions.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBA65C8421AAC5F700C5890D /* EnemyActions.sks */; };
 		FBC1C8CA21B4D3E800C14529 /* LevelUp.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBC1C8C921B4D3E800C14529 /* LevelUp.sks */; };
-		FBC1C8CE21B4D43300C14529 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBC1C8CD21B4D43300C14529 /* GameScene.sks */; };
+		FBC1C8D021B4E2F000C14529 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBC1C8CF21B4E2F000C14529 /* GameScene.sks */; };
 		FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */; };
 		FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */; };
 		FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */; };
@@ -81,7 +81,7 @@
 		FBA65C8221AAACC600C5890D /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		FBA65C8421AAC5F700C5890D /* EnemyActions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = EnemyActions.sks; sourceTree = "<group>"; };
 		FBC1C8C921B4D3E800C14529 /* LevelUp.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelUp.sks; sourceTree = "<group>"; };
-		FBC1C8CD21B4D43300C14529 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		FBC1C8CF21B4E2F000C14529 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PowerBattlefield.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBD2AEEB218FAA0A00B49DC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -148,10 +148,10 @@
 		FBC1C8C421B4D09B00C14529 /* GameComponents */ = {
 			isa = PBXGroup;
 			children = (
+				FBC1C8CF21B4E2F000C14529 /* GameScene.sks */,
 				FBC1C8C721B4D10E00C14529 /* Particle */,
 				FBC1C8C621B4D0F100C14529 /* Actions */,
 				FBC1C8C521B4D0E200C14529 /* Map */,
-				FBC1C8CD21B4D43300C14529 /* GameScene.sks */,
 			);
 			path = GameComponents;
 			sourceTree = "<group>";
@@ -302,12 +302,12 @@
 				688113FB21B4D9CB0006C6F0 /* battle.mp3 in Resources */,
 				FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */,
 				688113F921B4D9CB0006C6F0 /* attack01.wav in Resources */,
+				FBC1C8D021B4E2F000C14529 /* GameScene.sks in Resources */,
 				688113E821B4D9830006C6F0 /* SwordParticle.sks in Resources */,
 				689DF04E218FBCD20059CFFE /* Actions.sks in Resources */,
 				688113F821B4D9CB0006C6F0 /* attack04.wav in Resources */,
 				689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */,
 				FBC1C8CA21B4D3E800C14529 /* LevelUp.sks in Resources */,
-				FBC1C8CE21B4D43300C14529 /* GameScene.sks in Resources */,
 				688113E521B4D9830006C6F0 /* SwordRain.sks in Resources */,
 				688113F721B4D9CB0006C6F0 /* attack_sword01.wav in Resources */,
 				688113E221B4D9830006C6F0 /* FireballParticle.sks in Resources */,
