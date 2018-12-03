@@ -1283,6 +1283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let node = self.atPoint(location)
                 if (node.name == "Attack_btn") {
                     if !attackTimeFlag{
+                        sound.playAudio(musicName: "attack_sword01")
                         attackTime = time
                         attackTimeFlag = true
                         thePlayer.attack(otherPlayer: false)
@@ -1302,7 +1303,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if time - attackTime > 1{
                         attackTimeFlag = false
                     }
-                    sound.playAudio(musicName: "attack_sword01")
                 }
                 if (node.name == "Up_btn") {
                     hold = true
