@@ -105,7 +105,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         setPlayers()
-        addSnowOnGrassEmitter(node: otherPlayer1)
         spawnEnemy(spawnPos: CGPoint(x: -100, y: -100), updateStateTime: Int(arc4random_uniform(3)) + 1)
         spawnEnemy(spawnPos: CGPoint(x: -500, y: -500), updateStateTime: Int(arc4random_uniform(3)) + 1)
         spawnEnemy(spawnPos: CGPoint(x: 100, y: 500), updateStateTime: Int(arc4random_uniform(3)) + 1)
@@ -1089,10 +1088,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if skillIsOn{
                 let label = Skill_btn.childNode(withName: "SkillTime") as! SKLabelNode
                 if skillBeginTime == 0{
-                    skillBeginTime = currentTime + 1
+                    skillBeginTime = currentTime
                 }
                 if currentTime - skillBeginTime <= 5{
-                    let duration = Int(5 - currentTime + skillBeginTime)
+                    let duration = Int(6 - currentTime + skillBeginTime)
                     label.fontColor = UIColor.black
                     label.text = String(duration)
                 }else if currentTime - skillBeginTime > 5{
@@ -1110,7 +1109,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if CDFlag{
                             Skill_btn.color = UIColor.black
                             Skill_btn.colorBlendFactor = 1
-                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 5)
+                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 10)
                             Skill_btn.run(colorize)
                             CDFlag = false
                         }
@@ -1124,10 +1123,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if skill2IsOn{
                 let label = Skill2_btn.childNode(withName: "SkillTime") as! SKLabelNode
                 if skill2BeginTime == 0{
-                    skill2BeginTime = currentTime + 1
+                    skill2BeginTime = currentTime
                 }
                 if currentTime - skill2BeginTime <= 5{
-                    let duration = Int(5 - currentTime + skill2BeginTime)
+                    let duration = Int(6 - currentTime + skill2BeginTime)
                     label.fontColor = UIColor.black
                     label.text = String(duration)
                 }else if currentTime - skill2BeginTime > 5{
@@ -1145,7 +1144,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if CD2Flag{
                             Skill2_btn.color = UIColor.black
                             Skill2_btn.colorBlendFactor = 1
-                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 20)
+                            let colorize = SKAction.colorize(with: .white, colorBlendFactor: 1, duration: 15)
                             Skill2_btn.run(colorize)
                             CD2Flag = false
                         }
