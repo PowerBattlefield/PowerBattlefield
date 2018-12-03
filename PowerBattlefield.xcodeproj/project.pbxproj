@@ -1,609 +1,612 @@
 // !$*UTF8*$!
 {
-    archiveVersion = 1;
-    classes = {
-    };
-    objectVersion = 50;
-    objects = {
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
 
 /* Begin PBXBuildFile section */
-        2B0BE1AE21B26CA20002C9FA /* login.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2B0BE1AD21B26CA20002C9FA /* login.mp3 */; };
-        2B0BE1B021B26F750002C9FA /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0BE1AF21B26F750002C9FA /* SoundManager.swift */; };
-        2B0BE1B221B270390002C9FA /* battle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2B0BE1B121B270390002C9FA /* battle.mp3 */; };
-        2B5C281B2193A0790046BFD6 /* DefultTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */; };
-        6826591921B390FE009535BD /* SwordRain.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6826591821B390FE009535BD /* SwordRain.sks */; };
-        6834E66B21B247EF0066146C /* FireOnPlayer.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6834E66A21B247EF0066146C /* FireOnPlayer.sks */; };
-        6834E66D21B24B960066146C /* FireOnGrass.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6834E66C21B24B960066146C /* FireOnGrass.sks */; };
-        686AD30421A1112D0012C3D5 /* CreateRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */; };
-        686AD30621A138AA0012C3D5 /* roomAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686AD30521A138AA0012C3D5 /* roomAPI.swift */; };
-        689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF039218FB7090059CFFE /* MyTileSet.sks */; };
-        689DF049218FBC0B0059CFFE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF046218FBC0A0059CFFE /* GameScene.swift */; };
-        689DF04A218FBC0B0059CFFE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF047218FBC0B0059CFFE /* GameViewController.swift */; };
-        689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 689DF04B218FBCD20059CFFE /* Assets.xcassets */; };
-        689DF04E218FBCD20059CFFE /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF04C218FBCD20059CFFE /* Actions.sks */; };
-        C1623459326074604453F16C /* Pods_PowerBattlefield.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */; };
-		F537FFE821B4D5DF00928984 /* attack_sword01.wav in Resources */ = {isa = PBXBuildFile; fileRef = F537FFE721B4D5DF00928984 /* attack_sword01.wav */; };
-		F537FFEA21B4D6D600928984 /* attack04.wav in Resources */ = {isa = PBXBuildFile; fileRef = F537FFE921B4D6D500928984 /* attack04.wav */; };
-        F5BF83DC21B4CFF90094CA4C /* attack01.wav in Resources */ = {isa = PBXBuildFile; fileRef = F5BF83D921B4CFF80094CA4C /* attack01.wav */; };
-        F5BF83DD21B4CFF90094CA4C /* attack02.wav in Resources */ = {isa = PBXBuildFile; fileRef = F5BF83DA21B4CFF90094CA4C /* attack02.wav */; };
-        F5BF83DE21B4CFF90094CA4C /* attack03.wav in Resources */ = {isa = PBXBuildFile; fileRef = F5BF83DB21B4CFF90094CA4C /* attack03.wav */; };
-        FB2F9DED219FBEFA0068A8AC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */; };
-        FB2F9DEF219FCFAE0068A8AC /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */; };
-        FB2F9DF1219FF2A30068A8AC /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */; };
-        FB6338E721A8CEBF005447FB /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6338E621A8CEBF005447FB /* Player.swift */; };
-        FBA65C7B21A941C600C5890D /* EndViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA65C7A21A941C600C5890D /* EndViewController.swift */; };
-        FBA65C7D21AA21B000C5890D /* FireBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA65C7C21AA21B000C5890D /* FireBall.swift */; };
-        FBA65C7F21AA780200C5890D /* FireballParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBA65C7E21AA780200C5890D /* FireballParticle.sks */; };
-        FBA65C8121AA7E5000C5890D /* SwordParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBA65C8021AA7E5000C5890D /* SwordParticle.sks */; };
-        FBA65C8321AAACC600C5890D /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA65C8221AAACC600C5890D /* Enemy.swift */; };
-        FBA65C8521AAC5F700C5890D /* EnemyActions.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBA65C8421AAC5F700C5890D /* EnemyActions.sks */; };
-        FBC1C8CA21B4D3E800C14529 /* LevelUp.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBC1C8C921B4D3E800C14529 /* LevelUp.sks */; };
-        FBC1C8CE21B4D43300C14529 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBC1C8CD21B4D43300C14529 /* GameScene.sks */; };
-        FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */; };
-        FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */; };
-        FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */; };
-        FBD2AEF9218FBDC800B49DC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEF8218FBDC800B49DC6 /* GoogleService-Info.plist */; };
+		2B5C281B2193A0790046BFD6 /* DefultTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */; };
+		686AD30421A1112D0012C3D5 /* CreateRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */; };
+		688113E221B4D9830006C6F0 /* FireballParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 688113DB21B4D9820006C6F0 /* FireballParticle.sks */; };
+		688113E421B4D9830006C6F0 /* FireOnGrass.sks in Resources */ = {isa = PBXBuildFile; fileRef = 688113DD21B4D9830006C6F0 /* FireOnGrass.sks */; };
+		688113E521B4D9830006C6F0 /* SwordRain.sks in Resources */ = {isa = PBXBuildFile; fileRef = 688113DE21B4D9830006C6F0 /* SwordRain.sks */; };
+		688113E721B4D9830006C6F0 /* FireOnPlayer.sks in Resources */ = {isa = PBXBuildFile; fileRef = 688113E021B4D9830006C6F0 /* FireOnPlayer.sks */; };
+		688113E821B4D9830006C6F0 /* SwordParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 688113E121B4D9830006C6F0 /* SwordParticle.sks */; };
+		688113EC21B4D9A70006C6F0 /* roomAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688113E921B4D9A70006C6F0 /* roomAPI.swift */; };
+		688113ED21B4D9A70006C6F0 /* FireBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688113EA21B4D9A70006C6F0 /* FireBall.swift */; };
+		688113EE21B4D9A70006C6F0 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688113EB21B4D9A70006C6F0 /* SoundManager.swift */; };
+		688113F621B4D9CB0006C6F0 /* attack03.wav in Resources */ = {isa = PBXBuildFile; fileRef = 688113EF21B4D9CB0006C6F0 /* attack03.wav */; };
+		688113F721B4D9CB0006C6F0 /* attack_sword01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 688113F021B4D9CB0006C6F0 /* attack_sword01.wav */; };
+		688113F821B4D9CB0006C6F0 /* attack04.wav in Resources */ = {isa = PBXBuildFile; fileRef = 688113F121B4D9CB0006C6F0 /* attack04.wav */; };
+		688113F921B4D9CB0006C6F0 /* attack01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 688113F221B4D9CB0006C6F0 /* attack01.wav */; };
+		688113FA21B4D9CB0006C6F0 /* attack02.wav in Resources */ = {isa = PBXBuildFile; fileRef = 688113F321B4D9CB0006C6F0 /* attack02.wav */; };
+		688113FB21B4D9CB0006C6F0 /* battle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 688113F421B4D9CB0006C6F0 /* battle.mp3 */; };
+		688113FC21B4D9CB0006C6F0 /* login.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 688113F521B4D9CB0006C6F0 /* login.mp3 */; };
+		6881140221B4DA3D0006C6F0 /* SnowFlake.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6881140121B4DA3D0006C6F0 /* SnowFlake.sks */; };
+		689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF039218FB7090059CFFE /* MyTileSet.sks */; };
+		689DF049218FBC0B0059CFFE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF046218FBC0A0059CFFE /* GameScene.swift */; };
+		689DF04A218FBC0B0059CFFE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF047218FBC0B0059CFFE /* GameViewController.swift */; };
+		689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 689DF04B218FBCD20059CFFE /* Assets.xcassets */; };
+		689DF04E218FBCD20059CFFE /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF04C218FBCD20059CFFE /* Actions.sks */; };
+		C1623459326074604453F16C /* Pods_PowerBattlefield.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */; };
+		FB2F9DED219FBEFA0068A8AC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */; };
+		FB2F9DEF219FCFAE0068A8AC /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */; };
+		FB2F9DF1219FF2A30068A8AC /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */; };
+		FB6338E721A8CEBF005447FB /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6338E621A8CEBF005447FB /* Player.swift */; };
+		FBA65C7B21A941C600C5890D /* EndViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA65C7A21A941C600C5890D /* EndViewController.swift */; };
+		FBA65C8321AAACC600C5890D /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA65C8221AAACC600C5890D /* Enemy.swift */; };
+		FBA65C8521AAC5F700C5890D /* EnemyActions.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBA65C8421AAC5F700C5890D /* EnemyActions.sks */; };
+		FBC1C8CA21B4D3E800C14529 /* LevelUp.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBC1C8C921B4D3E800C14529 /* LevelUp.sks */; };
+		FBC1C8CE21B4D43300C14529 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBC1C8CD21B4D43300C14529 /* GameScene.sks */; };
+		FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */; };
+		FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */; };
+		FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */; };
+		FBD2AEF9218FBDC800B49DC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEF8218FBDC800B49DC6 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-        2B0BE1AD21B26CA20002C9FA /* login.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = login.mp3; sourceTree = "<group>"; };
-        2B0BE1AF21B26F750002C9FA /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
-        2B0BE1B121B270390002C9FA /* battle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = battle.mp3; sourceTree = "<group>"; };
-        2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DefultTileSet.sks; sourceTree = "<group>"; };
-        3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PowerBattlefield.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-        6826591821B390FE009535BD /* SwordRain.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SwordRain.sks; sourceTree = "<group>"; };
-        6834E66A21B247EF0066146C /* FireOnPlayer.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireOnPlayer.sks; sourceTree = "<group>"; };
-        6834E66C21B24B960066146C /* FireOnGrass.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireOnGrass.sks; sourceTree = "<group>"; };
-        686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoomViewController.swift; sourceTree = "<group>"; };
-        686AD30521A138AA0012C3D5 /* roomAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = roomAPI.swift; sourceTree = "<group>"; };
-        689DF039218FB7090059CFFE /* MyTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyTileSet.sks; sourceTree = "<group>"; };
-        689DF046218FBC0A0059CFFE /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-        689DF047218FBC0B0059CFFE /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-        689DF04B218FBCD20059CFFE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-        689DF04C218FBCD20059CFFE /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-        91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.release.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.release.xcconfig"; sourceTree = "<group>"; };
-        F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.debug.xcconfig"; sourceTree = "<group>"; };
-        F537FFE721B4D5DF00928984 /* attack_sword01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack_sword01.wav; sourceTree = "<group>"; };
-        F537FFE921B4D6D500928984 /* attack04.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack04.wav; sourceTree = "<group>"; };
-        F5BF83D921B4CFF80094CA4C /* attack01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack01.wav; sourceTree = "<group>"; };
-        F5BF83DA21B4CFF90094CA4C /* attack02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack02.wav; sourceTree = "<group>"; };
-        F5BF83DB21B4CFF90094CA4C /* attack03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack03.wav; sourceTree = "<group>"; };
-        FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-        FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyViewController.swift; sourceTree = "<group>"; };
-        FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
-        FB6338E621A8CEBF005447FB /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-        FBA65C7A21A941C600C5890D /* EndViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndViewController.swift; sourceTree = "<group>"; };
-        FBA65C7C21AA21B000C5890D /* FireBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBall.swift; sourceTree = "<group>"; };
-        FBA65C7E21AA780200C5890D /* FireballParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireballParticle.sks; sourceTree = "<group>"; };
-        FBA65C8021AA7E5000C5890D /* SwordParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SwordParticle.sks; sourceTree = "<group>"; };
-        FBA65C8221AAACC600C5890D /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
-        FBA65C8421AAC5F700C5890D /* EnemyActions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = EnemyActions.sks; sourceTree = "<group>"; };
-        FBC1C8C921B4D3E800C14529 /* LevelUp.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelUp.sks; sourceTree = "<group>"; };
-        FBC1C8CD21B4D43300C14529 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-        FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PowerBattlefield.app; sourceTree = BUILT_PRODUCTS_DIR; };
-        FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-        FBD2AEEB218FAA0A00B49DC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-        FBD2AEF0218FAA0F00B49DC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-        FBD2AEF2218FAA0F00B49DC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-        FBD2AEF8218FBDC800B49DC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DefultTileSet.sks; sourceTree = "<group>"; };
+		3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PowerBattlefield.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoomViewController.swift; sourceTree = "<group>"; };
+		688113DB21B4D9820006C6F0 /* FireballParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireballParticle.sks; sourceTree = "<group>"; };
+		688113DD21B4D9830006C6F0 /* FireOnGrass.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireOnGrass.sks; sourceTree = "<group>"; };
+		688113DE21B4D9830006C6F0 /* SwordRain.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SwordRain.sks; sourceTree = "<group>"; };
+		688113E021B4D9830006C6F0 /* FireOnPlayer.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FireOnPlayer.sks; sourceTree = "<group>"; };
+		688113E121B4D9830006C6F0 /* SwordParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SwordParticle.sks; sourceTree = "<group>"; };
+		688113E921B4D9A70006C6F0 /* roomAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = roomAPI.swift; sourceTree = "<group>"; };
+		688113EA21B4D9A70006C6F0 /* FireBall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireBall.swift; sourceTree = "<group>"; };
+		688113EB21B4D9A70006C6F0 /* SoundManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		688113EF21B4D9CB0006C6F0 /* attack03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack03.wav; sourceTree = "<group>"; };
+		688113F021B4D9CB0006C6F0 /* attack_sword01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack_sword01.wav; sourceTree = "<group>"; };
+		688113F121B4D9CB0006C6F0 /* attack04.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack04.wav; sourceTree = "<group>"; };
+		688113F221B4D9CB0006C6F0 /* attack01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack01.wav; sourceTree = "<group>"; };
+		688113F321B4D9CB0006C6F0 /* attack02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack02.wav; sourceTree = "<group>"; };
+		688113F421B4D9CB0006C6F0 /* battle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = battle.mp3; sourceTree = "<group>"; };
+		688113F521B4D9CB0006C6F0 /* login.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = login.mp3; sourceTree = "<group>"; };
+		6881140121B4DA3D0006C6F0 /* SnowFlake.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SnowFlake.sks; sourceTree = "<group>"; };
+		689DF039218FB7090059CFFE /* MyTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyTileSet.sks; sourceTree = "<group>"; };
+		689DF046218FBC0A0059CFFE /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		689DF047218FBC0B0059CFFE /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		689DF04B218FBCD20059CFFE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		689DF04C218FBCD20059CFFE /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.release.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.release.xcconfig"; sourceTree = "<group>"; };
+		F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.debug.xcconfig"; sourceTree = "<group>"; };
+		FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyViewController.swift; sourceTree = "<group>"; };
+		FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
+		FB6338E621A8CEBF005447FB /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		FBA65C7A21A941C600C5890D /* EndViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndViewController.swift; sourceTree = "<group>"; };
+		FBA65C8221AAACC600C5890D /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
+		FBA65C8421AAC5F700C5890D /* EnemyActions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = EnemyActions.sks; sourceTree = "<group>"; };
+		FBC1C8C921B4D3E800C14529 /* LevelUp.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelUp.sks; sourceTree = "<group>"; };
+		FBC1C8CD21B4D43300C14529 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PowerBattlefield.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FBD2AEEB218FAA0A00B49DC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FBD2AEF0218FAA0F00B49DC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FBD2AEF2218FAA0F00B49DC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FBD2AEF8218FBDC800B49DC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-        FBD2AEDA218FAA0A00B49DC6 /* Frameworks */ = {
-            isa = PBXFrameworksBuildPhase;
-            buildActionMask = 2147483647;
-            files = (
-                C1623459326074604453F16C /* Pods_PowerBattlefield.framework in Frameworks */,
-            );
-            runOnlyForDeploymentPostprocessing = 0;
-        };
+		FBD2AEDA218FAA0A00B49DC6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C1623459326074604453F16C /* Pods_PowerBattlefield.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-        97347F1D2AEACB0B8792A1F0 /* Pods */ = {
-            isa = PBXGroup;
-            children = (
-                F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */,
-                91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */,
-            );
-            name = Pods;
-            sourceTree = "<group>";
-        };
-        9F8A4B28D4722448E16B7730 /* Frameworks */ = {
-            isa = PBXGroup;
-            children = (
-                3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */,
-            );
-            name = Frameworks;
-            sourceTree = "<group>";
-        };
-        FBC1C8C221B4D04000C14529 /* VCS */ = {
-            isa = PBXGroup;
-            children = (
-                FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */,
-                FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */,
-                FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */,
-                686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */,
-                689DF047218FBC0B0059CFFE /* GameViewController.swift */,
-                FBA65C7A21A941C600C5890D /* EndViewController.swift */,
-                689DF046218FBC0A0059CFFE /* GameScene.swift */,
-            );
-            path = VCS;
-            sourceTree = "<group>";
-        };
-        FBC1C8C321B4D07100C14529 /* Modules */ = {
-            isa = PBXGroup;
-            children = (
-                FB6338E621A8CEBF005447FB /* Player.swift */,
-                FBA65C8221AAACC600C5890D /* Enemy.swift */,
-                FBA65C7C21AA21B000C5890D /* FireBall.swift */,
-                686AD30521A138AA0012C3D5 /* roomAPI.swift */,
-                2B0BE1AF21B26F750002C9FA /* SoundManager.swift */,
-            );
-            path = Modules;
-            sourceTree = "<group>";
-        };
-        FBC1C8C421B4D09B00C14529 /* GameComponents */ = {
-            isa = PBXGroup;
-            children = (
-                FBC1C8C721B4D10E00C14529 /* Particle */,
-                FBC1C8C621B4D0F100C14529 /* Actions */,
-                FBC1C8C521B4D0E200C14529 /* Map */,
-                FBC1C8CD21B4D43300C14529 /* GameScene.sks */,
-            );
-            path = GameComponents;
-            sourceTree = "<group>";
-        };
-        FBC1C8C521B4D0E200C14529 /* Map */ = {
-            isa = PBXGroup;
-            children = (
-                689DF039218FB7090059CFFE /* MyTileSet.sks */,
-                2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */,
-            );
-            path = Map;
-            sourceTree = "<group>";
-        };
-        FBC1C8C621B4D0F100C14529 /* Actions */ = {
-            isa = PBXGroup;
-            children = (
-                FBA65C8421AAC5F700C5890D /* EnemyActions.sks */,
-                689DF04C218FBCD20059CFFE /* Actions.sks */,
-            );
-            path = Actions;
-            sourceTree = "<group>";
-        };
-        FBC1C8C721B4D10E00C14529 /* Particle */ = {
-            isa = PBXGroup;
-            children = (
-                FBC1C8C921B4D3E800C14529 /* LevelUp.sks */,
-                FBA65C7E21AA780200C5890D /* FireballParticle.sks */,
-                FBA65C8021AA7E5000C5890D /* SwordParticle.sks */,
-                6834E66A21B247EF0066146C /* FireOnPlayer.sks */,
-                6834E66C21B24B960066146C /* FireOnGrass.sks */,
-                6826591821B390FE009535BD /* SwordRain.sks */,
-            );
-            path = Particle;
-            sourceTree = "<group>";
-        };
-        FBC1C8C821B4D16D00C14529 /* Sound */ = {
-            isa = PBXGroup;
-            children = (
-                2B0BE1AD21B26CA20002C9FA /* login.mp3 */,
-                2B0BE1B121B270390002C9FA /* battle.mp3 */,
-                F537FFE721B4D5DF00928984 /* attack_sword01.wav */,
-                F5BF83D921B4CFF80094CA4C /* attack01.wav */,
-                F5BF83DA21B4CFF90094CA4C /* attack02.wav */,
-                F5BF83DB21B4CFF90094CA4C /* attack03.wav */,
-                F537FFE921B4D6D500928984 /* attack04.wav */,
-            );
-            path = Sound;
-            sourceTree = "<group>";
-        };
-        FBD2AED4218FAA0A00B49DC6 = {
-            isa = PBXGroup;
-            children = (
-                FBD2AEDF218FAA0A00B49DC6 /* PowerBattlefield */,
-                FBD2AEDE218FAA0A00B49DC6 /* Products */,
-                97347F1D2AEACB0B8792A1F0 /* Pods */,
-                9F8A4B28D4722448E16B7730 /* Frameworks */,
-            );
-            sourceTree = "<group>";
-        };
-        FBD2AEDE218FAA0A00B49DC6 /* Products */ = {
-            isa = PBXGroup;
-            children = (
-                FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */,
-            );
-            name = Products;
-            sourceTree = "<group>";
-        };
-        FBD2AEDF218FAA0A00B49DC6 /* PowerBattlefield */ = {
-            isa = PBXGroup;
-            children = (
-                FBC1C8C821B4D16D00C14529 /* Sound */,
-                FBC1C8C421B4D09B00C14529 /* GameComponents */,
-                FBC1C8C321B4D07100C14529 /* Modules */,
-                FBC1C8C221B4D04000C14529 /* VCS */,
-                FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */,
-                689DF04B218FBCD20059CFFE /* Assets.xcassets */,
-                FBD2AEF8218FBDC800B49DC6 /* GoogleService-Info.plist */,
-                FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */,
-                FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */,
-                FBD2AEF2218FAA0F00B49DC6 /* Info.plist */,
-            );
-            path = PowerBattlefield;
-            sourceTree = "<group>";
-        };
+		97347F1D2AEACB0B8792A1F0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */,
+				91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9F8A4B28D4722448E16B7730 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FBC1C8C221B4D04000C14529 /* VCS */ = {
+			isa = PBXGroup;
+			children = (
+				FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */,
+				FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */,
+				FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */,
+				686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */,
+				689DF047218FBC0B0059CFFE /* GameViewController.swift */,
+				FBA65C7A21A941C600C5890D /* EndViewController.swift */,
+				689DF046218FBC0A0059CFFE /* GameScene.swift */,
+			);
+			path = VCS;
+			sourceTree = "<group>";
+		};
+		FBC1C8C321B4D07100C14529 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				FB6338E621A8CEBF005447FB /* Player.swift */,
+				FBA65C8221AAACC600C5890D /* Enemy.swift */,
+				688113EA21B4D9A70006C6F0 /* FireBall.swift */,
+				688113E921B4D9A70006C6F0 /* roomAPI.swift */,
+				688113EB21B4D9A70006C6F0 /* SoundManager.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		FBC1C8C421B4D09B00C14529 /* GameComponents */ = {
+			isa = PBXGroup;
+			children = (
+				FBC1C8C721B4D10E00C14529 /* Particle */,
+				FBC1C8C621B4D0F100C14529 /* Actions */,
+				FBC1C8C521B4D0E200C14529 /* Map */,
+				FBC1C8CD21B4D43300C14529 /* GameScene.sks */,
+			);
+			path = GameComponents;
+			sourceTree = "<group>";
+		};
+		FBC1C8C521B4D0E200C14529 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				689DF039218FB7090059CFFE /* MyTileSet.sks */,
+				2B5C281A2193A0790046BFD6 /* DefultTileSet.sks */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		FBC1C8C621B4D0F100C14529 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				FBA65C8421AAC5F700C5890D /* EnemyActions.sks */,
+				689DF04C218FBCD20059CFFE /* Actions.sks */,
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
+		FBC1C8C721B4D10E00C14529 /* Particle */ = {
+			isa = PBXGroup;
+			children = (
+				688113DB21B4D9820006C6F0 /* FireballParticle.sks */,
+				688113DD21B4D9830006C6F0 /* FireOnGrass.sks */,
+				688113E021B4D9830006C6F0 /* FireOnPlayer.sks */,
+				688113E121B4D9830006C6F0 /* SwordParticle.sks */,
+				6881140121B4DA3D0006C6F0 /* SnowFlake.sks */,
+				688113DE21B4D9830006C6F0 /* SwordRain.sks */,
+				FBC1C8C921B4D3E800C14529 /* LevelUp.sks */,
+			);
+			path = Particle;
+			sourceTree = "<group>";
+		};
+		FBC1C8C821B4D16D00C14529 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				688113F021B4D9CB0006C6F0 /* attack_sword01.wav */,
+				688113F221B4D9CB0006C6F0 /* attack01.wav */,
+				688113F321B4D9CB0006C6F0 /* attack02.wav */,
+				688113EF21B4D9CB0006C6F0 /* attack03.wav */,
+				688113F121B4D9CB0006C6F0 /* attack04.wav */,
+				688113F421B4D9CB0006C6F0 /* battle.mp3 */,
+				688113F521B4D9CB0006C6F0 /* login.mp3 */,
+			);
+			path = Sound;
+			sourceTree = "<group>";
+		};
+		FBD2AED4218FAA0A00B49DC6 = {
+			isa = PBXGroup;
+			children = (
+				FBD2AEDF218FAA0A00B49DC6 /* PowerBattlefield */,
+				FBD2AEDE218FAA0A00B49DC6 /* Products */,
+				97347F1D2AEACB0B8792A1F0 /* Pods */,
+				9F8A4B28D4722448E16B7730 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		FBD2AEDE218FAA0A00B49DC6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FBD2AEDF218FAA0A00B49DC6 /* PowerBattlefield */ = {
+			isa = PBXGroup;
+			children = (
+				FBC1C8C821B4D16D00C14529 /* Sound */,
+				FBC1C8C421B4D09B00C14529 /* GameComponents */,
+				FBC1C8C321B4D07100C14529 /* Modules */,
+				FBC1C8C221B4D04000C14529 /* VCS */,
+				FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */,
+				689DF04B218FBCD20059CFFE /* Assets.xcassets */,
+				FBD2AEF8218FBDC800B49DC6 /* GoogleService-Info.plist */,
+				FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */,
+				FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */,
+				FBD2AEF2218FAA0F00B49DC6 /* Info.plist */,
+			);
+			path = PowerBattlefield;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-        FBD2AEDC218FAA0A00B49DC6 /* PowerBattlefield */ = {
-            isa = PBXNativeTarget;
-            buildConfigurationList = FBD2AEF5218FAA0F00B49DC6 /* Build configuration list for PBXNativeTarget "PowerBattlefield" */;
-            buildPhases = (
-                2C5A19BA2EF172B9955B0944 /* [CP] Check Pods Manifest.lock */,
-                FBD2AED9218FAA0A00B49DC6 /* Sources */,
-                FBD2AEDA218FAA0A00B49DC6 /* Frameworks */,
-                FBD2AEDB218FAA0A00B49DC6 /* Resources */,
-                E193E07E42CEE6A5AB0A416E /* [CP] Embed Pods Frameworks */,
-                F79CFF66C95CD360A1DDF9CB /* [CP] Copy Pods Resources */,
-            );
-            buildRules = (
-            );
-            dependencies = (
-            );
-            name = PowerBattlefield;
-            productName = PowerBattlefield;
-            productReference = FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */;
-            productType = "com.apple.product-type.application";
-        };
+		FBD2AEDC218FAA0A00B49DC6 /* PowerBattlefield */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FBD2AEF5218FAA0F00B49DC6 /* Build configuration list for PBXNativeTarget "PowerBattlefield" */;
+			buildPhases = (
+				2C5A19BA2EF172B9955B0944 /* [CP] Check Pods Manifest.lock */,
+				FBD2AED9218FAA0A00B49DC6 /* Sources */,
+				FBD2AEDA218FAA0A00B49DC6 /* Frameworks */,
+				FBD2AEDB218FAA0A00B49DC6 /* Resources */,
+				E193E07E42CEE6A5AB0A416E /* [CP] Embed Pods Frameworks */,
+				F79CFF66C95CD360A1DDF9CB /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PowerBattlefield;
+			productName = PowerBattlefield;
+			productReference = FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-        FBD2AED5218FAA0A00B49DC6 /* Project object */ = {
-            isa = PBXProject;
-            attributes = {
-                LastSwiftUpdateCheck = 0940;
-                LastUpgradeCheck = 0940;
-                ORGANIZATIONNAME = "Da Lin";
-                TargetAttributes = {
-                    FBD2AEDC218FAA0A00B49DC6 = {
-                        CreatedOnToolsVersion = 9.4;
-                        LastSwiftMigration = 1010;
-                    };
-                };
-            };
-            buildConfigurationList = FBD2AED8218FAA0A00B49DC6 /* Build configuration list for PBXProject "PowerBattlefield" */;
-            compatibilityVersion = "Xcode 9.3";
-            developmentRegion = en;
-            hasScannedForEncodings = 0;
-            knownRegions = (
-                en,
-                Base,
-            );
-            mainGroup = FBD2AED4218FAA0A00B49DC6;
-            productRefGroup = FBD2AEDE218FAA0A00B49DC6 /* Products */;
-            projectDirPath = "";
-            projectRoot = "";
-            targets = (
-                FBD2AEDC218FAA0A00B49DC6 /* PowerBattlefield */,
-            );
-        };
+		FBD2AED5218FAA0A00B49DC6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = "Da Lin";
+				TargetAttributes = {
+					FBD2AEDC218FAA0A00B49DC6 = {
+						CreatedOnToolsVersion = 9.4;
+						LastSwiftMigration = 1010;
+					};
+				};
+			};
+			buildConfigurationList = FBD2AED8218FAA0A00B49DC6 /* Build configuration list for PBXProject "PowerBattlefield" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FBD2AED4218FAA0A00B49DC6;
+			productRefGroup = FBD2AEDE218FAA0A00B49DC6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FBD2AEDC218FAA0A00B49DC6 /* PowerBattlefield */,
+			);
+		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-        FBD2AEDB218FAA0A00B49DC6 /* Resources */ = {
-            isa = PBXResourcesBuildPhase;
-            buildActionMask = 2147483647;
-            files = (
-                FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */,
-                689DF04E218FBCD20059CFFE /* Actions.sks in Resources */,
-                689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */,
-                FBC1C8CA21B4D3E800C14529 /* LevelUp.sks in Resources */,
-                FBC1C8CE21B4D43300C14529 /* GameScene.sks in Resources */,
-                FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */,
-                F5BF83DD21B4CFF90094CA4C /* attack02.wav in Resources */,
-                F537FFE821B4D5DF00928984 /* attack_sword01.wav in Resources */,
-                689DF048218FBC0B0059CFFE /* GameScene.sks in Resources */,
-                6826591921B390FE009535BD /* SwordRain.sks in Resources */,
-                F5BF83DE21B4CFF90094CA4C /* attack03.wav in Resources */,
-                689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */,
-                F5BF83DC21B4CFF90094CA4C /* attack01.wav in Resources */,
-                2B5C281B2193A0790046BFD6 /* DefultTileSet.sks in Resources */,
-                FBD2AEF9218FBDC800B49DC6 /* GoogleService-Info.plist in Resources */,
-                F537FFEA21B4D6D600928984 /* attack04.wav in Resources */,
-                6834E66D21B24B960066146C /* FireOnGrass.sks in Resources */,
-                FBA65C7F21AA780200C5890D /* FireballParticle.sks in Resources */,
-                2B0BE1AE21B26CA20002C9FA /* login.mp3 in Resources */,
-                6834E66B21B247EF0066146C /* FireOnPlayer.sks in Resources */,
-                FBA65C8121AA7E5000C5890D /* SwordParticle.sks in Resources */,
-                2B0BE1B221B270390002C9FA /* battle.mp3 in Resources */,
-                FBA65C8521AAC5F700C5890D /* EnemyActions.sks in Resources */,
-            );
-            runOnlyForDeploymentPostprocessing = 0;
-        };
+		FBD2AEDB218FAA0A00B49DC6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				688113FB21B4D9CB0006C6F0 /* battle.mp3 in Resources */,
+				FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */,
+				688113F921B4D9CB0006C6F0 /* attack01.wav in Resources */,
+				688113E821B4D9830006C6F0 /* SwordParticle.sks in Resources */,
+				689DF04E218FBCD20059CFFE /* Actions.sks in Resources */,
+				688113F821B4D9CB0006C6F0 /* attack04.wav in Resources */,
+				689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */,
+				FBC1C8CA21B4D3E800C14529 /* LevelUp.sks in Resources */,
+				FBC1C8CE21B4D43300C14529 /* GameScene.sks in Resources */,
+				688113E521B4D9830006C6F0 /* SwordRain.sks in Resources */,
+				688113F721B4D9CB0006C6F0 /* attack_sword01.wav in Resources */,
+				688113E221B4D9830006C6F0 /* FireballParticle.sks in Resources */,
+				FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */,
+				688113FC21B4D9CB0006C6F0 /* login.mp3 in Resources */,
+				688113F621B4D9CB0006C6F0 /* attack03.wav in Resources */,
+				688113E721B4D9830006C6F0 /* FireOnPlayer.sks in Resources */,
+				688113FA21B4D9CB0006C6F0 /* attack02.wav in Resources */,
+				689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */,
+				688113E421B4D9830006C6F0 /* FireOnGrass.sks in Resources */,
+				2B5C281B2193A0790046BFD6 /* DefultTileSet.sks in Resources */,
+				FBD2AEF9218FBDC800B49DC6 /* GoogleService-Info.plist in Resources */,
+				6881140221B4DA3D0006C6F0 /* SnowFlake.sks in Resources */,
+				FBA65C8521AAC5F700C5890D /* EnemyActions.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-        2C5A19BA2EF172B9955B0944 /* [CP] Check Pods Manifest.lock */ = {
-            isa = PBXShellScriptBuildPhase;
-            buildActionMask = 2147483647;
-            files = (
-            );
-            inputPaths = (
-                "${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-                "${PODS_ROOT}/Manifest.lock",
-            );
-            name = "[CP] Check Pods Manifest.lock";
-            outputPaths = (
-                "$(DERIVED_FILE_DIR)/Pods-PowerBattlefield-checkManifestLockResult.txt",
-            );
-            runOnlyForDeploymentPostprocessing = 0;
-            shellPath = /bin/sh;
-            shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-            showEnvVarsInLog = 0;
-        };
-        E193E07E42CEE6A5AB0A416E /* [CP] Embed Pods Frameworks */ = {
-            isa = PBXShellScriptBuildPhase;
-            buildActionMask = 2147483647;
-            files = (
-            );
-            inputPaths = (
-                "${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-frameworks.sh",
-                "${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-                "${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-                "${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-                "${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-            );
-            name = "[CP] Embed Pods Frameworks";
-            outputPaths = (
-                "${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-                "${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-                "${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-                "${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-            );
-            runOnlyForDeploymentPostprocessing = 0;
-            shellPath = /bin/sh;
-            shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-frameworks.sh\"\n";
-            showEnvVarsInLog = 0;
-        };
-        F79CFF66C95CD360A1DDF9CB /* [CP] Copy Pods Resources */ = {
-            isa = PBXShellScriptBuildPhase;
-            buildActionMask = 2147483647;
-            files = (
-            );
-            inputPaths = (
-                "${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-resources.sh",
-                "${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
-            );
-            name = "[CP] Copy Pods Resources";
-            outputPaths = (
-                "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
-            );
-            runOnlyForDeploymentPostprocessing = 0;
-            shellPath = /bin/sh;
-            shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-resources.sh\"\n";
-            showEnvVarsInLog = 0;
-        };
+		2C5A19BA2EF172B9955B0944 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PowerBattlefield-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E193E07E42CEE6A5AB0A416E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F79CFF66C95CD360A1DDF9CB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-        FBD2AED9218FAA0A00B49DC6 /* Sources */ = {
-            isa = PBXSourcesBuildPhase;
-            buildActionMask = 2147483647;
-            files = (
-                689DF04A218FBC0B0059CFFE /* GameViewController.swift in Sources */,
-                686AD30421A1112D0012C3D5 /* CreateRoomViewController.swift in Sources */,
-                FBA65C8321AAACC600C5890D /* Enemy.swift in Sources */,
-                FBA65C7D21AA21B000C5890D /* FireBall.swift in Sources */,
-                2B0BE1B021B26F750002C9FA /* SoundManager.swift in Sources */,
-                689DF049218FBC0B0059CFFE /* GameScene.swift in Sources */,
-                FB2F9DF1219FF2A30068A8AC /* RoomViewController.swift in Sources */,
-                FB2F9DEF219FCFAE0068A8AC /* LobbyViewController.swift in Sources */,
-                FB2F9DED219FBEFA0068A8AC /* LoginViewController.swift in Sources */,
-                FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */,
-                FB6338E721A8CEBF005447FB /* Player.swift in Sources */,
-                686AD30621A138AA0012C3D5 /* roomAPI.swift in Sources */,
-                FBA65C7B21A941C600C5890D /* EndViewController.swift in Sources */,
-            );
-            runOnlyForDeploymentPostprocessing = 0;
-        };
+		FBD2AED9218FAA0A00B49DC6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				689DF04A218FBC0B0059CFFE /* GameViewController.swift in Sources */,
+				686AD30421A1112D0012C3D5 /* CreateRoomViewController.swift in Sources */,
+				688113ED21B4D9A70006C6F0 /* FireBall.swift in Sources */,
+				FBA65C8321AAACC600C5890D /* Enemy.swift in Sources */,
+				688113EE21B4D9A70006C6F0 /* SoundManager.swift in Sources */,
+				689DF049218FBC0B0059CFFE /* GameScene.swift in Sources */,
+				FB2F9DF1219FF2A30068A8AC /* RoomViewController.swift in Sources */,
+				FB2F9DEF219FCFAE0068A8AC /* LobbyViewController.swift in Sources */,
+				FB2F9DED219FBEFA0068A8AC /* LoginViewController.swift in Sources */,
+				FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */,
+				FB6338E721A8CEBF005447FB /* Player.swift in Sources */,
+				688113EC21B4D9A70006C6F0 /* roomAPI.swift in Sources */,
+				FBA65C7B21A941C600C5890D /* EndViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-        FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */ = {
-            isa = PBXVariantGroup;
-            children = (
-                FBD2AEEB218FAA0A00B49DC6 /* Base */,
-            );
-            name = Main.storyboard;
-            sourceTree = "<group>";
-        };
-        FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */ = {
-            isa = PBXVariantGroup;
-            children = (
-                FBD2AEF0218FAA0F00B49DC6 /* Base */,
-            );
-            name = LaunchScreen.storyboard;
-            sourceTree = "<group>";
-        };
+		FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FBD2AEEB218FAA0A00B49DC6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FBD2AEF0218FAA0F00B49DC6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-        FBD2AEF3218FAA0F00B49DC6 /* Debug */ = {
-            isa = XCBuildConfiguration;
-            buildSettings = {
-                ALWAYS_SEARCH_USER_PATHS = NO;
-                CLANG_ANALYZER_NONNULL = YES;
-                CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-                CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-                CLANG_CXX_LIBRARY = "libc++";
-                CLANG_ENABLE_MODULES = YES;
-                CLANG_ENABLE_OBJC_ARC = YES;
-                CLANG_ENABLE_OBJC_WEAK = YES;
-                CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-                CLANG_WARN_BOOL_CONVERSION = YES;
-                CLANG_WARN_COMMA = YES;
-                CLANG_WARN_CONSTANT_CONVERSION = YES;
-                CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-                CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-                CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-                CLANG_WARN_EMPTY_BODY = YES;
-                CLANG_WARN_ENUM_CONVERSION = YES;
-                CLANG_WARN_INFINITE_RECURSION = YES;
-                CLANG_WARN_INT_CONVERSION = YES;
-                CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-                CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-                CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-                CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-                CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-                CLANG_WARN_STRICT_PROTOTYPES = YES;
-                CLANG_WARN_SUSPICIOUS_MOVE = YES;
-                CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-                CLANG_WARN_UNREACHABLE_CODE = YES;
-                CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-                CODE_SIGN_IDENTITY = "iPhone Developer";
-                COPY_PHASE_STRIP = NO;
-                DEBUG_INFORMATION_FORMAT = dwarf;
-                ENABLE_STRICT_OBJC_MSGSEND = YES;
-                ENABLE_TESTABILITY = YES;
-                GCC_C_LANGUAGE_STANDARD = gnu11;
-                GCC_DYNAMIC_NO_PIC = NO;
-                GCC_NO_COMMON_BLOCKS = YES;
-                GCC_OPTIMIZATION_LEVEL = 0;
-                GCC_PREPROCESSOR_DEFINITIONS = (
-                    "DEBUG=1",
-                    "$(inherited)",
-                );
-                GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-                GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-                GCC_WARN_UNDECLARED_SELECTOR = YES;
-                GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-                GCC_WARN_UNUSED_FUNCTION = YES;
-                GCC_WARN_UNUSED_VARIABLE = YES;
-                IPHONEOS_DEPLOYMENT_TARGET = 11.4;
-                MTL_ENABLE_DEBUG_INFO = YES;
-                ONLY_ACTIVE_ARCH = YES;
-                SDKROOT = iphoneos;
-                SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-                SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-            };
-            name = Debug;
-        };
-        FBD2AEF4218FAA0F00B49DC6 /* Release */ = {
-            isa = XCBuildConfiguration;
-            buildSettings = {
-                ALWAYS_SEARCH_USER_PATHS = NO;
-                CLANG_ANALYZER_NONNULL = YES;
-                CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-                CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-                CLANG_CXX_LIBRARY = "libc++";
-                CLANG_ENABLE_MODULES = YES;
-                CLANG_ENABLE_OBJC_ARC = YES;
-                CLANG_ENABLE_OBJC_WEAK = YES;
-                CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-                CLANG_WARN_BOOL_CONVERSION = YES;
-                CLANG_WARN_COMMA = YES;
-                CLANG_WARN_CONSTANT_CONVERSION = YES;
-                CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-                CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-                CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-                CLANG_WARN_EMPTY_BODY = YES;
-                CLANG_WARN_ENUM_CONVERSION = YES;
-                CLANG_WARN_INFINITE_RECURSION = YES;
-                CLANG_WARN_INT_CONVERSION = YES;
-                CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-                CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-                CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-                CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-                CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-                CLANG_WARN_STRICT_PROTOTYPES = YES;
-                CLANG_WARN_SUSPICIOUS_MOVE = YES;
-                CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-                CLANG_WARN_UNREACHABLE_CODE = YES;
-                CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-                CODE_SIGN_IDENTITY = "iPhone Developer";
-                COPY_PHASE_STRIP = NO;
-                DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-                ENABLE_NS_ASSERTIONS = NO;
-                ENABLE_STRICT_OBJC_MSGSEND = YES;
-                GCC_C_LANGUAGE_STANDARD = gnu11;
-                GCC_NO_COMMON_BLOCKS = YES;
-                GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-                GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-                GCC_WARN_UNDECLARED_SELECTOR = YES;
-                GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-                GCC_WARN_UNUSED_FUNCTION = YES;
-                GCC_WARN_UNUSED_VARIABLE = YES;
-                IPHONEOS_DEPLOYMENT_TARGET = 11.4;
-                MTL_ENABLE_DEBUG_INFO = NO;
-                SDKROOT = iphoneos;
-                SWIFT_COMPILATION_MODE = wholemodule;
-                SWIFT_OPTIMIZATION_LEVEL = "-O";
-                VALIDATE_PRODUCT = YES;
-            };
-            name = Release;
-        };
-        FBD2AEF6218FAA0F00B49DC6 /* Debug */ = {
-            isa = XCBuildConfiguration;
-            baseConfigurationReference = F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */;
-            buildSettings = {
-                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-                CODE_SIGN_STYLE = Automatic;
-                DEVELOPMENT_TEAM = 8XJ4L42UN7;
-                INFOPLIST_FILE = PowerBattlefield/Info.plist;
-                LD_RUNPATH_SEARCH_PATHS = (
-                    "$(inherited)",
-                    "@executable_path/Frameworks",
-                );
-                PRODUCT_BUNDLE_IDENTIFIER = PowerBattlefield;
-                PRODUCT_NAME = "$(TARGET_NAME)";
-                SWIFT_VERSION = 4.2;
-                TARGETED_DEVICE_FAMILY = "1,2";
-            };
-            name = Debug;
-        };
-        FBD2AEF7218FAA0F00B49DC6 /* Release */ = {
-            isa = XCBuildConfiguration;
-            baseConfigurationReference = 91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */;
-            buildSettings = {
-                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-                CODE_SIGN_STYLE = Automatic;
-                DEVELOPMENT_TEAM = 8XJ4L42UN7;
-                INFOPLIST_FILE = PowerBattlefield/Info.plist;
-                LD_RUNPATH_SEARCH_PATHS = (
-                    "$(inherited)",
-                    "@executable_path/Frameworks",
-                );
-                PRODUCT_BUNDLE_IDENTIFIER = PowerBattlefield;
-                PRODUCT_NAME = "$(TARGET_NAME)";
-                SWIFT_VERSION = 4.2;
-                TARGETED_DEVICE_FAMILY = "1,2";
-            };
-            name = Release;
-        };
+		FBD2AEF3218FAA0F00B49DC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FBD2AEF4218FAA0F00B49DC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FBD2AEF6218FAA0F00B49DC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8XJ4L42UN7;
+				INFOPLIST_FILE = PowerBattlefield/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = PowerBattlefield;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FBD2AEF7218FAA0F00B49DC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8XJ4L42UN7;
+				INFOPLIST_FILE = PowerBattlefield/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = PowerBattlefield;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-        FBD2AED8218FAA0A00B49DC6 /* Build configuration list for PBXProject "PowerBattlefield" */ = {
-            isa = XCConfigurationList;
-            buildConfigurations = (
-                FBD2AEF3218FAA0F00B49DC6 /* Debug */,
-                FBD2AEF4218FAA0F00B49DC6 /* Release */,
-            );
-            defaultConfigurationIsVisible = 0;
-            defaultConfigurationName = Release;
-        };
-        FBD2AEF5218FAA0F00B49DC6 /* Build configuration list for PBXNativeTarget "PowerBattlefield" */ = {
-            isa = XCConfigurationList;
-            buildConfigurations = (
-                FBD2AEF6218FAA0F00B49DC6 /* Debug */,
-                FBD2AEF7218FAA0F00B49DC6 /* Release */,
-            );
-            defaultConfigurationIsVisible = 0;
-            defaultConfigurationName = Release;
-        };
+		FBD2AED8218FAA0A00B49DC6 /* Build configuration list for PBXProject "PowerBattlefield" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FBD2AEF3218FAA0F00B49DC6 /* Debug */,
+				FBD2AEF4218FAA0F00B49DC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FBD2AEF5218FAA0F00B49DC6 /* Build configuration list for PBXNativeTarget "PowerBattlefield" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FBD2AEF6218FAA0F00B49DC6 /* Debug */,
+				FBD2AEF7218FAA0F00B49DC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
-    };
-    rootObject = FBD2AED5218FAA0A00B49DC6 /* Project object */;
+	};
+	rootObject = FBD2AED5218FAA0A00B49DC6 /* Project object */;
 }

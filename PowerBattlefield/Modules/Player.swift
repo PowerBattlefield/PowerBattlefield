@@ -25,6 +25,7 @@ enum BodyType:UInt32{
     case boat = 1024
     case grassOnFire = 2048
     case swordRain = 4096
+    case snowFlake = 8192
 }
 
 enum PlayerState:Int{
@@ -59,6 +60,8 @@ class Player: SKSpriteNode{
     var hold:Bool = false
     var range:CGFloat = 100
     var burn = TimeInterval(0)
+    var freeze = TimeInterval(0)
+    var isInSnow:Bool = false
     
     var damage = 0
     var otherPlayer1Pos:CGPoint = CGPoint.init()
@@ -150,7 +153,7 @@ class Player: SKSpriteNode{
     func setPhysicsBody(){
         if playerLabel == 1{
             self.physicsBody?.categoryBitMask = BodyType.player1.rawValue
-            self.physicsBody?.contactTestBitMask = BodyType.player2.rawValue | BodyType.grassOnFire.rawValue
+            self.physicsBody?.contactTestBitMask = BodyType.player2.rawValue | BodyType.grassOnFire.rawValue | BodyType.snowFlake.rawValue
         }
         else{
             self.physicsBody?.categoryBitMask = BodyType.player2.rawValue
@@ -371,6 +374,8 @@ class Player: SKSpriteNode{
     var levelupFlag = false
     var startTime = TimeInterval(0)
     var startTimeSet = false
+    let emitter = SKEmitterNode(fileNamed: "LevelUp")!
+    
     func levelUp(){
         
         if levelupFlag{
@@ -393,15 +398,21 @@ class Player: SKSpriteNode{
             levelUpLabel.fontColor = UIColor.yellow
             levelUpLabel.position = CGPoint(x: 0, y: CGFloat((time - startTime) * 10))
             levelUpLabel.text = "Level Up!"
-            if levelUpLabel.parent == nil{
+            emitter.position = CGPoint(x: -5, y: -80)
+            if levelUpLabel.parent == nil && emitter.parent == nil{
                 addChild(levelUpLabel)
-            }else{
+                addChild(emitter)
+            }else if levelUpLabel.parent != nil{
                 levelUpLabel.removeFromParent()
-                addChild(levelUpLabel)
+                addChild(levelUpLabel)                
+            }else{
+                emitter.removeFromParent()
+                addChild(emitter)
             }
             if timeRemain == 1{
                 levelupFlag = false
                 levelUpLabel.removeFromParent()
+                emitter.removeFromParent()
                 startTimeSet = false
             }
         }
