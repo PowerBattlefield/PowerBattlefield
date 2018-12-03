@@ -1255,7 +1255,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill").setValue(true)
                         skillIsOn = true
                         skillFlag = false
-                        sound.playAudio(musicName: "attack_sword03")
+                        sound.playAudio(musicName: "attack02")
                     }
                 }
                 if (node.name == "Skill2_btn"){
@@ -1263,7 +1263,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         Database.database().reference().child(roomId).child("player\(thePlayer.playerLabel)").child("skill2").setValue(true)
                         skill2IsOn = true
                         skill2Flag = false
-                        sound.playAudio(musicName: "attack02")
+                        sound.playAudio(musicName: "attack01")
                     }
                 }
                 break

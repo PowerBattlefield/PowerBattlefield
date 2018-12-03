@@ -23,6 +23,9 @@
 		689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 689DF04B218FBCD20059CFFE /* Assets.xcassets */; };
 		689DF04E218FBCD20059CFFE /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF04C218FBCD20059CFFE /* Actions.sks */; };
 		C1623459326074604453F16C /* Pods_PowerBattlefield.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A48865E4337180E2F363F0C /* Pods_PowerBattlefield.framework */; };
+		F5BF83DC21B4CFF90094CA4C /* attack01.wav in Resources */ = {isa = PBXBuildFile; fileRef = F5BF83D921B4CFF80094CA4C /* attack01.wav */; };
+		F5BF83DD21B4CFF90094CA4C /* attack02.wav in Resources */ = {isa = PBXBuildFile; fileRef = F5BF83DA21B4CFF90094CA4C /* attack02.wav */; };
+		F5BF83DE21B4CFF90094CA4C /* attack03.wav in Resources */ = {isa = PBXBuildFile; fileRef = F5BF83DB21B4CFF90094CA4C /* attack03.wav */; };
 		FB2F9DED219FBEFA0068A8AC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */; };
 		FB2F9DEF219FCFAE0068A8AC /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */; };
 		FB2F9DF1219FF2A30068A8AC /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */; };
@@ -58,6 +61,9 @@
 		689DF04C218FBCD20059CFFE /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		91B944D038F3603F12D9D379 /* Pods-PowerBattlefield.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.release.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.release.xcconfig"; sourceTree = "<group>"; };
 		F0FB7FE64A27698C916D44AC /* Pods-PowerBattlefield.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PowerBattlefield.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PowerBattlefield/Pods-PowerBattlefield.debug.xcconfig"; sourceTree = "<group>"; };
+		F5BF83D921B4CFF80094CA4C /* attack01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack01.wav; sourceTree = "<group>"; };
+		F5BF83DA21B4CFF90094CA4C /* attack02.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack02.wav; sourceTree = "<group>"; };
+		F5BF83DB21B4CFF90094CA4C /* attack03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = attack03.wav; sourceTree = "<group>"; };
 		FB2F9DEC219FBEFA0068A8AC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FB2F9DEE219FCFAE0068A8AC /* LobbyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyViewController.swift; sourceTree = "<group>"; };
 		FB2F9DF0219FF2A30068A8AC /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +161,9 @@
 				6826591821B390FE009535BD /* SwordRain.sks */,
 				2B0BE1AD21B26CA20002C9FA /* login.mp3 */,
 				2B0BE1B121B270390002C9FA /* battle.mp3 */,
+				F5BF83D921B4CFF80094CA4C /* attack01.wav */,
+				F5BF83DA21B4CFF90094CA4C /* attack02.wav */,
+				F5BF83DB21B4CFF90094CA4C /* attack03.wav */,
 				2B0BE1AF21B26F750002C9FA /* SoundManager.swift */,
 			);
 			path = PowerBattlefield;
@@ -226,9 +235,12 @@
 				689DF04E218FBCD20059CFFE /* Actions.sks in Resources */,
 				689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */,
 				FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */,
+				F5BF83DD21B4CFF90094CA4C /* attack02.wav in Resources */,
 				689DF048218FBC0B0059CFFE /* GameScene.sks in Resources */,
 				6826591921B390FE009535BD /* SwordRain.sks in Resources */,
+				F5BF83DE21B4CFF90094CA4C /* attack03.wav in Resources */,
 				689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */,
+				F5BF83DC21B4CFF90094CA4C /* attack01.wav in Resources */,
 				2B5C281B2193A0790046BFD6 /* DefultTileSet.sks in Resources */,
 				FBD2AEF9218FBDC800B49DC6 /* GoogleService-Info.plist in Resources */,
 				6834E66D21B24B960066146C /* FireOnGrass.sks in Resources */,
