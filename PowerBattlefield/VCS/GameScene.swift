@@ -872,22 +872,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 if enemy.parent == nil{
                                     self.addChild(enemy)
                                 }
-                                Database.database().reference().child(self.roomId).child("enemy\(i)").child("pos").observeSingleEvent(of: .value, with: { (snapshot) in
-                                    if !self.gameEnd{
-                                        var x = 0
-                                        var y = 0
-                                        for rest in snapshot.children.allObjects as! [DataSnapshot]{
-                                            if rest.key == "x"{
-                                                x = (rest.value as! NSNumber).intValue
-                                            }else{
-                                                y = (rest.value as! NSNumber).intValue
-                                            }
-                                        }
-                                        enemy.position = CGPoint(x: x, y: y)
-                                    }
-                                })
                             }
                           })
+                        Database.database().reference().child(self.roomId).child("enemy\(i)").child("pos").observeSingleEvent(of: .value, with: { (snapshot) in
+                            if !self.gameEnd{
+                                var x = 1000
+                                var y = 1000
+                                if snapshot.childrenCount > 0{
+                                    for rest in snapshot.children.allObjects as! [DataSnapshot]{
+                                        if rest.key == "x"{
+                                            x = (rest.value as! NSNumber).intValue
+                                        }else{
+                                            y = (rest.value as! NSNumber).intValue
+                                        }
+                                    }
+                                    enemy.position = CGPoint(x: x, y: y)
+                                }
+                            }
+                        })
                     }
                 }else{
                     if Int(currentTime - enemy.enemyHPGetTime) >= 1{
@@ -1466,18 +1468,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         if (contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.snowFlake.rawValue) {
             if let enemy = contact.bodyA.node as? Enemy{
-                enemy.damaged(damage: 20, attackedBy: otherPlayer1)
-            }else{
-                if let enemy = contact.bodyA.node as? Enemy{
+                
+                if thePlayer.playerLabel == 2{
                     enemy.damaged(damage: 20, attackedBy: thePlayer)
+                }else{
+                    enemy.damaged(damage: 20, attackedBy: otherPlayer1)
                 }
             }
         } else if (contact.bodyB.categoryBitMask == BodyType.enemy.rawValue && contact.bodyA.categoryBitMask == BodyType.snowFlake.rawValue) {
             if let enemy = contact.bodyB.node as? Enemy{
-                enemy.damaged(damage: 20, attackedBy: otherPlayer1)
-            }else{
-                if let enemy = contact.bodyB.node as? Enemy{
+                if thePlayer.playerLabel == 2{
                     enemy.damaged(damage: 20, attackedBy: thePlayer)
+                }else{
+                    enemy.damaged(damage: 20, attackedBy: otherPlayer1)
                 }
             }
         }

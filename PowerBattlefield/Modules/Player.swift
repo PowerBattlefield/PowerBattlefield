@@ -421,10 +421,12 @@ class Player: SKSpriteNode{
     }
     
     func checkLevelUp(){
-        if self.exp >= levelUpExp[level - 1]{
-            levelupFlag = true
-            self.exp -= levelUpExp[level - 1]
-            level += 1
+        if level < 5{
+            if self.exp >= levelUpExp[level - 1]{
+                levelupFlag = true
+                self.exp -= levelUpExp[level - 1]
+                level += 1
+            }
         }
     }
     
