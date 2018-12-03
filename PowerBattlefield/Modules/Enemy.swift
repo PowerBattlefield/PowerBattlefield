@@ -44,7 +44,7 @@ class Enemy:SKSpriteNode{
         physicsBody?.angularDamping = 0
         physicsBody?.collisionBitMask =  0
         self.zPosition = 700
-        physicsBody?.contactTestBitMask = BodyType.grassOnFire.rawValue | BodyType.swordRain.rawValue
+        physicsBody?.contactTestBitMask = BodyType.grassOnFire.rawValue | BodyType.swordRain.rawValue | BodyType.snowFlake.rawValue
         
         name = "enemy"
         idleDownAnimation()
