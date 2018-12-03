@@ -1006,7 +1006,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if currentTime - burnBeginTime > 0.5{
                     burnBeginTime = currentTime
                     thePlayer.burn -= 0.5
-                    thePlayer.damaged(damage: 10)
+                    thePlayer.damaged(damage: 3)
                 }
             }else if burnBeginTime != 0{
                 burnBeginTime = 0

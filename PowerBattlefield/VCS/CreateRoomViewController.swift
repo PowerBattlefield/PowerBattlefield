@@ -16,7 +16,7 @@ class CreateRoomViewController: UIViewController {
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "bgcreateroom")
         //backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
-        backgroundImage.contentMode = UIViewContentMode.scaleAspectFill
+        backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
         // Do any additional setup after loading the view.'
         roomName.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.6)
