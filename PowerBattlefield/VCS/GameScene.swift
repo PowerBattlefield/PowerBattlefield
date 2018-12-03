@@ -483,6 +483,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                         self.otherPlayer1.exp = exp
                     }
+                    if self.thePlayer.exp >= self.thePlayer.levelUpExp[self.thePlayer.level - 1]{
+                        self.thePlayer.levelupFlag = true
+                        self.thePlayer.level += 1
+                    }
+                    if self.otherPlayer1.exp >= self.thePlayer.levelUpExp[self.otherPlayer1.level - 1]{
+                        self.otherPlayer1.levelupFlag = true
+                        self.otherPlayer1.level += 1
+                    }
                 }
             }
         }
@@ -491,11 +499,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if !self.firstObserve{
                 if let exp = snapshot.value as? Int{
                     if self.thePlayer.playerLabel == 2{
-                        
                         self.thePlayer.exp = exp
                     }else{
-                        
                         self.otherPlayer1.exp = exp
+                    }
+                    if self.thePlayer.exp >= self.thePlayer.levelUpExp[self.thePlayer.level - 1]{
+                        self.thePlayer.levelupFlag = true
+                        self.thePlayer.level += 1
+                    }
+                    if self.otherPlayer1.exp >= self.thePlayer.levelUpExp[self.otherPlayer1.level - 1]{
+                        self.otherPlayer1.levelupFlag = true
+                        self.otherPlayer1.level += 1
                     }
                 }
             }

@@ -70,7 +70,7 @@ class Player: SKSpriteNode{
     var time = TimeInterval(0)
     var exp = 0
     var level = 1
-    var levelUpExp = [100,200,300,400,500]
+    var levelUpExp = [100,300,600,1000,1500]
     
     
     var refx: DatabaseReference = Database.database().reference()
@@ -391,7 +391,6 @@ class Player: SKSpriteNode{
                 startTimeSet = true
             }
             
-            
             let timePass = Int((time - startTime).truncatingRemainder(dividingBy: 6))
             let timeRemain = 6 - timePass
             
@@ -424,7 +423,6 @@ class Player: SKSpriteNode{
         if level < 5{
             if self.exp >= levelUpExp[level - 1]{
                 levelupFlag = true
-                self.exp -= levelUpExp[level - 1]
                 level += 1
             }
         }

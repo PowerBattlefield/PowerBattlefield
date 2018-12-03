@@ -108,8 +108,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         startOrReadyBtn.backgroundColor = UIColor.white
         send.backgroundColor = UIColor.white
         startOrReadyBtn.layer.masksToBounds = true
-        //        textInput.layer.cornerRadius = 20
-        //        textInput.layer.masksToBounds = true
         playerList.backgroundColor = UIColor.white
         playerList.alpha = 0.8
         chatDisplay.alpha = 0.8
@@ -117,7 +115,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         textInput.alpha = 0.8
         send.alpha = 0.8
         send.layer.masksToBounds = true
-        self.view.bringSubviewToFront(roomNameLabel)
         let room = Database.database().reference().child(roomId)
         room.child("gameIsOn").setValue(false)
         if Auth.auth().currentUser?.uid == roomOwner{
@@ -128,13 +125,6 @@ class RoomViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             room.child("playerIsReady").child(Auth.auth().currentUser!.uid).setValue(false)
         }
         let playerNumber = room.child("playerNumber")
-//        playerNumber.observeSingleEvent(of: .value, with: { (snapshot) in
-//            self.number = snapshot.value as? Int ?? 0
-//            self.number = self.number + 1
-//            playerNumber.setValue(self.number)
-//        }) { (error) in
-//            print(error.localizedDescription)
-//        }
         let playerName = Auth.auth().currentUser?.displayName
         let playerID = Auth.auth().currentUser?.uid
         
