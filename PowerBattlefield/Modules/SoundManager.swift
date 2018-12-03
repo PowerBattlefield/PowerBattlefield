@@ -32,7 +32,6 @@ class SoundManager :SKNode{
     
     
     func playAudio(musicName: String){
-        print("play" + musicName)
         let musicPath = Bundle.main.path(forResource: musicName, ofType: "wav")
         let url = NSURL(fileURLWithPath: musicPath!)
         do {

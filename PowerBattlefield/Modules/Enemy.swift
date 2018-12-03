@@ -16,7 +16,7 @@ class Enemy:SKSpriteNode{
     var enemyLabel = 1
     var hp = GameEnum.enemyMaxHealth.rawValue
     var range:CGFloat = 100
-    var damage = 1
+    var damage = 10
     var updateStateTime = 1
     var stateSet = false
     var stateSetTime = TimeInterval(0)

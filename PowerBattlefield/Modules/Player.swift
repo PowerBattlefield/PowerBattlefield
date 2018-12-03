@@ -3,11 +3,11 @@ import SpriteKit
 import Firebase
 
 enum GameEnum: Int{
-    case playerMaxHealth = 200
+    case playerMaxHealth = 100
     case enemyMaxHealth = 1
     case winLevel = 5
     case updateEnemy = 4
-    case maxEnemyNumber = 3
+    case maxEnemyNumber = 6
     case levelUpRegen = 50
 }
 
