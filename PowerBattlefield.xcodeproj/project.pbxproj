@@ -17,7 +17,6 @@
 		686AD30421A1112D0012C3D5 /* CreateRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */; };
 		686AD30621A138AA0012C3D5 /* roomAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 686AD30521A138AA0012C3D5 /* roomAPI.swift */; };
 		689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF039218FB7090059CFFE /* MyTileSet.sks */; };
-		689DF048218FBC0B0059CFFE /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 689DF045218FBC0A0059CFFE /* GameScene.sks */; };
 		689DF049218FBC0B0059CFFE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF046218FBC0A0059CFFE /* GameScene.swift */; };
 		689DF04A218FBC0B0059CFFE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689DF047218FBC0B0059CFFE /* GameViewController.swift */; };
 		689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 689DF04B218FBCD20059CFFE /* Assets.xcassets */; };
@@ -36,6 +35,8 @@
 		FBA65C8121AA7E5000C5890D /* SwordParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBA65C8021AA7E5000C5890D /* SwordParticle.sks */; };
 		FBA65C8321AAACC600C5890D /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA65C8221AAACC600C5890D /* Enemy.swift */; };
 		FBA65C8521AAC5F700C5890D /* EnemyActions.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBA65C8421AAC5F700C5890D /* EnemyActions.sks */; };
+		FBC1C8CA21B4D3E800C14529 /* LevelUp.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBC1C8C921B4D3E800C14529 /* LevelUp.sks */; };
+		FBC1C8CE21B4D43300C14529 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FBC1C8CD21B4D43300C14529 /* GameScene.sks */; };
 		FBD2AEE1218FAA0A00B49DC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */; };
 		FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEA218FAA0A00B49DC6 /* Main.storyboard */; };
 		FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD2AEEF218FAA0F00B49DC6 /* LaunchScreen.storyboard */; };
@@ -54,7 +55,6 @@
 		686AD30321A1112D0012C3D5 /* CreateRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRoomViewController.swift; sourceTree = "<group>"; };
 		686AD30521A138AA0012C3D5 /* roomAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = roomAPI.swift; sourceTree = "<group>"; };
 		689DF039218FB7090059CFFE /* MyTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyTileSet.sks; sourceTree = "<group>"; };
-		689DF045218FBC0A0059CFFE /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		689DF046218FBC0A0059CFFE /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		689DF047218FBC0B0059CFFE /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		689DF04B218FBCD20059CFFE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -74,6 +74,8 @@
 		FBA65C8021AA7E5000C5890D /* SwordParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SwordParticle.sks; sourceTree = "<group>"; };
 		FBA65C8221AAACC600C5890D /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		FBA65C8421AAC5F700C5890D /* EnemyActions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = EnemyActions.sks; sourceTree = "<group>"; };
+		FBC1C8C921B4D3E800C14529 /* LevelUp.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelUp.sks; sourceTree = "<group>"; };
+		FBC1C8CD21B4D43300C14529 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		FBD2AEDD218FAA0A00B49DC6 /* PowerBattlefield.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PowerBattlefield.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD2AEE0218FAA0A00B49DC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBD2AEEB218FAA0A00B49DC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -143,7 +145,7 @@
 				FBC1C8C721B4D10E00C14529 /* Particle */,
 				FBC1C8C621B4D0F100C14529 /* Actions */,
 				FBC1C8C521B4D0E200C14529 /* Map */,
-				689DF045218FBC0A0059CFFE /* GameScene.sks */,
+				FBC1C8CD21B4D43300C14529 /* GameScene.sks */,
 			);
 			path = GameComponents;
 			sourceTree = "<group>";
@@ -169,6 +171,7 @@
 		FBC1C8C721B4D10E00C14529 /* Particle */ = {
 			isa = PBXGroup;
 			children = (
+				FBC1C8C921B4D3E800C14529 /* LevelUp.sks */,
 				FBA65C7E21AA780200C5890D /* FireballParticle.sks */,
 				FBA65C8021AA7E5000C5890D /* SwordParticle.sks */,
 				6834E66A21B247EF0066146C /* FireOnPlayer.sks */,
@@ -290,9 +293,10 @@
 				FBD2AEEC218FAA0A00B49DC6 /* Main.storyboard in Resources */,
 				689DF04E218FBCD20059CFFE /* Actions.sks in Resources */,
 				689DF040218FB70A0059CFFE /* MyTileSet.sks in Resources */,
+				FBC1C8CA21B4D3E800C14529 /* LevelUp.sks in Resources */,
+				FBC1C8CE21B4D43300C14529 /* GameScene.sks in Resources */,
 				FBD2AEF1218FAA0F00B49DC6 /* LaunchScreen.storyboard in Resources */,
 				F5BF83DD21B4CFF90094CA4C /* attack02.wav in Resources */,
-				689DF048218FBC0B0059CFFE /* GameScene.sks in Resources */,
 				6826591921B390FE009535BD /* SwordRain.sks in Resources */,
 				F5BF83DE21B4CFF90094CA4C /* attack03.wav in Resources */,
 				689DF04D218FBCD20059CFFE /* Assets.xcassets in Resources */,
