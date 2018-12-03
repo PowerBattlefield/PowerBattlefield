@@ -1497,16 +1497,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func checkPlayerSword(_ contact: SKPhysicsContact){
         if (contact.bodyA.categoryBitMask == BodyType.player2.rawValue && contact.bodyB.categoryBitMask == BodyType.swordRain.rawValue) {
-            if otherPlayer1.damagedBySwordRain < 30{
-                let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
-                emitter.position = CGPoint(x: 0, y: 0)
-                contact.bodyA.node?.addChild(emitter)
-                let wait:SKAction = SKAction.wait(forDuration: 0.5)
-                let finish:SKAction = SKAction.run {
-                    emitter.removeFromParent()
+            if let player = contact.bodyA.node as? Player{
+                if player.damagedBySwordRain > 0{
+                    let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
+                    emitter.position = CGPoint(x: 0, y: 0)
+                    contact.bodyA.node?.addChild(emitter)
+                    let wait:SKAction = SKAction.wait(forDuration: 0.5)
+                    let finish:SKAction = SKAction.run {
+                        emitter.removeFromParent()
+                    }
+                    let seq:SKAction = SKAction.sequence( [wait, finish] )
+                    run(seq)
                 }
-                let seq:SKAction = SKAction.sequence( [wait, finish] )
-                run(seq)
             }
             if thePlayer.playerLabel == 1 && otherPlayer1.damagedBySwordRain < 30{
                 otherPlayer1.damaged(damage: 1)
@@ -1531,16 +1533,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }else if (contact.bodyB.categoryBitMask == BodyType.player2.rawValue && contact.bodyA.categoryBitMask == BodyType.swordRain.rawValue) {
-            if otherPlayer1.damagedBySwordRain < 30{
-                let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
-                emitter.position = CGPoint(x: 0, y: 0)
-                contact.bodyA.node?.addChild(emitter)
-                let wait:SKAction = SKAction.wait(forDuration: 0.5)
-                let finish:SKAction = SKAction.run {
-                    emitter.removeFromParent()
+            if let player = contact.bodyB.node as? Player{
+                if player.damagedBySwordRain > 0{
+                    let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
+                    emitter.position = CGPoint(x: 0, y: 0)
+                    contact.bodyB.node?.addChild(emitter)
+                    let wait:SKAction = SKAction.wait(forDuration: 0.5)
+                    let finish:SKAction = SKAction.run {
+                        emitter.removeFromParent()
+                    }
+                    let seq:SKAction = SKAction.sequence( [wait, finish] )
+                    run(seq)
                 }
-                let seq:SKAction = SKAction.sequence( [wait, finish] )
-                run(seq)
             }
             if thePlayer.playerLabel == 1 && otherPlayer1.damagedBySwordRain < 30{
                 otherPlayer1.damaged(damage: 1)
