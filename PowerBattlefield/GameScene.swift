@@ -643,9 +643,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if(otherPlayer1.level < GameEnum.winLevel.rawValue && thePlayer.level < GameEnum.winLevel.rawValue && thePlayer.hp > 0 && otherPlayer1.hp > 0){
             winner.fontSize = 40
             if quitGame{
-                winner.text = "You Lose Because Of Quitting! Game ends in \(timeRemain - 1) seconds."
+                winner.text = "You lose because of quitting! Game ends in \(timeRemain - 1) seconds."
             }else{
-                winner.text = "You Win Because Other Quited! Game ends in \(timeRemain - 1) seconds."
+                winner.text = "You win because other quited! Game ends in \(timeRemain - 1) seconds."
             }
         }
         else if(thePlayer.hp <= 0 || otherPlayer1.level >= 5){
