@@ -25,6 +25,7 @@ enum BodyType:UInt32{
     case boat = 1024
     case grassOnFire = 2048
     case swordRain = 4096
+    case snowFlake = 8192
 }
 
 enum PlayerState:Int{
@@ -59,6 +60,8 @@ class Player: SKSpriteNode{
     var hold:Bool = false
     var range:CGFloat = 100
     var burn = TimeInterval(0)
+    var freeze = TimeInterval(0)
+    var isInSnow:Bool = false
     
     var damage = 0
     var otherPlayer1Pos:CGPoint = CGPoint.init()
@@ -150,7 +153,7 @@ class Player: SKSpriteNode{
     func setPhysicsBody(){
         if playerLabel == 1{
             self.physicsBody?.categoryBitMask = BodyType.player1.rawValue
-            self.physicsBody?.contactTestBitMask = BodyType.player2.rawValue | BodyType.grassOnFire.rawValue
+            self.physicsBody?.contactTestBitMask = BodyType.player2.rawValue | BodyType.grassOnFire.rawValue | BodyType.snowFlake.rawValue
         }
         else{
             self.physicsBody?.categoryBitMask = BodyType.player2.rawValue
