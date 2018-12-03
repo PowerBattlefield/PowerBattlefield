@@ -204,27 +204,23 @@ class Enemy:SKSpriteNode{
         var attackedFlag = false
         if face == PlayerFace.right {
             if enemyPosAdjust.x > player.position.x - enemy.range - 50 && enemyPosAdjust.x < player.position.x && abs(player.position.y - enemyPosAdjust.y) < enemy.range/2 + 10{
-                print("attacted")
                 attackedFlag = true
             }
             
         }else if face == PlayerFace.left {
             if enemyPosAdjust.x < player.position.x + enemy.range + 20 && enemyPosAdjust.x > player.position.x && abs(player.position.y - enemyPosAdjust.y) < enemy.range/2+10{
-                print("attacted")
                 attackedFlag = true
             }
             
         }else if face == PlayerFace.up {
             
             if enemyPosAdjust.y > player.position.y - enemy.range - 60 && enemyPosAdjust.y < player.position.y && abs(player.position.x - enemyPosAdjust.x) < enemy.range/2 + 15{
-                print("attacted")
                 attackedFlag = true
             }
             
         }else if face == PlayerFace.down {
             
             if enemyPosAdjust.y < player.position.y + enemy.range - 40 && enemyPosAdjust.y > player.position.y && abs(player.position.x - enemyPosAdjust.x) < enemy.range/2 + 15{
-                print("attacted")
                 attackedFlag = true
             }
         }

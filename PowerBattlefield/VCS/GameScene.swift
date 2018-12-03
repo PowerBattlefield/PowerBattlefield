@@ -847,7 +847,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for enemy in enemies{
                 if(enemy.hp > 0){
                     if !enemy.enemyHPGet{
-                         print("3")
                         enemy.enemyHPGet = true
                         if enemy.enemyFirstRead{
                             enemy.enemyFirstRead = false
@@ -855,7 +854,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         else{
                             enemy.enemyHPGetTime = currentTime
                             Database.database().reference().child(roomId).child("enemy\(i)").child("pos").observeSingleEvent(of: .value, with: { (snapshot) in
-                                print("pos")
                                 if !self.gameEnd{
                                     var x = 0
                                     var y = 0
@@ -871,7 +869,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             })
                             Database.database().reference().child(roomId).child("enemy\(i)").child("hp").observeSingleEvent(of: .value, with: { (snapshot) in
                                 enemy.hp = snapshot.value as? Int ?? 100
-                                print("hp")
                                 if(enemy.hp <= 0){
                                     if enemy.parent != nil && !enemy.dead{
                                         enemy.dead = true
@@ -982,13 +979,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 if thePlayer.freeze < 1 && currentTime - freezeBeginTime > 0.5{
                     freezeBeginTime = currentTime
-                    thePlayer.freeze += 0.5
+                    thePlayer.freeze += 1
                 }
                 else if thePlayer.freeze == 1{
                     let freeze = thePlayer.childNode(withName: "Ice") as! SKSpriteNode
                     freeze.alpha = 1
                     Database.database().reference().child(roomId).child("player1").child("freeze").setValue(true)
-                    if currentTime - freezeBeginTime > 2{
+                    if currentTime - freezeBeginTime > 4{
                         thePlayer.freeze = 0
                         thePlayer.isInSnow = false
                         freezeBeginTime = 0
@@ -1190,14 +1187,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var attackedFlag = false
         if attacker.face == PlayerFace.right {
             if attacker.position.x > attacked.position.x - attacker.range - 5 && attacker.position.x < attacked.position.x && abs(attacker.position.y - attacked.position.y) < attacker.range/2 + 10{
-                print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
             }
             
         }else if attacker.face == PlayerFace.left {
             if attacker.position.x < attacked.position.x + attacker.range + 5 && attacker.position.x > attacked.position.x && abs(attacker.position.y - attacked.position.y) < attacker.range/2 + 10{
-                print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
             }
@@ -1205,7 +1200,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else if attacker.face == PlayerFace.up {
             
             if attacker.position.y > attacked.position.y - attacker.range && attacker.position.y < attacked.position.y && abs(attacker.position.x - attacked.position.x) < attacker.range/2{
-                print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
             }
@@ -1213,7 +1207,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else if attacker.face == PlayerFace.down {
             
             if attacker.position.y < attacked.position.y + attacker.range && attacker.position.y > attacked.position.y && abs(attacker.position.x - attacked.position.x) < attacker.range/2{
-                print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage)
             }
@@ -1237,14 +1230,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var attackedFlag = false
         if attacker.face == PlayerFace.right {
             if attacker.position.x > enemyPosAdjust.x - attacker.range - 35 && attacker.position.x < enemyPosAdjust.x && abs(attacker.position.y - enemyPosAdjust.y) < attacker.range/2 + 70{
-                print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage, attackedBy: attacker)
             }
             
         }else if attacker.face == PlayerFace.left {
             if attacker.position.x < enemyPosAdjust.x + attacker.range + 60 && attacker.position.x > enemyPosAdjust.x && abs(attacker.position.y - enemyPosAdjust.y) < attacker.range/2 + 70{
-                print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage, attackedBy: attacker)
             }
@@ -1252,7 +1243,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else if attacker.face == PlayerFace.up {
             
             if attacker.position.y > enemyPosAdjust.y - attacker.range && attacker.position.y < enemyPosAdjust.y && abs(attacker.position.x - enemyPosAdjust.x) < attacker.range/2 + 45{
-                print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage, attackedBy: attacker)
             }
@@ -1260,7 +1250,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else if attacker.face == PlayerFace.down {
             
             if attacker.position.y < enemyPosAdjust.y + attacker.range && attacker.position.y > enemyPosAdjust.y && abs(attacker.position.x - enemyPosAdjust.x) < attacker.range/2 + 45{
-                print("attacted")
                 attackedFlag = true
                 attacked.damaged(damage: attacker.damage, attackedBy: attacker)
             }
@@ -1473,23 +1462,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         if (contact.bodyA.categoryBitMask == BodyType.enemy.rawValue && contact.bodyB.categoryBitMask == BodyType.snowFlake.rawValue) {
-            if thePlayer.playerLabel == 1{
+            if let enemy = contact.bodyA.node as? Enemy{
+                enemy.damaged(damage: 20, attackedBy: otherPlayer1)
+            }else{
                 if let enemy = contact.bodyA.node as? Enemy{
-                    enemy.damaged(damage: 20, attackedBy: otherPlayer1)
-                }else{
-                    if let enemy = contact.bodyA.node as? Enemy{
-                        enemy.damaged(damage: 20, attackedBy: thePlayer)
-                    }
+                    enemy.damaged(damage: 20, attackedBy: thePlayer)
                 }
             }
         } else if (contact.bodyB.categoryBitMask == BodyType.enemy.rawValue && contact.bodyA.categoryBitMask == BodyType.snowFlake.rawValue) {
-            if thePlayer.playerLabel == 1{
-                if let enemy = contact.bodyA.node as? Enemy{
-                    enemy.damaged(damage: 20, attackedBy: otherPlayer1)
-                }else{
-                    if let enemy = contact.bodyA.node as? Enemy{
-                        enemy.damaged(damage: 20, attackedBy: thePlayer)
-                    }
+            if let enemy = contact.bodyB.node as? Enemy{
+                enemy.damaged(damage: 20, attackedBy: otherPlayer1)
+            }else{
+                if let enemy = contact.bodyB.node as? Enemy{
+                    enemy.damaged(damage: 20, attackedBy: thePlayer)
                 }
             }
         }
@@ -1498,10 +1483,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func checkPlayerSword(_ contact: SKPhysicsContact){
         if (contact.bodyA.categoryBitMask == BodyType.player2.rawValue && contact.bodyB.categoryBitMask == BodyType.swordRain.rawValue) {
             if let player = contact.bodyA.node as? Player{
-                if player.damagedBySwordRain > 0{
+                if player.damagedBySwordRain == 0{
                     let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
                     emitter.position = CGPoint(x: 0, y: 0)
-                    contact.bodyA.node?.addChild(emitter)
+                    player.addChild(emitter)
+                    print(player.damagedBySwordRain)
                     let wait:SKAction = SKAction.wait(forDuration: 0.5)
                     let finish:SKAction = SKAction.run {
                         emitter.removeFromParent()
@@ -1534,10 +1520,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }else if (contact.bodyB.categoryBitMask == BodyType.player2.rawValue && contact.bodyA.categoryBitMask == BodyType.swordRain.rawValue) {
             if let player = contact.bodyB.node as? Player{
-                if player.damagedBySwordRain > 0{
+                if player.damagedBySwordRain == 0{
                     let emitter = SKEmitterNode(fileNamed: "SwordParticle")!
                     emitter.position = CGPoint(x: 0, y: 0)
-                    contact.bodyB.node?.addChild(emitter)
+                    player.addChild(emitter)
+                    print(player.damagedBySwordRain)
                     let wait:SKAction = SKAction.wait(forDuration: 0.5)
                     let finish:SKAction = SKAction.run {
                         emitter.removeFromParent()
@@ -1785,7 +1772,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if let grass = self.childNode(withName: "GrassTiles"){
                             grass.addChild(emitter)
                         }
-                        let wait:SKAction = SKAction.wait(forDuration: 3)
+                        let wait:SKAction = SKAction.wait(forDuration: 5)
                         let finish:SKAction = SKAction.run {
                             emitter.removeFromParent()
                             snowFlake.removeFromParent()
