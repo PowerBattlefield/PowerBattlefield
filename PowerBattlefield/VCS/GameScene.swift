@@ -1774,7 +1774,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if let grass = self.childNode(withName: "GrassTiles"){
                             grass.addChild(emitter)
                         }
-                        let wait:SKAction = SKAction.wait(forDuration: 5)
+                        let wait:SKAction = SKAction.wait(forDuration: 4)
                         let finish:SKAction = SKAction.run {
                             emitter.removeFromParent()
                             snowFlake.removeFromParent()
